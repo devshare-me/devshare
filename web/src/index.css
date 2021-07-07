@@ -6,8 +6,26 @@
  * For more information, see: https://tailwindcss.com/docs/installation#add-tailwind-to-your-css
  */
 @import "tailwindcss/base";
+
+body {
+  @apply text-gray-900 bg-gray-100;
+}
+
+a {
+  @apply transition-colors duration-300 hover:text-yellow-500 rounded-sm focus:outline-none focus:ring-offset-2 focus:ring-yellow-400 focus:ring-2;
+}
+
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+.rounded-btn {
+  @apply bg-yellow-100 flex items-center justify-center w-9 h-9 rounded-full overflow-hidden hover:bg-yellow-300 hover:text-gray-900;
+}
+
+.rounded-btn svg {
+  @apply w-5 h-auto;
+}
+
 /**
  * END --- TAILWIND GENERATOR EDIT
  */
