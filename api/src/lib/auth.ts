@@ -1,5 +1,6 @@
-
 import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/api'
+import { db } from 'src/lib/db'
+import cuid from 'cuid'
 
 /**
  * getCurrentUser returns the user information together with
@@ -13,8 +14,62 @@ import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/api'
  *
  * @see https://github.com/redwoodjs/redwood/tree/main/packages/auth for examples
  */
-export const getCurrentUser = async (decoded, { _token, _type }, { _event, _context }) => {
-  return { ...decoded, roles: parseJWT({ decoded }).roles }
+export const getCurrentUser = async (
+  decoded,
+  { _token, _type },
+  { _event, _context }
+) => {
+  const email = decoded.email
+  const name = decoded?.user_metadata?.full_name
+  const image = decoded?.user_metadata?.avatar_url
+  const extraData = {}
+
+  let user = await db.user.findUnique({
+    where: {
+      email,
+    },
+  })
+
+  if (!user) {
+    const id = cuid()
+
+    if (image) {
+      extraData['image'] = image
+    }
+
+    if (name) {
+      extraData['name'] = name
+    }
+
+    user = await db.user.create({
+      data: {
+        id,
+        email,
+        username: id,
+        ...extraData,
+      },
+    })
+  } else {
+    if (image !== user.image) {
+      extraData['image'] = image
+    }
+
+    if (name && !user.name) {
+      extraData['name'] = name
+    }
+
+    if (Object.keys(extraData).length) {
+      user = await db.user.update({
+        where: {
+          email,
+        },
+        data: {
+          ...extraData,
+        },
+      })
+    }
+  }
+  return { ...user, roles: parseJWT({ decoded }).roles }
 }
 
 /**
