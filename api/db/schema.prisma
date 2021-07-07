@@ -8,11 +8,71 @@ generator client {
   binaryTargets = "native"
 }
 
-// Define your own datamodels here and run `yarn redwood prisma migrate dev`
-// to create migrations for them and apply to your dev DB.
-// TODO: Please remove the following example:
-model UserExample {
-  id    Int     @id @default(autoincrement())
+model User {
+  id    String     @id @default(cuid())
   email String  @unique
+  username String  @unique
   name  String?
+  location String?
+  github String?
+  twitter String?
+  website String?
+  updates Update[]
+  articles Article[]
+  snippets Snippet[]
+  links Link[]
+  comments Comment[]
+}
+
+model Update {
+  id String @id @default(cuid())
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  content String
+  comments Comment[]
+}
+
+model Article {
+  id String @id @default(cuid())
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  title String
+  content String
+  comments Comment[]
+}
+
+model Snippet {
+  id String @id @default(cuid())
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  title String
+  description String?
+  content String
+  comments Comment[]
+}
+
+model Link {
+  id String @id @default(cuid())
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  url String
+  content String?
+  comments Comment[]
+}
+
+model Comment {
+  id String @id @default(cuid())
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  update Update? @relation(fields: [updateId], references: [id])
+  updateId String?
+  article Article? @relation(fields: [articleId], references: [id])
+  articleId String?
+  snippet Snippet? @relation(fields: [snippetId], references: [id])
+  snippetId String?
+  link Link? @relation(fields: [linkId], references: [id])
+  linkId String?
+  parentId String?
+  parent Comment? @relation("Replies", fields: [parentId], references: [id])
+  replies Comment[] @relation("Replies")
 }
