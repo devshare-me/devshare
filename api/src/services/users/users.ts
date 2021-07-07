@@ -13,6 +13,10 @@ export const users = () => {
   return db.user.findMany()
 }
 
+export const user = ({ username }) => {
+  return db.user.findUnique({ where: { username } })
+}
+
 export const User = {
   updates: (_obj, { root }: ResolverArgs<ReturnType<typeof user>>) =>
     db.user.findUnique({ where: { id: root.id } }).updates(),

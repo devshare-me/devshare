@@ -4,6 +4,7 @@ export const schema = gql`
     email: String!
     username: String!
     name: String
+    image: String
     location: String
     github: String
     twitter: String
@@ -17,12 +18,14 @@ export const schema = gql`
 
   type Query {
     users: [User!]!
+    user(username: String!): User
   }
 
   input CreateUserInput {
     email: String!
     username: String!
     name: String
+    image: String
     location: String
     github: String
     twitter: String
@@ -33,6 +36,7 @@ export const schema = gql`
     email: String
     username: String
     name: String
+    image: String
     location: String
     github: String
     twitter: String
