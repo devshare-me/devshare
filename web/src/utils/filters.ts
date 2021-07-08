@@ -9,10 +9,34 @@ import {
 
 export const filters = [
   { name: 'All', icon: BiCollection },
-  { name: 'Updates', to: 'updates', icon: BiAlarm, color: 'blue' },
-  { name: 'Articles', to: 'articles', icon: BiNews, color: 'green' },
-  { name: 'Snippets', to: 'snippets', icon: BiCodeAlt, color: 'yellow' },
-  { name: 'Links', to: 'links', icon: BiLink, color: 'red' },
+  {
+    name: 'Updates',
+    singular: 'Update',
+    to: 'updates',
+    icon: BiAlarm,
+    color: 'blue',
+  },
+  {
+    name: 'Snippets',
+    singular: 'Snippet',
+    to: 'snippets',
+    icon: BiCodeAlt,
+    color: 'yellow',
+  },
+  {
+    name: 'Articles',
+    singular: 'Article',
+    to: 'articles',
+    icon: BiNews,
+    color: 'green',
+  },
+  {
+    name: 'Links',
+    singular: 'Link',
+    to: 'links',
+    icon: BiLink,
+    color: 'red',
+  },
 ]
 
 export const views = [
