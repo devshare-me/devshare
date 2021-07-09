@@ -16,14 +16,8 @@ export const comments = () => {
 export const Comment = {
   user: (_obj, { root }: ResolverArgs<ReturnType<typeof comment>>) =>
     db.comment.findUnique({ where: { id: root.id } }).user(),
-  update: (_obj, { root }: ResolverArgs<ReturnType<typeof comment>>) =>
-    db.comment.findUnique({ where: { id: root.id } }).update(),
-  article: (_obj, { root }: ResolverArgs<ReturnType<typeof comment>>) =>
-    db.comment.findUnique({ where: { id: root.id } }).article(),
-  snippet: (_obj, { root }: ResolverArgs<ReturnType<typeof comment>>) =>
-    db.comment.findUnique({ where: { id: root.id } }).snippet(),
-  link: (_obj, { root }: ResolverArgs<ReturnType<typeof comment>>) =>
-    db.comment.findUnique({ where: { id: root.id } }).link(),
+  post: (_obj, { root }: ResolverArgs<ReturnType<typeof comment>>) =>
+    db.comment.findUnique({ where: { id: root.id } }).post(),
   parent: (_obj, { root }: ResolverArgs<ReturnType<typeof comment>>) =>
     db.comment.findUnique({ where: { id: root.id } }).parent(),
   replies: (_obj, { root }: ResolverArgs<ReturnType<typeof comment>>) =>

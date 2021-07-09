@@ -9,16 +9,14 @@ export const schema = gql`
     github: String
     twitter: String
     website: String
-    updates: [Update]!
-    articles: [Article]!
-    snippets: [Snippet]!
-    links: [Link]!
+    posts: [Post]!
     comments: [Comment]!
+    createdAt: DateTime!
   }
 
   type Query {
     users: [User!]!
-    user(username: String!): User
+    user(id: String!): User
   }
 
   input CreateUserInput {
@@ -41,5 +39,11 @@ export const schema = gql`
     github: String
     twitter: String
     website: String
+  }
+
+  type Mutation {
+    createUser(input: CreateUserInput!): User!
+    updateUser(id: String!, input: UpdateUserInput!): User!
+    deleteUser(id: String!): User!
   }
 `

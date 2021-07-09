@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -9,71 +9,53 @@ generator client {
 }
 
 model User {
-  id    String     @id @default(cuid())
-  email String  @unique
-  username String  @unique
-  name  String?
-  image String?
-  location String?
-  github String?
-  twitter String?
-  website String?
-  updates Update[]
-  articles Article[]
-  snippets Snippet[]
-  links Link[]
-  comments Comment[]
+  id        String    @id @default(cuid())
+  email     String    @unique
+  username  String    @unique
+  name      String?
+  image     String?
+  location  String?
+  github    String?
+  twitter   String?
+  website   String?
+  posts     Post[]
+  comments  Comment[]
+  createdAt DateTime  @default(now())
 }
 
-model Update {
-  id String @id @default(cuid())
-  user User @relation(fields: [userId], references: [id])
-  userId String
-  content String
-  comments Comment[]
-}
-
-model Article {
-  id String @id @default(cuid())
-  user User @relation(fields: [userId], references: [id])
-  userId String
-  title String
-  content String
-  comments Comment[]
-}
-
-model Snippet {
-  id String @id @default(cuid())
-  user User @relation(fields: [userId], references: [id])
-  userId String
-  title String
+model Post {
+  id          String    @id @default(cuid())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  type        PostType
+  title       String?
+  url         String?
+  content     String?
   description String?
-  content String
-  comments Comment[]
+  private     Boolean   @default(false)
+  comments    Comment[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
-model Link {
-  id String @id @default(cuid())
-  user User @relation(fields: [userId], references: [id])
-  userId String
-  url String
-  content String?
-  comments Comment[]
+enum PostType {
+  update
+  snippet
+  article
+  link
+  video
 }
 
 model Comment {
-  id String @id @default(cuid())
-  user User @relation(fields: [userId], references: [id])
-  userId String
-  update Update? @relation(fields: [updateId], references: [id])
-  updateId String?
-  article Article? @relation(fields: [articleId], references: [id])
-  articleId String?
-  snippet Snippet? @relation(fields: [snippetId], references: [id])
-  snippetId String?
-  link Link? @relation(fields: [linkId], references: [id])
-  linkId String?
-  parentId String?
-  parent Comment? @relation("Replies", fields: [parentId], references: [id])
-  replies Comment[] @relation("Replies")
+  id        String    @id @default(cuid())
+  comment   String
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    String
+  parentId  String?
+  parent    Comment?  @relation("Replies", fields: [parentId], references: [id])
+  replies   Comment[] @relation("Replies")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }

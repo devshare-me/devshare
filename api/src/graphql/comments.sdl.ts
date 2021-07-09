@@ -1,19 +1,16 @@
 export const schema = gql`
   type Comment {
     id: String!
+    comment: String!
     user: User!
     userId: String!
-    update: Update
-    updateId: String
-    article: Article
-    articleId: String
-    snippet: Snippet
-    snippetId: String
-    link: Link
-    linkId: String
+    post: Post!
+    postId: String!
     parentId: String
     parent: Comment
     replies: [Comment]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
   }
 
   type Query {
@@ -21,20 +18,16 @@ export const schema = gql`
   }
 
   input CreateCommentInput {
+    comment: String!
     userId: String!
-    updateId: String
-    articleId: String
-    snippetId: String
-    linkId: String
+    postId: String!
     parentId: String
   }
 
   input UpdateCommentInput {
+    comment: String
     userId: String
-    updateId: String
-    articleId: String
-    snippetId: String
-    linkId: String
+    postId: String
     parentId: String
   }
 `
