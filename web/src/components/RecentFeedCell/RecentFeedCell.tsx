@@ -1,6 +1,7 @@
 import type { FindRecentFeedQuery } from 'types/graphql'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import FeedItem from 'src/components/FeedItem'
+import PostLoader from 'src/components/PostLoader'
 
 export const QUERY = gql`
   query FindRecentFeedQuery($filter: String) {
@@ -22,7 +23,7 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <PostLoader />
 
 export const Empty = () => <div>Empty</div>
 
