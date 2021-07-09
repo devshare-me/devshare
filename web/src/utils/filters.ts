@@ -5,6 +5,8 @@ import {
   BiCodeAlt,
   BiLink,
   BiGroup,
+  BiVideo,
+  BiImage,
 } from 'react-icons/bi'
 
 export const filters = [
@@ -12,34 +14,42 @@ export const filters = [
   {
     name: 'Updates',
     singular: 'Update',
-    to: 'updates',
     icon: BiAlarm,
-    color: 'blue',
+    color: 'indigo',
   },
   {
     name: 'Snippets',
     singular: 'Snippet',
-    to: 'snippets',
     icon: BiCodeAlt,
     color: 'yellow',
   },
   {
-    name: 'Articles',
-    singular: 'Article',
-    to: 'articles',
-    icon: BiNews,
-    color: 'green',
-  },
-  {
     name: 'Links',
     singular: 'Link',
-    to: 'links',
     icon: BiLink,
+    color: 'blue',
+  },
+  {
+    name: 'Images',
+    singular: 'Image',
+    icon: BiImage,
+    color: 'pink',
+  },
+  {
+    name: 'Videos',
+    singular: 'Video',
+    icon: BiVideo,
     color: 'red',
+  },
+  {
+    name: 'Articles',
+    singular: 'Article',
+    icon: BiNews,
+    color: 'green',
   },
 ]
 
 export const views = [
   { name: 'Following', icon: BiGroup },
-  { name: 'Recent', to: 'recent', icon: BiGroup, color: 'blue' },
+  { name: 'Recent', singular: 'Recent', icon: BiGroup, color: 'blue' },
 ]

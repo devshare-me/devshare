@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing'
 
-import Profile from './Profile'
+import Wrapper from './Wrapper'
 
-describe('Profile', () => {
+describe('Wrapper', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<Profile />)
+      render(<Wrapper />)
     }).not.toThrow()
   })
 })

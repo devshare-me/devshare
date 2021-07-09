@@ -1,16 +1,24 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { useAuth } from '@redwoodjs/auth'
-import { NavLink, Link, routes } from '@redwoodjs/router'
+import {
+  NavLink,
+  Link,
+  routes,
+  SkipNavLink,
+  SkipNavContent,
+} from '@redwoodjs/router'
+import { Toaster } from '@redwoodjs/web/toast'
+import LoginButton from 'src/Components/LoginButton'
 import { FiUser, FiSettings, FiLogOut } from 'react-icons/fi'
-import { VscGithubInverted } from 'react-icons/vsc'
+import '@reach/skip-nav/styles.css'
 
 type DefaultLayoutProps = {
   children: React.ReactNode
 }
 
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {
-  const { isAuthenticated, logIn, logOut, currentUser } = useAuth()
+  const { isAuthenticated, logOut, currentUser } = useAuth()
   const [isOpen, setIsOpen] = React.useState(false)
 
   function closeModal() {
@@ -23,6 +31,8 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <SkipNavLink contentId="main" />
+      <Toaster />
       <header className="px-8 py-2 gap-3 bg-white">
         <div className="flex items-center justify-between max-w-6xl mx-auto w-full">
           <nav className="flex items-center gap-3">
@@ -31,18 +41,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
             </Link>
           </nav>
           {!isAuthenticated ? (
-            <button
-              className="bg-gray-900 text-gray-100 rounded-full px-3 py-2 flex items-center text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
-              onClick={async () => {
-                await logIn({
-                  provider: 'github',
-                  scopes: 'read:user',
-                })
-              }}
-            >
-              <VscGithubInverted className="mr-2 text-xl" />
-              <span>Login or Sign up</span>
-            </button>
+            <LoginButton />
           ) : (
             <nav className="flex items-center gap-3">
               <NavLink
@@ -53,10 +52,14 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                 <FiUser />
                 <span className="sr-only">Your Profile</span>
               </NavLink>
-              <Link to="#" className="rounded-btn">
+              <NavLink
+                to={routes.settings()}
+                className="rounded-btn"
+                activeClassName="active"
+              >
                 <FiSettings />
                 <span className="sr-only">Settings</span>
-              </Link>
+              </NavLink>
               <button onClick={openModal} className="rounded-btn">
                 <FiLogOut />
                 <span className="sr-only">Log out</span>
@@ -135,7 +138,8 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
           )}
         </div>
       </header>
-      <main className="flex-1 px-8">{children}</main>
+      <SkipNavContent id="main" />
+      <main className="flex-1 p-8">{children}</main>
       <footer></footer>
     </div>
   )

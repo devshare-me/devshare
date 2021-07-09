@@ -1,8 +1,8 @@
 import { render, screen } from '@redwoodjs/testing'
-import { Loading, Empty, Failure, Success } from './ProfileCell'
-import { standard } from './ProfileCell.mock'
+import { Loading, Empty, Failure, Success } from './UserFeedCell'
+import { standard } from './UserFeedCell.mock'
 
-describe('ProfileCell', () => {
+describe('UserFeedCell', () => {
   it('renders Loading successfully', () => {
     expect(() => {
       render(<Loading />)
@@ -29,7 +29,7 @@ describe('ProfileCell', () => {
 
   it('renders Success successfully', async () => {
     expect(() => {
-      render(<Success profile={standard().profile} />)
+      render(<Success userFeed={standard().userFeed} />)
     }).not.toThrow()
   })
 })

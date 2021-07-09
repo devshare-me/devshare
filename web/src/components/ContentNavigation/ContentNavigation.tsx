@@ -41,9 +41,9 @@ const ContentNavigation = ({ navItems, query }) => {
         {navItems.slice(1).map((item, i: number) => (
           <Link
             key={i}
-            to={setUrlParams(item.to)}
+            to={setUrlParams(item.singular ? item.singular.toLowerCase() : '')}
             className={`${
-              term === item.to
+              term === (item.singular ? item.singular.toLowerCase() : '')
                 ? `bg-${item.color}-200 text-${item.color}-800`
                 : 'bg-gray-200'
             } rounded-full flex items-center gap-1 px-3 py-1 font-semibold hover:bg-${
