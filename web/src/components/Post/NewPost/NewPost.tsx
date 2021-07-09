@@ -1,8 +1,9 @@
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { navigate, routes, useParams } from '@redwoodjs/router'
+import { navigate, routes, useParams, useLocation } from '@redwoodjs/router'
 import PostForm from 'src/components/Post/PostForm'
-import { QUERY } from 'src/components/UserFeedCell'
+import { QUERY as ProfileQuery } from 'src/components/UserFeedCell'
+import { QUERY as RecentQuery } from 'src/components/RecentFeedCell'
 
 const CREATE_POST_MUTATION = gql`
   mutation CreatePostMutation($input: CreatePostInput!) {
@@ -14,7 +15,15 @@ const CREATE_POST_MUTATION = gql`
 `
 
 const NewPost = ({ type, setType }) => {
-  const { username } = useParams()
+  const { username, filter, view } = useParams()
+  const { pathname } = useLocation()
+
+  const refetchQuery = {
+    query:
+      view === 'recent' ? RecentQuery : pathname === '/' ? '' : ProfileQuery,
+    variables: { username, filter },
+  }
+
   const [createPost, { loading, error }] = useMutation(CREATE_POST_MUTATION, {
     onCompleted: (data) => {
       setType('')
@@ -24,7 +33,7 @@ const NewPost = ({ type, setType }) => {
         } created`
       )
     },
-    refetchQueries: [{ query: QUERY, variables: { username } }],
+    refetchQueries: [refetchQuery],
     awaitRefetchQueries: true,
   })
 
