@@ -10,39 +10,31 @@ export const beforeResolver = (rules: BeforeResolverSpecType) => {
 }
 
 export const userFeed = async ({ username, filter }) => {
-  let posts
+  // OR: [{private: true}, {private: false}]
+
+  const privateCheck = username === context.currentUser?.username ? true : false
 
   const user = await db.user.findUnique({
     where: { username },
   })
 
-  if (filter) {
-    posts = await db[filter].findMany({
-      where: { userId: user.id },
-    })
+  const searchQuery = { userId: user.id }
+
+  if (filter) searchQuery['type'] = filter
+
+  if (privateCheck) {
+    searchQuery['OR'] = [{ private: true }, { private: false }]
   } else {
-    const updates = await db.update.findMany({
-      where: { userId: user.id },
-    })
-
-    const snippets = await db.snippet.findMany({
-      where: { userId: user.id },
-    })
-
-    const articles = await db.article.findMany({
-      where: { userId: user.id },
-    })
-
-    const links = await db.link.findMany({
-      where: { userId: user.id },
-    })
-
-    posts = updates.concat(snippets, articles, links)
+    searchQuery['private'] = { equals: false }
   }
+
+  const posts = await db.post.findMany({
+    where: searchQuery,
+  })
 
   posts.sort((a, b) =>
     a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
   )
 
-  return { posts }
+  return posts
 }

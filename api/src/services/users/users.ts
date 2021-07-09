@@ -13,19 +13,9 @@ export const users = () => {
   return db.user.findMany()
 }
 
-export const user = ({ id }: Prisma.UserWhereUniqueInput) => {
+export const user = ({ username }: Prisma.UserWhereUniqueInput) => {
   return db.user.findUnique({
-    where: { id },
-  })
-}
-
-interface CreateUserArgs {
-  input: Prisma.UserCreateInput
-}
-
-export const createUser = ({ input }: CreateUserArgs) => {
-  return db.user.create({
-    data: input,
+    where: { username },
   })
 }
 
@@ -34,6 +24,8 @@ interface UpdateUserArgs extends Prisma.UserWhereUniqueInput {
 }
 
 export const updateUser = ({ id, input }: UpdateUserArgs) => {
+  if (context.currentUser.id !== id) return
+
   return db.user.update({
     data: input,
     where: { id },
@@ -41,6 +33,8 @@ export const updateUser = ({ id, input }: UpdateUserArgs) => {
 }
 
 export const deleteUser = ({ id }: Prisma.UserWhereUniqueInput) => {
+  if (context.currentUser.id !== id) return
+
   return db.user.delete({
     where: { id },
   })

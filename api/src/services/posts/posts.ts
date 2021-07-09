@@ -24,6 +24,8 @@ interface CreatePostArgs {
 }
 
 export const createPost = ({ input }: CreatePostArgs) => {
+  input.user = { connect: { id: context.currentUser.id } }
+
   return db.post.create({
     data: input,
   })
