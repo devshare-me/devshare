@@ -52,7 +52,7 @@ const PostForm = (props) => {
           </>
         )}
 
-        {['link', 'video'].includes(type) && (
+        {['link', 'image', 'video'].includes(type) && (
           <>
             <Label
               name="url"
@@ -92,7 +92,7 @@ const PostForm = (props) => {
           </>
         )}
 
-        {['snippet', 'link', 'video'].includes(type) && (
+        {['snippet', 'link', 'image', 'video'].includes(type) && (
           <>
             <Label
               name="description"

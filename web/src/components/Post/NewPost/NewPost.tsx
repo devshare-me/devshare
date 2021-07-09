@@ -13,10 +13,11 @@ const CREATE_POST_MUTATION = gql`
   }
 `
 
-const NewPost = ({ type }) => {
+const NewPost = ({ type, setType }) => {
   const { username } = useParams()
   const [createPost, { loading, error }] = useMutation(CREATE_POST_MUTATION, {
     onCompleted: (data) => {
+      setType('')
       toast.success(
         `${
           data.post.type.charAt(0).toUpperCase() + data.post.type.slice(1)

@@ -8,7 +8,7 @@ import { RiGithubFill, RiTwitterFill } from 'react-icons/ri'
 import { BiMapPin, BiGlobe } from 'react-icons/bi'
 
 const User = ({ user }) => {
-  const { currentUser, isAuthenticated } = useAuth()
+  const { currentUser } = useAuth()
   const { filter } = useParams()
 
   return (

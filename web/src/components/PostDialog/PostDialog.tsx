@@ -25,9 +25,13 @@ const PostDialog = () => {
                   !postType
                     ? ''
                     : type.singular.toLowerCase() === postType
-                    ? `text-${type.color}-700 bg-${type.color}-100 border-${type.color}-700`
-                    : 'border-gray-100'
-                } flex flex-1 items-center justify-center font-semibold gap-1 px-4 py-4 border-b-2 border-solid text-lg md:text-sm`}
+                    ? `bg-${type.color}-100 border-${type.color}-700`
+                    : `border-gray-100`
+                } flex flex-1 items-center justify-center text-${
+                  type.color
+                }-600 font-semibold gap-1 px-4 py-4 border-b-2 border-solid text-lg md:text-sm hover:bg-${
+                  type.color
+                }-100`}
               >
                 <type.icon />
                 <span className="hidden md:block">{type.singular}</span>
@@ -37,7 +41,7 @@ const PostDialog = () => {
       </div>
       {postType && (
         <div className="p-6">
-          <NewPost type={postType} />
+          <NewPost type={postType} setType={setPostType} />
         </div>
       )}
     </div>
