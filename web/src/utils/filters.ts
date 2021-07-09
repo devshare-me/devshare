@@ -51,5 +51,5 @@ export const filters = [
 
 export const views = [
   { name: 'Following', icon: BiGroup },
-  { name: 'Recent', singular: 'Recent', icon: BiGroup, color: 'blue' },
+  { name: 'Recent', singular: 'Recent', icon: BiCollection, color: 'blue' },
 ]

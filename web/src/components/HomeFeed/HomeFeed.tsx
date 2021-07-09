@@ -3,11 +3,12 @@ import { useParams, Redirect, routes } from '@redwoodjs/router'
 import ContentNavigation from 'src/components/ContentNavigation'
 import PostDialog from 'src/components/PostDialog'
 import LoginButton from 'src/components/LoginButton'
+import RecentFeedCell from 'src/components/RecentFeedCell'
 import { filters, views } from 'src/utils/filters'
 
 const HomeFeed = () => {
   const { isAuthenticated } = useAuth()
-  const { view } = useParams()
+  const { view, filter } = useParams()
 
   if (!isAuthenticated && view !== 'recent') {
     return <Redirect to={routes.home({ view: 'recent' })} />
@@ -35,10 +36,11 @@ const HomeFeed = () => {
         )}
       </div>
       <h1 className="text-2xl font-bold mb-4">Feed</h1>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mb-4">
         <ContentNavigation navItems={views} query="view" />
         <ContentNavigation navItems={filters} query="filter" />
       </div>
+      {view === 'recent' && <RecentFeedCell filter={filter} />}
     </>
   )
 }

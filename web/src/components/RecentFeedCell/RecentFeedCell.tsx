@@ -1,0 +1,41 @@
+import type { FindRecentFeedQuery } from 'types/graphql'
+import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
+import FeedItem from 'src/components/FeedItem'
+
+export const QUERY = gql`
+  query FindRecentFeedQuery($filter: String) {
+    feed: recentFeed(filter: $filter) {
+      id
+      type
+      user {
+        name
+        image
+        username
+      }
+      title
+      url
+      content
+      description
+      private
+      createdAt
+    }
+  }
+`
+
+export const Loading = () => <div>Loading...</div>
+
+export const Empty = () => <div>Empty</div>
+
+export const Failure = ({ error }: CellFailureProps) => (
+  <div style={{ color: 'red' }}>Error: {error.message}</div>
+)
+
+export const Success = ({ feed }: CellSuccessProps<FindRecentFeedQuery>) => {
+  return (
+    <div className="grid grid-cols-1 gap-4 mt-4">
+      {feed.map((item) => (
+        <FeedItem key={item.id} item={item} />
+      ))}
+    </div>
+  )
+}

@@ -9,9 +9,22 @@ export const beforeResolver = (rules: BeforeResolverSpecType) => {
   rules.add(requireAuth)
 }
 
-export const userFeed = async ({ username, filter }) => {
-  // OR: [{private: true}, {private: false}]
+export const recentFeed = async ({ filter }) => {
+  const searchQuery = { private: { equals: false } }
 
+  if (filter) searchQuery['type'] = filter
+
+  const posts = await db.post.findMany({
+    where: searchQuery,
+    orderBy: {
+      createdAt: 'desc',
+    },
+  })
+
+  return posts
+}
+
+export const userFeed = async ({ username, filter }) => {
   const privateCheck = username === context.currentUser?.username ? true : false
 
   const user = await db.user.findUnique({
@@ -30,11 +43,10 @@ export const userFeed = async ({ username, filter }) => {
 
   const posts = await db.post.findMany({
     where: searchQuery,
+    orderBy: {
+      createdAt: 'desc',
+    },
   })
-
-  posts.sort((a, b) =>
-    a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
-  )
 
   return posts
 }
