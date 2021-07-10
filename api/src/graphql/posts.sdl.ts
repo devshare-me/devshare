@@ -8,8 +8,12 @@ export const schema = gql`
     url: String
     content: String
     description: String
+    sharedPost: Post
+    sharedPostId: String
+    shares: [Post]!
     private: Boolean!
     comments: [Comment]!
+    bookmarkedBy: [Bookmark]!
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -19,7 +23,9 @@ export const schema = gql`
     snippet
     article
     link
+    image
     video
+    share
   }
 
   type Query {
@@ -28,20 +34,24 @@ export const schema = gql`
   }
 
   input CreatePostInput {
+    userId: String!
     type: PostType!
     title: String
     url: String
     content: String
     description: String
+    sharedPostId: String
     private: Boolean!
   }
 
   input UpdatePostInput {
+    userId: String
     type: PostType
     title: String
     url: String
     content: String
     description: String
+    sharedPostId: String
     private: Boolean
   }
 

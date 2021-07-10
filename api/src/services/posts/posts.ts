@@ -51,6 +51,12 @@ export const deletePost = ({ id }: Prisma.PostWhereUniqueInput) => {
 export const Post = {
   user: (_obj, { root }: ResolverArgs<ReturnType<typeof post>>) =>
     db.post.findUnique({ where: { id: root.id } }).user(),
+  sharedPost: (_obj, { root }: ResolverArgs<ReturnType<typeof post>>) =>
+    db.post.findUnique({ where: { id: root.id } }).sharedPost(),
+  shares: (_obj, { root }: ResolverArgs<ReturnType<typeof post>>) =>
+    db.post.findUnique({ where: { id: root.id } }).shares(),
   comments: (_obj, { root }: ResolverArgs<ReturnType<typeof post>>) =>
     db.post.findUnique({ where: { id: root.id } }).comments(),
+  bookmarkedBy: (_obj, { root }: ResolverArgs<ReturnType<typeof post>>) =>
+    db.post.findUnique({ where: { id: root.id } }).bookmarkedBy(),
 }

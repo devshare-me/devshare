@@ -11,6 +11,9 @@ export const schema = gql`
     website: String
     posts: [Post]!
     comments: [Comment]!
+    followers: [User]!
+    following: [User]!
+    bookmarks: [Bookmark]!
     createdAt: DateTime!
   }
 

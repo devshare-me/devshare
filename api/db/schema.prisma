@@ -9,9 +9,9 @@ generator client {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  username  String    @unique
+  id        String     @id @default(cuid())
+  email     String     @unique
+  username  String     @unique
   name      String?
   image     String?
   location  String?
@@ -20,22 +20,39 @@ model User {
   website   String?
   posts     Post[]
   comments  Comment[]
-  createdAt DateTime  @default(now())
+  followers User[]     @relation("Follows", references: [id])
+  following User[]     @relation("Follows", references: [id])
+  bookmarks Bookmark[]
+  createdAt DateTime   @default(now())
 }
 
 model Post {
-  id          String    @id @default(cuid())
-  user        User      @relation(fields: [userId], references: [id])
-  userId      String
-  type        PostType
-  title       String?
-  url         String?
-  content     String?
-  description String?
-  private     Boolean   @default(false)
-  comments    Comment[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id           String     @id @default(cuid())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
+  type         PostType
+  title        String?
+  url          String?
+  content      String?
+  description  String?
+  sharedPost   Post?      @relation("PostToPost", fields: [sharedPostId], references: [id])
+  sharedPostId String?
+  shares       Post[]     @relation("PostToPost")
+  private      Boolean    @default(false)
+  comments     Comment[]
+  bookmarkedBy Bookmark[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Bookmark {
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+
+  @@id([postId, userId])
 }
 
 enum PostType {
@@ -43,7 +60,9 @@ enum PostType {
   snippet
   article
   link
+  image
   video
+  share
 }
 
 model Comment {
