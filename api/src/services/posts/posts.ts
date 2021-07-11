@@ -23,8 +23,17 @@ interface CreatePostArgs {
   input: Prisma.PostCreateInput
 }
 
-export const createPost = ({ input }: CreatePostArgs) => {
+export const createPost = ({ input }) => {
   input.user = { connect: { id: context.currentUser.id } }
+
+  if (input.sharedPostId) {
+    input.sharedPost = { connect: { id: input.sharedPostId } }
+    delete input.sharedPostId
+  }
+
+  for (const [key, value] of Object.entries(input)) {
+    if (value === '') input[key] = null
+  }
 
   return db.post.create({
     data: input,

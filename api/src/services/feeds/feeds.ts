@@ -9,16 +9,39 @@ export const beforeResolver = (rules: BeforeResolverSpecType) => {
   rules.add(requireAuth)
 }
 
+const defaultValues = {
+  orderBy: {
+    createdAt: 'desc',
+  },
+  take: 50,
+}
+
 export const recentFeed = async ({ filter }) => {
-  const searchQuery = { private: { equals: false } }
+  const searchQuery = {
+    private: {
+      equals: false,
+    },
+    NOT: {
+      AND: [
+        {
+          type: {
+            equals: 'share',
+          },
+        },
+        {
+          description: {
+            equals: null,
+          },
+        },
+      ],
+    },
+  }
 
   if (filter) searchQuery['type'] = filter
 
   const posts = await db.post.findMany({
     where: searchQuery,
-    orderBy: {
-      createdAt: 'desc',
-    },
+    ...defaultValues,
   })
 
   return posts
@@ -43,9 +66,7 @@ export const userFeed = async ({ username, filter }) => {
 
   const posts = await db.post.findMany({
     where: searchQuery,
-    orderBy: {
-      createdAt: 'desc',
-    },
+    ...defaultValues,
   })
 
   return posts

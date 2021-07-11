@@ -4,15 +4,13 @@ import {
   FieldError,
   Label,
   TextField,
+  TextAreaField,
+  HiddenField,
   CheckboxField,
   Submit,
 } from '@redwoodjs/forms'
-
-const formatDatetime = (value) => {
-  if (value) {
-    return value.replace(/:\d{2}\.\d{3}\w/, '')
-  }
-}
+import { filters } from 'src/utils/filters'
+import { FiCornerUpRight } from 'react-icons/fi'
 
 const PostForm = (props) => {
   const type = props.type ? props.type : props.post.type
@@ -20,6 +18,19 @@ const PostForm = (props) => {
   const onSubmit = (data) => {
     data.type = type
     props.onSave(data, props?.post?.id)
+  }
+
+  let filter = filters.find(
+    (x) => x.singular === type.charAt(0).toUpperCase() + type.slice(1)
+  )
+
+  if (filter === undefined) {
+    filter = {
+      name: 'Reshares',
+      singular: 'Reshare',
+      icon: FiCornerUpRight,
+      color: 'gray',
+    }
   }
 
   return (
@@ -34,18 +45,15 @@ const PostForm = (props) => {
 
         {['article'].includes(type) && (
           <>
-            <Label
-              name="title"
-              className="rw-label"
-              errorClassName="rw-label rw-label-error"
-            >
+            <Label name="title" className="sr-only" errorClassName="sr-only">
               Title
             </Label>
             <TextField
               name="title"
               defaultValue={props.post?.title}
-              className="rw-input"
-              errorClassName="rw-input rw-input-error"
+              className="rw-input text-lg font-bold"
+              errorClassName="rw-input text-lg font-bold rw-input-error"
+              placeholder="Article title"
               validation={{ required: true }}
             />
             <FieldError name="title" className="rw-field-error" />
@@ -54,11 +62,7 @@ const PostForm = (props) => {
 
         {['link', 'image', 'video'].includes(type) && (
           <>
-            <Label
-              name="url"
-              className="rw-label"
-              errorClassName="rw-label rw-label-error"
-            >
+            <Label name="url" className="sr-only" errorClassName="sr-only">
               Url
             </Label>
             <TextField
@@ -66,6 +70,7 @@ const PostForm = (props) => {
               defaultValue={props.post?.url}
               className="rw-input"
               errorClassName="rw-input rw-input-error"
+              placeholder={`${type} URL`}
               validation={{ required: true }}
             />
             <FieldError name="url" className="rw-field-error" />
@@ -74,62 +79,85 @@ const PostForm = (props) => {
 
         {['update', 'article', 'snippet'].includes(type) && (
           <>
-            <Label
-              name="content"
-              className="rw-label"
-              errorClassName="rw-label rw-label-error"
-            >
+            <Label name="content" className="sr-only" errorClassName="sr-only">
               Content
             </Label>
-            <TextField
+            <TextAreaField
               name="content"
               defaultValue={props.post?.content}
               className="rw-input"
               errorClassName="rw-input rw-input-error"
+              placeholder={
+                type === 'update'
+                  ? 'What are you up to?'
+                  : type === 'article'
+                  ? 'Write your article...'
+                  : 'Snippet content'
+              }
               validation={{ required: true }}
             />
             <FieldError name="content" className="rw-field-error" />
           </>
         )}
 
-        {['snippet', 'link', 'image', 'video'].includes(type) && (
+        {['snippet', 'link', 'image', 'video', 'share'].includes(type) && (
           <>
             <Label
               name="description"
-              className="rw-label"
-              errorClassName="rw-label rw-label-error"
+              className="sr-only"
+              errorClassName="sr-only"
             >
               Description
             </Label>
-            <TextField
+            <TextAreaField
               name="description"
               defaultValue={props.post?.description}
               className="rw-input"
               errorClassName="rw-input rw-input-error"
               validation={{ required: false }}
+              placeholder={`${type} description (optional)`}
             />
             <FieldError name="description" className="rw-field-error" />
           </>
         )}
 
-        <Label
-          name="private"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Private
-        </Label>
-        <CheckboxField
-          name="private"
-          defaultChecked={props.post?.private}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-        />
-        <FieldError name="private" className="rw-field-error" />
+        {type === 'share' && (
+          <>
+            <HiddenField
+              name="sharedPostId"
+              value={
+                props.sharedPostId
+                  ? props.sharedPostId
+                  : props.post.sharedPostId
+              }
+            />
+          </>
+        )}
 
-        <div className="rw-button-group">
-          <Submit disabled={props.loading} className="rw-button rw-button-blue">
-            Save
+        <div className="flex md:items-center justify-between flex-col gap-4 md:flex-row mt-6 p-6 -mx-6 -mb-6 bg-gray-50 border-t border-solid border-gray-200">
+          <div className={`${type === 'share' ? 'hidden ' : ''}md:max-w-xs`}>
+            <div className="flex items-center gap-2 text-sm font-semibold">
+              <CheckboxField
+                name="private"
+                defaultChecked={props.post?.private}
+                className=""
+                errorClassName=""
+              />
+              <Label name="private" className="" errorClassName="">
+                Private
+              </Label>
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              When marked as private, comments are disabled and only you can see
+              the private {filter.singular.toLowerCase()}
+            </p>
+          </div>
+
+          <Submit
+            disabled={props.loading}
+            className={`inline-flex justify-center px-4 py-2 text-sm font-medium text-${filter.color}-900 bg-${filter.color}-200 border border-transparent rounded-md transition-colors duration-300 hover:bg-${filter.color}-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${filter.color}-500`}
+          >
+            {`${props.edit ? 'Save' : 'Post'} ${filter.singular}`}
           </Submit>
         </div>
       </Form>

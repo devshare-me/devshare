@@ -1,6 +1,7 @@
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { Link, routes, navigate } from '@redwoodjs/router'
+import FeedItem from 'src/components/FeedItem'
 
 const DELETE_POST_MUTATION = gql`
   mutation DeletePostMutation($id: String!) {
@@ -44,76 +45,7 @@ const Post = ({ post }) => {
     }
   }
 
-  return (
-    <>
-      <div className="rw-segment">
-        <header className="rw-segment-header">
-          <h2 className="rw-heading rw-heading-secondary">
-            Post {post.id} Detail
-          </h2>
-        </header>
-        <table className="rw-table">
-          <tbody>
-            <tr>
-              <th>Id</th>
-              <td>{post.id}</td>
-            </tr>
-            <tr>
-              <th>User id</th>
-              <td>{post.userId}</td>
-            </tr>
-            <tr>
-              <th>Type</th>
-              <td>{post.type}</td>
-            </tr>
-            <tr>
-              <th>Title</th>
-              <td>{post.title}</td>
-            </tr>
-            <tr>
-              <th>Url</th>
-              <td>{post.url}</td>
-            </tr>
-            <tr>
-              <th>Content</th>
-              <td>{post.content}</td>
-            </tr>
-            <tr>
-              <th>Description</th>
-              <td>{post.description}</td>
-            </tr>
-            <tr>
-              <th>Private</th>
-              <td>{checkboxInputTag(post.private)}</td>
-            </tr>
-            <tr>
-              <th>Created at</th>
-              <td>{timeTag(post.createdAt)}</td>
-            </tr>
-            <tr>
-              <th>Updated at</th>
-              <td>{timeTag(post.updatedAt)}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <nav className="rw-button-group">
-        <Link
-          to={routes.editPost({ id: post.id })}
-          className="rw-button rw-button-blue"
-        >
-          Edit
-        </Link>
-        <a
-          href="#"
-          className="rw-button rw-button-red"
-          onClick={() => onDeleteClick(post.id)}
-        >
-          Delete
-        </a>
-      </nav>
-    </>
-  )
+  return <FeedItem item={post} />
 }
 
 export default Post

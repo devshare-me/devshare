@@ -4,8 +4,15 @@ export const QUERY = gql`
   query FindPostById($id: String!) {
     post: post(id: $id) {
       id
-      userId
       type
+      user {
+        name
+        image
+        username
+      }
+      shares {
+        id
+      }
       title
       url
       content
@@ -13,6 +20,25 @@ export const QUERY = gql`
       private
       createdAt
       updatedAt
+      sharedPost {
+        id
+        type
+        user {
+          name
+          image
+          username
+        }
+        shares {
+          id
+        }
+        title
+        url
+        content
+        description
+        private
+        createdAt
+        updatedAt
+      }
     }
   }
 `

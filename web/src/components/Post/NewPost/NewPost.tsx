@@ -1,6 +1,6 @@
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { navigate, routes, useParams, useLocation } from '@redwoodjs/router'
+import { useParams, useLocation } from '@redwoodjs/router'
 import PostForm from 'src/components/Post/PostForm'
 import { QUERY as ProfileQuery } from 'src/components/UserFeedCell'
 import { QUERY as RecentQuery } from 'src/components/RecentFeedCell'
@@ -14,7 +14,7 @@ const CREATE_POST_MUTATION = gql`
   }
 `
 
-const NewPost = ({ type, setType }) => {
+const NewPost = ({ type, setType, setSharePost, sharedPostId }) => {
   const { username, filter, view } = useParams()
   const { pathname } = useLocation()
 
@@ -26,7 +26,11 @@ const NewPost = ({ type, setType }) => {
 
   const [createPost, { loading, error }] = useMutation(CREATE_POST_MUTATION, {
     onCompleted: (data) => {
-      setType('')
+      if (type === 'share') {
+        setSharePost(false)
+      } else {
+        setType('')
+      }
       toast.success(
         `${
           data.post.type.charAt(0).toUpperCase() + data.post.type.slice(1)
@@ -42,7 +46,13 @@ const NewPost = ({ type, setType }) => {
   }
 
   return (
-    <PostForm onSave={onSave} loading={loading} error={error} type={type} />
+    <PostForm
+      onSave={onSave}
+      loading={loading}
+      error={error}
+      type={type}
+      sharedPostId={sharedPostId}
+    />
   )
 }
 
