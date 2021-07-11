@@ -19,6 +19,9 @@ export const QUERY = gql`
       shares {
         id
       }
+      bookmarkedBy {
+        userId
+      }
       title
       url
       content
@@ -36,6 +39,9 @@ export const QUERY = gql`
         }
         shares {
           id
+        }
+        bookmarkedBy {
+          userId
         }
         title
         url

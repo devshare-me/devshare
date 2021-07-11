@@ -7,6 +7,7 @@ import { QUERY as RecentQuery } from 'src/components/RecentFeedCell'
 import NewPost from 'src/components/Post/NewPost'
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
+import BookmarkButton from 'src/components/BookmarkButton'
 import { filters } from 'src/utils/filters'
 import {
   FiLock,
@@ -17,7 +18,6 @@ import {
   FiThumbsDown,
   FiEdit3,
   FiMessageCircle,
-  FiBookmark,
   FiCornerUpRight,
 } from 'react-icons/fi'
 
@@ -70,12 +70,6 @@ const FeedItem = ({ item, viewPost = false }) => {
   const itemCheck =
     item.type === 'share' && !item.description ? item.sharedPost : item
 
-  const refetchQuery = {
-    query:
-      view === 'recent' ? RecentQuery : pathname === '/' ? '' : ProfileQuery,
-    variables: { username, filter },
-  }
-
   const [menuVisible, setMenuVisible] = React.useState(false)
   const [repostVisible, setRepostVisible] = React.useState(false)
 
@@ -90,6 +84,23 @@ const FeedItem = ({ item, viewPost = false }) => {
       icon: FiCornerUpRight,
       color: 'gray',
     }
+  }
+
+  let currentUserBookmark = itemCheck?.bookmarkedBy
+    ? itemCheck.bookmarkedBy.filter(function (e) {
+        if (e.userId === currentUser.id) {
+          return true
+        }
+        return false
+      })
+    : false
+
+  currentUserBookmark = currentUserBookmark.length ? true : false
+
+  const refetchQuery = {
+    query:
+      view === 'recent' ? RecentQuery : pathname === '/' ? '' : ProfileQuery,
+    variables: { username, filter },
   }
 
   const [deletePost] = useMutation(DELETE_POST_MUTATION, {
@@ -202,11 +213,11 @@ const FeedItem = ({ item, viewPost = false }) => {
                       <span className="sr-only">{'Share(s)'}</span>
                     </button>
                   )}
-                  <button className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 text-blue-600 bg-blue-50 hover:bg-blue-100">
-                    <FiBookmark />
-                    <span className="ml-1 text-xs">14</span>
-                    <span className="sr-only">{'Bookmark(s)'}</span>
-                  </button>
+                  <BookmarkButton
+                    postId={itemCheck.id}
+                    count={itemCheck.bookmarkedBy.length}
+                    bookmarked={currentUserBookmark}
+                  />
                 </>
               )}
               <button
