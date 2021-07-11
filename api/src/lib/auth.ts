@@ -16,11 +16,21 @@ export const getCurrentUser = async (
   const name = decoded?.user_metadata?.full_name
   const image = decoded?.user_metadata?.avatar_url
   const extraData = {}
+  const includes = {
+    include: {
+      bookmarks: {
+        select: {
+          postId: true,
+        },
+      },
+    },
+  }
 
   let user = await db.user.findUnique({
     where: {
       email,
     },
+    ...includes,
   })
 
   if (!user) {
@@ -41,6 +51,7 @@ export const getCurrentUser = async (
         username: id,
         ...extraData,
       },
+      ...includes,
     })
   } else {
     if (image !== user.image) {
@@ -59,6 +70,7 @@ export const getCurrentUser = async (
         data: {
           ...extraData,
         },
+        ...includes,
       })
     }
   }

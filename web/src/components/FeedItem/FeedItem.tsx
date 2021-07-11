@@ -7,6 +7,8 @@ import { QUERY as RecentQuery } from 'src/components/RecentFeedCell'
 import NewPost from 'src/components/Post/NewPost'
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
+import TimeTag from 'src/components/TimeTag'
+import BookmarkButton from 'src/components/BookmarkButton'
 import { filters } from 'src/utils/filters'
 import {
   FiLock,
@@ -17,7 +19,6 @@ import {
   FiThumbsDown,
   FiEdit3,
   FiMessageCircle,
-  FiBookmark,
   FiCornerUpRight,
 } from 'react-icons/fi'
 
@@ -28,35 +29,6 @@ const DELETE_POST_MUTATION = gql`
     }
   }
 `
-
-const timeTag = (datetime) => {
-  const now = new Date().getTime()
-  const date = new Date(datetime).getTime()
-  const diff = now - date
-
-  let timeSince
-
-  if (diff < 60000) {
-    timeSince = 'now'
-  } else if (diff < 3600000) {
-    const min = Math.floor(diff / 60000)
-    timeSince = (min > 0 ? min : 1) + 'm'
-  } else if (diff < 86400000) {
-    timeSince = Math.floor(diff / 3600000) + 'h'
-  } else if (diff < 2592000000) {
-    timeSince = Math.floor(diff / 86400000) + 'd'
-  } else if (diff < 31104000000) {
-    timeSince = Math.floor(diff / 2592000000) + 'mo'
-  } else {
-    timeSince = Math.floor(diff / 31104000000) + 'y'
-  }
-
-  return (
-    <time dateTime={datetime} title={datetime}>
-      {timeSince}
-    </time>
-  )
-}
 
 const FeedItem = ({ item, viewPost = false }) => {
   const type =
@@ -69,12 +41,6 @@ const FeedItem = ({ item, viewPost = false }) => {
 
   const itemCheck =
     item.type === 'share' && !item.description ? item.sharedPost : item
-
-  const refetchQuery = {
-    query:
-      view === 'recent' ? RecentQuery : pathname === '/' ? '' : ProfileQuery,
-    variables: { username, filter },
-  }
 
   const [menuVisible, setMenuVisible] = React.useState(false)
   const [repostVisible, setRepostVisible] = React.useState(false)
@@ -90,6 +56,23 @@ const FeedItem = ({ item, viewPost = false }) => {
       icon: FiCornerUpRight,
       color: 'gray',
     }
+  }
+
+  let currentUserBookmark = itemCheck?.bookmarkedBy
+    ? itemCheck.bookmarkedBy.filter(function (e) {
+        if (e.userId === currentUser.id) {
+          return true
+        }
+        return false
+      })
+    : false
+
+  currentUserBookmark = currentUserBookmark.length ? true : false
+
+  const refetchQuery = {
+    query:
+      view === 'recent' ? RecentQuery : pathname === '/' ? '' : ProfileQuery,
+    variables: { username, filter },
   }
 
   const [deletePost] = useMutation(DELETE_POST_MUTATION, {
@@ -121,7 +104,7 @@ const FeedItem = ({ item, viewPost = false }) => {
               <Link to={routes.profile({ username: item.user.username })}>
                 {item.user.name}
               </Link>{' '}
-              {timeTag(item.createdAt)}
+              <TimeTag datetime={item.createdAt} />
             </span>
           </div>
         )}
@@ -145,7 +128,7 @@ const FeedItem = ({ item, viewPost = false }) => {
               </span>
             </Link>
             <span className="text-gray-600 text-xs">
-              {timeTag(itemCheck.createdAt)}
+              <TimeTag datetime={itemCheck.createdAt} />
             </span>
             {itemCheck.updatedAt &&
               itemCheck.createdAt !== itemCheck.updatedAt && (
@@ -202,11 +185,11 @@ const FeedItem = ({ item, viewPost = false }) => {
                       <span className="sr-only">{'Share(s)'}</span>
                     </button>
                   )}
-                  <button className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 text-blue-600 bg-blue-50 hover:bg-blue-100">
-                    <FiBookmark />
-                    <span className="ml-1 text-xs">14</span>
-                    <span className="sr-only">{'Bookmark(s)'}</span>
-                  </button>
+                  <BookmarkButton
+                    postId={itemCheck.id}
+                    count={itemCheck.bookmarkedBy.length}
+                    bookmarked={currentUserBookmark}
+                  />
                 </>
               )}
               <button

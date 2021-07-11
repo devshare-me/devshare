@@ -1,35 +1,15 @@
-import type { FindUserFeedQuery } from 'types/graphql'
+import type { BookmarksQuery } from 'types/graphql'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import FeedItem from 'src/components/FeedItem'
 import PostLoader from 'src/components/PostLoader'
 import Illustration from 'src/components/Illustration'
-import EmptyImage from 'src/lib/empty-01.svg'
+import EmptyImage from 'src/lib/empty-02.svg'
 import ErrorImage from 'src/lib/error.svg'
 
 export const QUERY = gql`
-  query USERFEED($username: String!, $filter: String) {
-    feed: userFeed(username: $username, filter: $filter) {
-      id
-      type
-      user {
-        name
-        image
-        username
-      }
-      shares {
-        id
-      }
-      bookmarkedBy {
-        userId
-      }
-      title
-      url
-      content
-      description
-      private
-      createdAt
-      updatedAt
-      sharedPost {
+  query BookmarksQuery {
+    bookmarks {
+      post {
         id
         type
         user {
@@ -50,6 +30,28 @@ export const QUERY = gql`
         private
         createdAt
         updatedAt
+        sharedPost {
+          id
+          type
+          user {
+            name
+            image
+            username
+          }
+          shares {
+            id
+          }
+          bookmarkedBy {
+            userId
+          }
+          title
+          url
+          content
+          description
+          private
+          createdAt
+          updatedAt
+        }
       }
     }
   }
@@ -58,7 +60,7 @@ export const QUERY = gql`
 export const Loading = () => <PostLoader />
 
 export const Empty = () => (
-  <Illustration image={EmptyImage} message="No posts yet" />
+  <Illustration image={EmptyImage} message="No bookmarks yet" />
 )
 
 export const Failure = ({ error }: CellFailureProps) => {
@@ -71,11 +73,11 @@ export const Failure = ({ error }: CellFailureProps) => {
   )
 }
 
-export const Success = ({ feed }: CellSuccessProps<FindUserFeedQuery>) => {
+export const Success = ({ bookmarks }: CellSuccessProps<BookmarksQuery>) => {
   return (
-    <div className="grid grid-cols-1 gap-4 mt-4">
-      {feed.map((item) => (
-        <FeedItem key={item.id} item={item} />
+    <div className="grid grid-cols-1 gap-4">
+      {bookmarks.map((bookmark) => (
+        <FeedItem key={bookmark.post.id} item={bookmark.post} />
       ))}
     </div>
   )
