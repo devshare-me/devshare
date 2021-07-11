@@ -30,6 +30,10 @@ a {
   @apply w-5 h-auto;
 }
 
+.rw-input {
+  @apply text-base border-none;
+}
+
 /**
  * END --- TAILWIND GENERATOR EDIT
  */

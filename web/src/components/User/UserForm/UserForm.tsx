@@ -6,6 +6,8 @@ import {
   TextField,
   Submit,
 } from '@redwoodjs/forms'
+import { Link, routes } from '@redwoodjs/router'
+import { useAuth } from '@redwoodjs/auth'
 
 const formatDatetime = (value) => {
   if (value) {
@@ -14,6 +16,8 @@ const formatDatetime = (value) => {
 }
 
 const UserForm = (props) => {
+  const { currentUser } = useAuth()
+
   const onSubmit = (data) => {
     props.onSave(data, props?.user?.id)
   }
@@ -65,15 +69,18 @@ const UserForm = (props) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Github
+          Github Username
         </Label>
-        <TextField
-          name="github"
-          defaultValue={props.user?.github}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: false }}
-        />
+        <div className="mt-2 flex items-center">
+          <span className="inline-flex items-center pl-2 text-sm">@</span>
+          <TextField
+            name="github"
+            defaultValue={props.user?.github}
+            className="rw-input flex-1 mt-0 pl-0"
+            errorClassName="rw-input flex-1 mt-0 pl-0 rw-input-error"
+            validation={{ required: false }}
+          />
+        </div>
         <FieldError name="github" className="rw-field-error" />
 
         <Label
@@ -81,15 +88,18 @@ const UserForm = (props) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Twitter
+          Twitter Username
         </Label>
-        <TextField
-          name="twitter"
-          defaultValue={props.user?.twitter}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: false }}
-        />
+        <div className="mt-2 flex items-center">
+          <span className="inline-flex items-center pl-2 text-sm">@</span>
+          <TextField
+            name="twitter"
+            defaultValue={props.user?.twitter}
+            className="rw-input flex-1 mt-0 pl-0"
+            errorClassName="rw-input flex-1 mt-0 pl-0 rw-input-error"
+            validation={{ required: false }}
+          />
+        </div>
         <FieldError name="twitter" className="rw-field-error" />
 
         <Label
@@ -108,8 +118,17 @@ const UserForm = (props) => {
         />
         <FieldError name="website" className="rw-field-error" />
 
-        <div className="rw-button-group">
-          <Submit disabled={props.loading} className="rw-button rw-button-blue">
+        <div className="flex items-center justify-end space-x-2">
+          <Link
+            to={routes.profile({ username: currentUser.username })}
+            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-200 border border-transparent rounded-md transition-colors duration-300 hover:bg-gray-300 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+          >
+            Cancel
+          </Link>
+          <Submit
+            disabled={props.loading}
+            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-yellow-900 bg-yellow-200 border border-transparent rounded-md transition-colors duration-300 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+          >
             Save
           </Submit>
         </div>

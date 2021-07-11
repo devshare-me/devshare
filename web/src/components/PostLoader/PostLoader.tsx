@@ -13,7 +13,7 @@ const PostLoader = () => {
 
 const LoaderItem = () => {
   return (
-    <div className="bg-white shadow-sm rounded-xl p-6 w-full">
+    <div className="bg-white border border-gray-200 rounded-xl p-6 w-full">
       <div className="animate-pulse space-y-2">
         <div className="bg-gray-200 rounded-md p-2 w-1/4" />
         <div className="bg-gray-200 rounded-md p-2 w-full" />

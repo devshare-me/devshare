@@ -13,9 +13,9 @@ const User = ({ user }) => {
 
   return (
     <div className="flex gap-8 flex-col lg:flex-row lg:items-start">
-      <div className="flex flex-col items-center w-full bg-white shadow-sm rounded-xl p-4 lg:max-w-xs">
+      <div className="flex flex-col items-center w-full bg-white border border-gray-200 rounded-xl p-4 lg:max-w-xs">
         {user.image && (
-          <div className="w-32 h-32 shadow-sm rounded-full overflow-hidden">
+          <div className="w-32 h-32 border-2 border-gray-200 rounded-full overflow-hidden">
             <img
               src={user.image}
               alt={user.name || '@' + user.username}

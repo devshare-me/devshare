@@ -9,7 +9,7 @@ import {
   SkipNavContent,
 } from '@redwoodjs/router'
 import { Toaster } from '@redwoodjs/web/toast'
-import LoginButton from 'src/Components/LoginButton'
+import LoginButton from 'src/components/LoginButton'
 import { FiUser, FiSettings, FiLogOut } from 'react-icons/fi'
 import '@reach/skip-nav/styles.css'
 
@@ -33,11 +33,11 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     <div className="flex flex-col min-h-screen">
       <SkipNavLink contentId="main" />
       <Toaster />
-      <header className="px-8 py-2 gap-3 bg-white">
-        <div className="flex items-center justify-between max-w-6xl mx-auto w-full">
+      <header className="px-4 py-2 gap-3 bg-white fixed top-0 w-full left-0 right-0 border-b border-gray-200 z-10 sm:px-8">
+        <div className="flex items-center justify-between max-w-5xl mx-auto w-full">
           <nav className="flex items-center gap-3">
             <Link to={routes.home()} className="font-bold text-xl">
-              Title
+              DevShare
             </Link>
           </nav>
           {!isAuthenticated ? (
@@ -81,7 +81,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                       leaveFrom="opacity-100"
                       leaveTo="opacity-0"
                     >
-                      <Dialog.Overlay className="fixed inset-0 bg-gray-100 bg-opacity-95" />
+                      <Dialog.Overlay className="fixed inset-0 bg-yellow-200 bg-opacity-95" />
                     </Transition.Child>
 
                     {/* This element is to trick the browser into centering the modal contents. */}
@@ -116,14 +116,14 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                         <div className="mt-4 flex items-center gap-2">
                           <button
                             type="button"
-                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-500"
+                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                             onClick={closeModal}
                           >
                             Cancel
                           </button>
                           <button
                             type="button"
-                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-yellow-900 bg-yellow-100 border border-transparent rounded-md hover:bg-yellow-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-yellow-500"
+                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-yellow-900 bg-yellow-100 border border-transparent rounded-md hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
                             onClick={logOut}
                           >
                             Log out
@@ -139,7 +139,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
         </div>
       </header>
       <SkipNavContent id="main" />
-      <main className="flex-1 p-8">{children}</main>
+      <main className="flex-1 pt-20 pb-8 px-4 sm:px-8">{children}</main>
       <footer></footer>
     </div>
   )

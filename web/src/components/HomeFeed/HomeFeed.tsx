@@ -7,10 +7,13 @@ import RecentFeedCell from 'src/components/RecentFeedCell'
 import { filters, views } from 'src/utils/filters'
 
 const HomeFeed = () => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, currentUser } = useAuth()
   const { view, filter } = useParams()
 
-  if (!isAuthenticated && view !== 'recent') {
+  if (
+    (!isAuthenticated || currentUser.following.length === 0) &&
+    view !== 'recent'
+  ) {
     return <Redirect to={routes.home({ view: 'recent' })} />
   }
 
@@ -18,7 +21,7 @@ const HomeFeed = () => {
     <>
       <div className="mb-6">
         {!isAuthenticated ? (
-          <div className="flex items-center justify-between flex-wrap gap-4 bg-yellow-100 shadow-sm p-6 rounded-xl">
+          <div className="flex items-center justify-between flex-wrap gap-4 bg-yellow-100 border border-gray-200 p-6 rounded-xl">
             <div className="max-w-xs">
               <h2 className="text-3xl font-bold">Join other developers</h2>
               <p className="text-sm text-gray-600 mt-1">

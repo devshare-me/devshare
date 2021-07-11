@@ -54,6 +54,8 @@ export const Success = ({ user }) => {
   }
 
   return (
-    <UserForm user={user} onSave={onSave} error={error} loading={loading} />
+    <div className="bg-white p-6 rounded-xl border border-gray-200">
+      <UserForm user={user} onSave={onSave} error={error} loading={loading} />
+    </div>
   )
 }
