@@ -13,7 +13,7 @@ const Routes = () => {
           <Route path="/posts/{id}/edit" page={PostEditPostPage} name="editPost" />
           <Route path="/posts/{id}" page={PostPostPage} name="post" />
           <Private unauthenticated="home">
-            <Route path="/report/{id}" page={ReportPage} name="settings" />
+            <Route path="/report/{id}" page={ReportPage} name="report" />
             <Route path="/settings" page={UserEditUserPage} name="settings" />
           </Private>
           <Route path="/" page={HomePage} name="home" />
