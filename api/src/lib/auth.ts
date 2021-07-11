@@ -30,6 +30,7 @@ export const getCurrentUser = async (
     where: {
       email,
     },
+    ...includes,
   })
 
   if (!user) {
@@ -50,6 +51,7 @@ export const getCurrentUser = async (
         username: id,
         ...extraData,
       },
+      ...includes,
     })
   } else {
     if (image !== user.image) {
@@ -68,6 +70,7 @@ export const getCurrentUser = async (
         data: {
           ...extraData,
         },
+        ...includes,
       })
     }
   }
