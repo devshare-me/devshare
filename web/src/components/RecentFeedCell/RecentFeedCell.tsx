@@ -16,12 +16,35 @@ export const QUERY = gql`
         image
         username
       }
+      shares {
+        id
+      }
       title
       url
       content
       description
       private
       createdAt
+      updatedAt
+      sharedPost {
+        id
+        type
+        user {
+          name
+          image
+          username
+        }
+        shares {
+          id
+        }
+        title
+        url
+        content
+        description
+        private
+        createdAt
+        updatedAt
+      }
     }
   }
 `
