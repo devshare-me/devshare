@@ -10,7 +10,7 @@ import {
 } from '@redwoodjs/router'
 import { Toaster } from '@redwoodjs/web/toast'
 import LoginButton from 'src/components/LoginButton'
-import { FiUser, FiSettings, FiLogOut } from 'react-icons/fi'
+import { FiUser, FiBookmark, FiSettings, FiLogOut } from 'react-icons/fi'
 import '@reach/skip-nav/styles.css'
 
 type DefaultLayoutProps = {
@@ -51,6 +51,14 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
               >
                 <FiUser />
                 <span className="sr-only">Your Profile</span>
+              </NavLink>
+              <NavLink
+                to={routes.bookmarks()}
+                className="rounded-btn"
+                activeClassName="active"
+              >
+                <FiBookmark />
+                <span className="sr-only">Your Bookmarks</span>
               </NavLink>
               <NavLink
                 to={routes.settings()}
