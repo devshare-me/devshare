@@ -10,6 +10,9 @@ export const beforeResolver = (rules: BeforeResolverSpecType) => {
 }
 
 const defaultValues = {
+  include: {
+    post: true,
+  },
   orderBy: {
     createdAt: 'desc',
   },
@@ -43,7 +46,7 @@ export const createBookmark = ({ postId }) => {
 }
 
 export const deleteBookmark = ({ postId }) => {
-  return db.post.delete({
+  return db.bookmark.delete({
     where: {
       postId_userId: {
         postId: postId,
@@ -55,7 +58,25 @@ export const deleteBookmark = ({ postId }) => {
 
 export const Bookmark = {
   post: (_obj, { root }: ResolverArgs<ReturnType<typeof bookmark>>) =>
-    db.bookmark.findUnique({ where: { id: root.id } }).post(),
+    db.bookmark
+      .findUnique({
+        where: {
+          postId_userId: {
+            postId: root.postId,
+            userId: context.currentUser.id,
+          },
+        },
+      })
+      .post(),
   user: (_obj, { root }: ResolverArgs<ReturnType<typeof bookmark>>) =>
-    db.bookmark.findUnique({ where: { id: root.id } }).user(),
+    db.bookmark
+      .findUnique({
+        where: {
+          postId_userId: {
+            postId: root.postId,
+            userId: context.currentUser.id,
+          },
+        },
+      })
+      .user(),
 }
