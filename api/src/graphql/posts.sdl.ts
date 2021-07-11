@@ -34,7 +34,7 @@ export const schema = gql`
   }
 
   input CreatePostInput {
-    userId: String!
+    userId: String
     type: PostType!
     title: String
     url: String
