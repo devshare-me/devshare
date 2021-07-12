@@ -18,6 +18,16 @@ export const getCurrentUser = async (
   const extraData = {}
   const includes = {
     include: {
+      followers: {
+        select: {
+          id: true,
+        },
+      },
+      following: {
+        select: {
+          id: true,
+        },
+      },
       bookmarks: {
         select: {
           postId: true,
