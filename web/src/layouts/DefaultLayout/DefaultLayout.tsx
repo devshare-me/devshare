@@ -12,6 +12,8 @@ import { Toaster } from '@redwoodjs/web/toast'
 import LoginButton from 'src/components/LoginButton'
 import { Helmet } from 'react-helmet'
 import { FiUser, FiBookmark, FiSettings, FiLogOut } from 'react-icons/fi'
+import LogoFull from 'src/lib/logo.svg'
+import LogoSmall from 'src/lib/logo-small.svg'
 import '@reach/skip-nav/styles.css'
 
 type DefaultLayoutProps = {
@@ -40,7 +42,13 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
           <div className="flex items-center justify-between max-w-5xl mx-auto w-full">
             <nav className="flex items-center">
               <Link to={routes.home()} className="font-bold text-xl">
-                DevShare
+                <span className="hidden sm:block">
+                  <LogoFull className="fill-current w-auto h-5" />
+                </span>
+                <span className="sm:hidden">
+                  <LogoSmall className="fill-current w-auto h-5" />
+                </span>
+                <span className="sr-only">DevShare</span>
               </Link>
             </nav>
             {!isAuthenticated ? (

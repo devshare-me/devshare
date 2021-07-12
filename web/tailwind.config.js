@@ -7,6 +7,7 @@ module.exports = {
       './src/**/*.ts',
       './src/**/*.jsx',
       './src/**/*.js',
+      './src/**/*.css',
     ],
     safelist: [
       'bg-gray-100',
