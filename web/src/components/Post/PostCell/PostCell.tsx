@@ -1,44 +1,10 @@
 import Post from 'src/components/Post/Post'
+import { feedQuery } from 'src/utils/feedQuery'
 
 export const QUERY = gql`
   query FindPostById($id: String!) {
     post: post(id: $id) {
-      id
-      type
-      user {
-        name
-        image
-        username
-      }
-      shares {
-        id
-      }
-      title
-      url
-      content
-      description
-      private
-      createdAt
-      updatedAt
-      sharedPost {
-        id
-        type
-        user {
-          name
-          image
-          username
-        }
-        shares {
-          id
-        }
-        title
-        url
-        content
-        description
-        private
-        createdAt
-        updatedAt
-      }
+      ${feedQuery}
     }
   }
 `

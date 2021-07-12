@@ -1,4 +1,5 @@
 import type { FindUserFeedQuery } from 'types/graphql'
+import { feedQuery } from 'src/utils/feedQuery'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import FeedItem from 'src/components/FeedItem'
 import PostLoader from 'src/components/PostLoader'
@@ -9,48 +10,7 @@ import ErrorImage from 'src/lib/error.svg'
 export const QUERY = gql`
   query USERFEED($username: String!, $filter: String) {
     feed: userFeed(username: $username, filter: $filter) {
-      id
-      type
-      user {
-        name
-        image
-        username
-      }
-      shares {
-        id
-      }
-      bookmarkedBy {
-        userId
-      }
-      title
-      url
-      content
-      description
-      private
-      createdAt
-      updatedAt
-      sharedPost {
-        id
-        type
-        user {
-          name
-          image
-          username
-        }
-        shares {
-          id
-        }
-        bookmarkedBy {
-          userId
-        }
-        title
-        url
-        content
-        description
-        private
-        createdAt
-        updatedAt
-      }
+      ${feedQuery}
     }
   }
 `

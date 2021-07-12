@@ -1,4 +1,5 @@
 import type { BookmarksQuery } from 'types/graphql'
+import { feedQuery } from 'src/utils/feedQuery'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import FeedItem from 'src/components/FeedItem'
 import PostLoader from 'src/components/PostLoader'
@@ -10,48 +11,7 @@ export const QUERY = gql`
   query BookmarksQuery {
     bookmarks {
       post {
-        id
-        type
-        user {
-          name
-          image
-          username
-        }
-        shares {
-          id
-        }
-        bookmarkedBy {
-          userId
-        }
-        title
-        url
-        content
-        description
-        private
-        createdAt
-        updatedAt
-        sharedPost {
-          id
-          type
-          user {
-            name
-            image
-            username
-          }
-          shares {
-            id
-          }
-          bookmarkedBy {
-            userId
-          }
-          title
-          url
-          content
-          description
-          private
-          createdAt
-          updatedAt
-        }
+        ${feedQuery}
       }
     }
   }
