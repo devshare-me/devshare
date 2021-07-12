@@ -134,14 +134,18 @@ const PostForm = (props) => {
           </>
         )}
 
-        <div className="flex md:items-center justify-between flex-col gap-4 md:flex-row mt-6 p-6 -mx-6 -mb-6 bg-gray-50 border-t border-solid border-gray-200">
-          <div className={`${type === 'share' ? 'hidden ' : ''}md:max-w-xs`}>
-            <div className="flex items-center gap-2 text-sm font-semibold">
+        <div className="flex md:items-center justify-between flex-col md:flex-row mt-6 p-6 -mx-6 -mb-6 bg-gray-50 border-t border-solid border-gray-200">
+          <div
+            className={`${
+              type === 'share' ? 'hidden ' : ''
+            }mb-4 md:mb-0 md:max-w-xs`}
+          >
+            <div className="flex items-center text-sm font-semibold">
               <CheckboxField
                 name="private"
                 defaultChecked={props.post?.private}
-                className=""
-                errorClassName=""
+                className="mr-2"
+                errorClassName="mr-2"
               />
               <Label name="private" className="" errorClassName="">
                 Private

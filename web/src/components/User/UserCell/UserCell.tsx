@@ -19,8 +19,8 @@ export const QUERY = gql`
 
 export const Loading = () => {
   return (
-    <div className="flex gap-8 flex-col lg:flex-row lg:items-start">
-      <div className="flex flex-col items-center w-full bg-white border border-gray-200 rounded-xl p-4 lg:max-w-xs">
+    <div className="flex flex-col lg:flex-row lg:items-start">
+      <div className="flex flex-col items-center w-full bg-white border border-gray-200 rounded-xl p-4 mb-8 lg:max-w-xs lg:mr-8 lg:mb-0">
         <div className="animate-pulse space-y-2 w-full">
           <div className="bg-gray-200 w-32 h-32 rounded-full mx-auto" />
           <div className="bg-gray-200 rounded-md p-2 w-1/2 mx-auto" />

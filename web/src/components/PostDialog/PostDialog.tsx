@@ -29,12 +29,12 @@ const PostDialog = () => {
                     : `border-gray-100`
                 } flex flex-1 items-center justify-center text-${
                   type.color
-                }-600 font-semibold gap-1 px-4 py-4 border-b-2 border-solid text-lg bg-transparent md:text-sm transition-colors duration-300 hover:bg-${
+                }-600 font-semibold px-4 py-4 border-b-2 border-solid text-lg bg-transparent md:text-sm transition-colors duration-300 hover:bg-${
                   type.color
                 }-100`}
               >
                 <type.icon />
-                <span className="hidden md:block">{type.singular}</span>
+                <span className="hidden md:block md:ml-1">{type.singular}</span>
               </button>
             )
         )}

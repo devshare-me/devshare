@@ -109,10 +109,10 @@ const FeedItem = ({ item, viewPost = false }) => {
           </div>
         )}
         <div className="flex items-center justify-between mb-2 text-xs">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <Link
               to={routes.profile({ username: itemCheck.user.username })}
-              className="flex items-center"
+              className="flex items-center mr-2"
             >
               {itemCheck.user?.image && (
                 <div className="w-10 h-10 mr-2 overflow-hidden rounded-full">
@@ -132,11 +132,13 @@ const FeedItem = ({ item, viewPost = false }) => {
             </span>
             {itemCheck.updatedAt &&
               itemCheck.createdAt !== itemCheck.updatedAt && (
-                <span className="text-gray-600 text-xs">Edited</span>
+                <span className="text-gray-600 text-xs ml-2">Edited</span>
               )}
           </div>
-          <div className="flex items-center gap-2 text-sm">
-            {itemCheck.private === true && <FiLock className="text-gray-400" />}
+          <div className="flex items-center text-sm">
+            {itemCheck.private === true && (
+              <FiLock className="text-gray-400 mr-2" />
+            )}
             <div
               className={`rounded-full p-2 font-semibold text-${filterAttr.color}-700 bg-${filterAttr.color}-100`}
             >

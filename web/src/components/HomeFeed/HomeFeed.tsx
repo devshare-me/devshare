@@ -21,8 +21,8 @@ const HomeFeed = () => {
     <>
       <div className="mb-6">
         {!isAuthenticated ? (
-          <div className="flex items-center justify-between flex-wrap gap-4 bg-yellow-100 border border-gray-200 p-6 rounded-xl">
-            <div className="max-w-xs">
+          <div className="flex items-center justify-between flex-wrap bg-yellow-100 border border-gray-200 p-6 rounded-xl">
+            <div className="max-w-xs mr-4 my-4">
               <h2 className="text-3xl font-bold">Join other developers</h2>
               <p className="text-sm text-gray-600 mt-1">
                 Sign up for a free account to curate your content and follow
@@ -39,7 +39,7 @@ const HomeFeed = () => {
         )}
       </div>
       <h1 className="text-2xl font-bold mb-4">Feed</h1>
-      <div className="flex flex-col gap-2 mb-4">
+      <div className="flex flex-col mb-4">
         <ContentNavigation navItems={views} query="view" />
         <ContentNavigation navItems={filters} query="filter" />
       </div>

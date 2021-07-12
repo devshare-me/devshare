@@ -33,9 +33,9 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     <div className="flex flex-col min-h-screen">
       <SkipNavLink contentId="main" />
       <Toaster />
-      <header className="px-4 py-2 gap-3 bg-white fixed top-0 w-full left-0 right-0 border-b border-gray-200 z-10 sm:px-8">
+      <header className="px-4 py-2 bg-white fixed top-0 w-full left-0 right-0 border-b border-gray-200 z-10 sm:px-8">
         <div className="flex items-center justify-between max-w-5xl mx-auto w-full">
-          <nav className="flex items-center gap-3">
+          <nav className="flex items-center">
             <Link to={routes.home()} className="font-bold text-xl">
               DevShare
             </Link>
@@ -43,10 +43,10 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
           {!isAuthenticated ? (
             <LoginButton />
           ) : (
-            <nav className="flex items-center gap-3">
+            <nav className="flex items-center">
               <NavLink
                 to={routes.profile({ username: currentUser.username })}
-                className="rounded-btn"
+                className="rounded-btn ml-3"
                 activeClassName="active"
               >
                 <FiUser />
@@ -54,7 +54,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
               </NavLink>
               <NavLink
                 to={routes.bookmarks()}
-                className="rounded-btn"
+                className="rounded-btn ml-3"
                 activeClassName="active"
               >
                 <FiBookmark />
@@ -62,13 +62,13 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
               </NavLink>
               <NavLink
                 to={routes.settings()}
-                className="rounded-btn"
+                className="rounded-btn ml-3"
                 activeClassName="active"
               >
                 <FiSettings />
                 <span className="sr-only">Settings</span>
               </NavLink>
-              <button onClick={openModal} className="rounded-btn">
+              <button onClick={openModal} className="rounded-btn ml-3">
                 <FiLogOut />
                 <span className="sr-only">Log out</span>
               </button>
@@ -121,10 +121,10 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                           </p>
                         </div>
 
-                        <div className="mt-4 flex items-center gap-2">
+                        <div className="mt-4 flex items-center">
                           <button
                             type="button"
-                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                            className="inline-flex justify-center mr-2 px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                             onClick={closeModal}
                           >
                             Cancel
@@ -148,7 +148,12 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       </header>
       <SkipNavContent id="main" />
       <main className="flex-1 pt-20 pb-8 px-4 sm:px-8">{children}</main>
-      <footer></footer>
+      <footer className="px-4 py-2 sm:px-8">
+        <p className="max-w-5xl mx-auto w-full text-xs text-center text-gray-500">
+          &copy; {new Date().getFullYear()}{' '}
+          <Link to={routes.home()}>DevShare</Link>. All rights reserved.
+        </p>
+      </footer>
     </div>
   )
 }
