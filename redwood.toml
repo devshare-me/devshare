@@ -8,6 +8,7 @@
 [web]
   port = 8910
   apiProxyPath = "/.netlify/functions"
+  includeEnvironmentVariables = ['DATABASE_URL', 'SUPABASE_URL', 'SUPABASE_KEY', 'SUPABASE_JWT_SECRET']
 [api]
   port = 8911
 [browser]
