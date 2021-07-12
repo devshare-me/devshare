@@ -9,6 +9,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import TimeTag from 'src/components/TimeTag'
 import BookmarkButton from 'src/components/BookmarkButton'
+import ReactPlayer from 'react-player'
 import { filters } from 'src/utils/filters'
 import {
   FiLock,
@@ -151,6 +152,11 @@ const FeedItem = ({ item, viewPost = false }) => {
         )}
         {itemCheck.description && <p>{itemCheck.description}</p>}
         {itemCheck.content && <p>{itemCheck.content}</p>}
+        {itemCheck.type === 'video' && (
+          <div className="aspect-w-16 aspect-h-9 -mx-6 mt-6 -mb-6">
+            <ReactPlayer url={itemCheck.url} width="100%" height="100%" />
+          </div>
+        )}
         {item.type === 'share' && item.description && (
           <div className="mt-4">
             <FeedItem item={item.sharedPost} viewPost={true} />
