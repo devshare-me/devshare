@@ -176,7 +176,10 @@ const FeedItem = ({ item, viewPost = false }) => {
                   {itemCheck.type !== 'share' && (
                     <button
                       className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200"
-                      onClick={() => setRepostVisible(true)}
+                      onClick={() => {
+                        if (isAuthenticated) setRepostVisible(true)
+                      }}
+                      disabled={!isAuthenticated}
                     >
                       <FiCornerUpRight />
                       {itemCheck?.shares.length > 0 && (
@@ -245,16 +248,17 @@ const FeedItem = ({ item, viewPost = false }) => {
                   <div className="flex items-center justify-between">
                     <Dialog.Title
                       as="h3"
-                      className="text-lg font-medium leading-6 text-gray-900"
+                      className="text-lg font-bold leading-6 text-gray-900"
                     >
                       More {filterAttr.singular.toLowerCase()} post options
                     </Dialog.Title>
                     <button
                       type="button"
-                      className={`inline-flex justify-center p-2 text-sm font-medium text-gray-900 bg-gray-200 border border-transparent rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
+                      className={`inline-flex justify-center p-2 text-sm font-semibold text-gray-900 bg-gray-200 border border-transparent rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
                       onClick={() => setMenuVisible(false)}
                     >
                       <FiX />
+                      <span className="sr-only">Close dialog</span>
                     </button>
                   </div>
                   <nav className="mt-4 text-base flex flex-col items-start space-y-1 -mx-2">
@@ -278,15 +282,13 @@ const FeedItem = ({ item, viewPost = false }) => {
                         </Link>
                       </>
                     )}
-                    {isAuthenticated && (
-                      <Link
-                        to={routes.report({ id: itemCheck.id })}
-                        className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
-                      >
-                        <FiThumbsDown className="mr-2" />
-                        Report {filterAttr.singular.toLowerCase()} post
-                      </Link>
-                    )}
+                    <Link
+                      to={routes.report({ id: itemCheck.id })}
+                      className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
+                    >
+                      <FiThumbsDown className="mr-2" />
+                      Report {filterAttr.singular.toLowerCase()} post
+                    </Link>
                     {item.user.username === currentUser?.username && (
                       <>
                         <button
@@ -346,16 +348,17 @@ const FeedItem = ({ item, viewPost = false }) => {
                   <div className="flex items-center justify-between">
                     <Dialog.Title
                       as="h3"
-                      className="text-lg font-medium leading-6 text-gray-900"
+                      className="text-lg font-bold leading-6 text-gray-900"
                     >
                       Repost {filterAttr.singular.toLowerCase()}
                     </Dialog.Title>
                     <button
                       type="button"
-                      className={`inline-flex justify-center p-2 text-sm font-medium text-gray-900 bg-gray-200 border border-transparent rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
+                      className={`inline-flex justify-center p-2 text-sm font-semibold text-gray-900 bg-gray-200 border border-transparent rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
                       onClick={() => setRepostVisible(false)}
                     >
                       <FiX />
+                      <span className="sr-only">Close dialog</span>
                     </button>
                   </div>
                   <div className="mt-4">

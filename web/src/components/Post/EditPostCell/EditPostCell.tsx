@@ -4,35 +4,30 @@ import { useAuth } from '@redwoodjs/auth'
 import { navigate, routes } from '@redwoodjs/router'
 import PostForm from 'src/components/Post/PostForm'
 
+const editPostQuery = `
+  id
+  userId
+  type
+  title
+  url
+  content
+  description
+  private
+  createdAt
+  updatedAt
+`
+
 export const QUERY = gql`
   query FindPostById($id: String!) {
     post: post(id: $id) {
-      id
-      userId
-      type
-      title
-      url
-      content
-      description
-      private
-      createdAt
-      updatedAt
+      ${editPostQuery}
     }
   }
 `
 const UPDATE_POST_MUTATION = gql`
   mutation UpdatePostMutation($id: String!, $input: UpdatePostInput!) {
     updatePost(id: $id, input: $input) {
-      id
-      userId
-      type
-      title
-      url
-      content
-      description
-      private
-      createdAt
-      updatedAt
+      ${editPostQuery}
     }
   }
 `

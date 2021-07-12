@@ -10,6 +10,7 @@ import {
 } from '@redwoodjs/router'
 import { Toaster } from '@redwoodjs/web/toast'
 import LoginButton from 'src/components/LoginButton'
+import { Helmet } from 'react-helmet'
 import { FiUser, FiBookmark, FiSettings, FiLogOut } from 'react-icons/fi'
 import '@reach/skip-nav/styles.css'
 
@@ -31,6 +32,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <Helmet titleTemplate="%s | DevShare" defaultTitle="DevShare" />
       <SkipNavLink contentId="main" />
       <Toaster />
       <header className="px-4 py-2 bg-white fixed top-0 w-full left-0 right-0 border-b border-gray-200 z-10 sm:px-8">
@@ -111,7 +113,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                       <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                         <Dialog.Title
                           as="h3"
-                          className="text-lg font-medium leading-6 text-gray-900"
+                          className="text-lg font-bold leading-6 text-gray-900"
                         >
                           Log out
                         </Dialog.Title>
@@ -124,14 +126,14 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                         <div className="mt-4 flex items-center">
                           <button
                             type="button"
-                            className="inline-flex justify-center mr-2 px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                            className="inline-flex justify-center mr-2 px-4 py-2 text-sm font-semibold text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                             onClick={closeModal}
                           >
                             Cancel
                           </button>
                           <button
                             type="button"
-                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-yellow-900 bg-yellow-100 border border-transparent rounded-md hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                            className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-yellow-900 bg-yellow-100 border border-transparent rounded-md hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
                             onClick={logOut}
                           >
                             Log out

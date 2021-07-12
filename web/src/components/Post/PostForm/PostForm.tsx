@@ -159,7 +159,7 @@ const PostForm = (props) => {
 
           <Submit
             disabled={props.loading}
-            className={`inline-flex justify-center px-4 py-2 text-sm font-medium text-${filter.color}-900 bg-${filter.color}-200 border border-transparent rounded-md transition-colors duration-300 hover:bg-${filter.color}-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${filter.color}-500`}
+            className={`inline-flex justify-center px-4 py-2 text-sm font-semibold text-${filter.color}-900 bg-${filter.color}-200 border border-transparent rounded-md transition-colors duration-300 hover:bg-${filter.color}-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${filter.color}-500`}
           >
             {`${props.edit ? 'Save' : 'Post'} ${filter.singular}`}
           </Submit>

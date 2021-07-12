@@ -1,8 +1,12 @@
 import { Link, routes } from '@redwoodjs/router'
+import { Helmet } from 'react-helmet'
 
 const ReportPage = () => {
   return (
     <>
+      <Helmet>
+        <title>Report a post</title>
+      </Helmet>
       <h1>ReportPage</h1>
       <p>
         Find me in <code>./web/src/pages/ReportPage/ReportPage.tsx</code>

@@ -121,13 +121,13 @@ const UserForm = (props) => {
         <div className="flex items-center justify-end space-x-2">
           <Link
             to={routes.profile({ username: currentUser.username })}
-            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-200 border border-transparent rounded-md transition-colors duration-300 hover:bg-gray-300 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-gray-900 bg-gray-200 border border-transparent rounded-md transition-colors duration-300 hover:bg-gray-300 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
           >
             Cancel
           </Link>
           <Submit
             disabled={props.loading}
-            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-yellow-900 bg-yellow-200 border border-transparent rounded-md transition-colors duration-300 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+            className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-yellow-900 bg-yellow-200 border border-transparent rounded-md transition-colors duration-300 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
           >
             Save
           </Submit>
