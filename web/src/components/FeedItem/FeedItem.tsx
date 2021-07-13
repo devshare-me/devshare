@@ -30,7 +30,7 @@ const DELETE_POST_MUTATION = gql`
   }
 `
 
-const FeedItem = ({ item, viewPost = false }) => {
+const FeedItem = ({ item, viewPost = false, showComments = false }) => {
   const type =
     item.type === 'share' && !item.description
       ? item.sharedPost.type
