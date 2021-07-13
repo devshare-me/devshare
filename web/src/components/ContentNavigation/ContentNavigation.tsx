@@ -26,14 +26,14 @@ const ContentNavigation = ({ navItems, query }) => {
 
   return (
     <>
-      <nav className="flex items-center flex-wrap mb-2">
+      <nav className="flex items-center flex-wrap mb-1">
         <Link
           to={setUrlParams()}
           className={`${
             term === null
               ? 'bg-gray-300 hover:bg-gray-200'
               : 'bg-gray-200 hover:bg-gray-300'
-          } rounded-full flex items-center mr-2 px-3 py-1 font-semibold hover:text-gray-900 focus:ring-gray-500 text-xs md:text-sm`}
+          } rounded-full flex items-center mr-2 my-1 px-3 py-1 font-semibold hover:text-gray-900 focus:ring-gray-500 text-sm`}
         >
           <firstItem.icon className="mr-1" />
           <span>{firstItem.name}</span>
@@ -46,9 +46,9 @@ const ContentNavigation = ({ navItems, query }) => {
               term === (item.singular ? item.singular.toLowerCase() : '')
                 ? `bg-${item.color}-200 text-${item.color}-800`
                 : 'bg-gray-200'
-            } rounded-full flex items-center mr-2 px-3 py-1 font-semibold hover:bg-${
+            } rounded-full flex items-center mr-2 my-1 px-3 py-1 font-semibold hover:bg-${
               item.color
-            }-200 text-xs md:text-sm hover:text-${item.color}-800 focus:ring-${
+            }-200 text-sm hover:text-${item.color}-800 focus:ring-${
               item.color
             }-500`}
           >
