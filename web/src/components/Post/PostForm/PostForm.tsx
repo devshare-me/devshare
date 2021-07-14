@@ -9,16 +9,23 @@ import {
   CheckboxField,
   Submit,
 } from '@redwoodjs/forms'
+import { useForm } from 'react-hook-form'
 import { filters } from 'src/utils/filters'
 import ReactPlayer from 'react-player'
 import { FiCornerUpRight } from 'react-icons/fi'
 
 const PostForm = (props) => {
   const type = props.type ? props.type : props.post.type
+  const formMethods = useForm()
+
   const [linkUrl, setLinkUrl] = React.useState('')
   const [imageUrl, setImageUrl] = React.useState('')
   const [videoUrl, setVideoUrl] = React.useState('')
   const [urlWorks, setUrlWorks] = React.useState(true)
+
+  const titleRef = React.useRef(null)
+  const urlRef = React.useRef(null)
+  const contentRef = React.useRef(null)
 
   const isValidUrl = (url: string) => {
     const regexp =
@@ -30,6 +37,18 @@ const PostForm = (props) => {
       return false
     }
   }
+
+  React.useEffect(() => {
+    formMethods.clearErrors()
+    if (type === 'article') {
+      titleRef.current.focus()
+    } else if (['link', 'image', 'video'].includes(type)) {
+      urlRef.current.focus()
+    } else {
+      contentRef.current.focus()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type])
 
   const onSubmit = (data) => {
     data.type = type
@@ -65,7 +84,7 @@ const PostForm = (props) => {
 
   return (
     <div className="rw-form-wrapper">
-      <Form onSubmit={onSubmit} error={props.error}>
+      <Form onSubmit={onSubmit} error={props.error} formMethods={formMethods}>
         <FormError
           error={props.error}
           wrapperClassName="rw-form-error-wrapper"
@@ -80,13 +99,15 @@ const PostForm = (props) => {
             </Label>
             <TextField
               name="title"
+              ref={titleRef}
               defaultValue={props.post?.title}
-              className="rw-input text-lg font-bold"
-              errorClassName="rw-input text-lg font-bold rw-input-error"
+              className="rw-input font-bold"
+              errorClassName="rw-input font-bold rw-input-error"
               placeholder="Article title"
               validation={{ required: true }}
             />
             <FieldError name="title" className="rw-field-error" />
+            <hr />
           </>
         )}
 
@@ -97,14 +118,35 @@ const PostForm = (props) => {
             </Label>
             <TextField
               name="url"
+              ref={urlRef}
               defaultValue={props.post?.url}
               className="rw-input"
               errorClassName="rw-input rw-input-error"
-              placeholder={`${type} URL`}
+              placeholder={`${filter.singular} URL`}
               validation={{ required: true }}
               onChange={(e) => setUrl(e)}
             />
             <FieldError name="url" className="rw-field-error" />
+
+            {(linkUrl || imageUrl || videoUrl) && (
+              <div className="">
+                {!urlWorks && (
+                  <div className="text-red-700 px-6 py-2 font-semibold">
+                    URL is not valid or is not compatible. Please check the URL
+                    and try again.
+                  </div>
+                )}
+                {type === 'video' &&
+                  videoUrl &&
+                  isValidUrl(videoUrl) &&
+                  urlWorks && (
+                    <div className="aspect-w-16 aspect-h-9">
+                      <ReactPlayer url={videoUrl} width="100%" height="100%" />
+                    </div>
+                  )}
+              </div>
+            )}
+            <hr />
           </>
         )}
 
@@ -115,6 +157,7 @@ const PostForm = (props) => {
             </Label>
             <TextAreaField
               name="content"
+              ref={contentRef}
               defaultValue={props.post?.content}
               className="rw-input"
               errorClassName="rw-input rw-input-error"
@@ -123,11 +166,12 @@ const PostForm = (props) => {
                   ? 'What are you up to?'
                   : type === 'article'
                   ? 'Write your article...'
-                  : 'Snippet content'
+                  : 'Write your code...'
               }
               validation={{ required: true }}
             />
             <FieldError name="content" className="rw-field-error" />
+            {type === 'snippet' && <hr className="px-6" />}
           </>
         )}
 
@@ -146,7 +190,7 @@ const PostForm = (props) => {
               className="rw-input"
               errorClassName="rw-input rw-input-error"
               validation={{ required: false }}
-              placeholder={`${type} description (optional)`}
+              placeholder={`Description (optional)`}
             />
             <FieldError name="description" className="rw-field-error" />
           </>
@@ -165,28 +209,7 @@ const PostForm = (props) => {
           </>
         )}
 
-        {['link', 'image', 'video'].includes(type) &&
-          (linkUrl || imageUrl || videoUrl) && (
-            <div className="my-2">
-              <p className="font-semibold">Preview:</p>
-              {!urlWorks && (
-                <div className="text-red-700 font-semibold">
-                  URL is not valid or is not compatible. Please check the URL
-                  and try again.
-                </div>
-              )}
-              {type === 'video' &&
-                videoUrl &&
-                isValidUrl(videoUrl) &&
-                urlWorks && (
-                  <div className="aspect-w-16 aspect-h-9">
-                    <ReactPlayer url={videoUrl} width="100%" height="100%" />
-                  </div>
-                )}
-            </div>
-          )}
-
-        <div className="flex md:items-center justify-between flex-col md:flex-row mt-6 p-6 -mx-6 -mb-6 bg-gray-50 border-t border-solid border-gray-200">
+        <div className="flex md:items-center justify-between flex-col md:flex-row p-6 bg-gray-50 border-t border-solid border-gray-200">
           <div
             className={`${
               type === 'share' ? 'hidden ' : ''

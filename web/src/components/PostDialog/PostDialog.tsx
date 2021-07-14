@@ -39,11 +39,7 @@ const PostDialog = () => {
             )
         )}
       </div>
-      {postType && (
-        <div className="p-6">
-          <NewPost type={postType} setType={setPostType} />
-        </div>
-      )}
+      {postType && <NewPost type={postType} setType={setPostType} />}
     </div>
   )
 }

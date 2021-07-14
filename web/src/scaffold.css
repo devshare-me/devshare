@@ -196,7 +196,6 @@
 }
 .rw-input {
   display: block;
-  margin-top: 0.5rem;
   width: 100%;
   padding: 0.5rem;
   border-width: 1px;
@@ -204,18 +203,22 @@
   color: #4a5568;
   border-radius: 0.25rem;
   outline: none;
+  @apply p-6;
 }
 .rw-input[type='checkbox'],
 .rw-input[type='radio'] {
   width: 1rem;
   margin-left: 0;
 }
+textarea.rw-input {
+  min-height: 100px;
+  @apply max-h-96;
+}
 .rw-input:focus {
   border-color: #a0aec0;
 }
 .rw-input-error {
-  border-color: #c53030;
-  color: #c53030;
+  @apply ring-red-500 ring-inset ring-1;
 }
 .rw-field-error {
   display: block;
@@ -224,6 +227,7 @@
   text-transform: uppercase;
   font-size: 0.75rem;
   color: #c53030;
+  @apply sr-only;
 }
 .rw-table-wrapper-responsive {
   overflow-x: scroll;
