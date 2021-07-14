@@ -12,15 +12,17 @@ import {
 import { useForm } from 'react-hook-form'
 import { filters } from 'src/utils/filters'
 import ReactPlayer from 'react-player'
+import VideoPost from 'src/components/PostElements/VideoPost'
+import ImagePost from 'src/components/PostElements/ImagePost'
 import { FiCornerUpRight } from 'react-icons/fi'
 
 const PostForm = (props) => {
   const type = props.type ? props.type : props.post.type
   const formMethods = useForm()
 
-  const [linkUrl, setLinkUrl] = React.useState('')
-  const [imageUrl, setImageUrl] = React.useState('')
-  const [videoUrl, setVideoUrl] = React.useState('')
+  const [linkUrl, setLinkUrl] = React.useState(props.post?.url)
+  const [imageUrl, setImageUrl] = React.useState(props.post?.url)
+  const [videoUrl, setVideoUrl] = React.useState(props.post?.url)
   const [urlWorks, setUrlWorks] = React.useState(true)
 
   const titleRef = React.useRef(null)
@@ -44,7 +46,7 @@ const PostForm = (props) => {
       titleRef.current.focus()
     } else if (['link', 'image', 'video'].includes(type)) {
       urlRef.current.focus()
-    } else {
+    } else if (type === 'update') {
       contentRef.current.focus()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,7 +131,7 @@ const PostForm = (props) => {
             <FieldError name="url" className="rw-field-error" />
 
             {(linkUrl || imageUrl || videoUrl) && (
-              <div className="">
+              <>
                 {!urlWorks && (
                   <div className="text-red-700 px-6 py-2 font-semibold">
                     URL is not valid or is not compatible. Please check the URL
@@ -139,12 +141,12 @@ const PostForm = (props) => {
                 {type === 'video' &&
                   videoUrl &&
                   isValidUrl(videoUrl) &&
-                  urlWorks && (
-                    <div className="aspect-w-16 aspect-h-9">
-                      <ReactPlayer url={videoUrl} width="100%" height="100%" />
-                    </div>
-                  )}
-              </div>
+                  urlWorks && <VideoPost url={videoUrl} />}
+                {type === 'image' &&
+                  imageUrl &&
+                  isValidUrl(imageUrl) &&
+                  urlWorks && <ImagePost url={imageUrl} />}
+              </>
             )}
             <hr />
           </>

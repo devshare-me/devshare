@@ -9,7 +9,8 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import TimeTag from 'src/components/TimeTag'
 import BookmarkButton from 'src/components/BookmarkButton'
-import ReactPlayer from 'react-player'
+import VideoPost from 'src/components/PostElements/VideoPost'
+import ImagePost from 'src/components/PostElements/ImagePost'
 import { filters } from 'src/utils/filters'
 import {
   FiLock,
@@ -153,8 +154,13 @@ const FeedItem = ({ item, viewPost = false }) => {
         {itemCheck.description && <p>{itemCheck.description}</p>}
         {itemCheck.content && <p>{itemCheck.content}</p>}
         {itemCheck.type === 'video' && (
-          <div className="aspect-w-16 aspect-h-9 -mx-6 mt-6 -mb-6">
-            <ReactPlayer url={itemCheck.url} width="100%" height="100%" />
+          <div className="-mx-6 mt-6 -mb-6">
+            <VideoPost url={itemCheck.url} />
+          </div>
+        )}
+        {itemCheck.type === 'image' && (
+          <div className="-mx-6 mt-6 -mb-6">
+            <ImagePost url={itemCheck.url} />
           </div>
         )}
         {item.type === 'share' && item.description && (
@@ -367,7 +373,7 @@ const FeedItem = ({ item, viewPost = false }) => {
                       <span className="sr-only">Close dialog</span>
                     </button>
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-4 -mx-6 -mb-6">
                     <NewPost
                       type="share"
                       setSharePost={setRepostVisible}
