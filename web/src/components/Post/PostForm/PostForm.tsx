@@ -47,7 +47,7 @@ const PostForm = (props) => {
       titleRef.current.focus()
     } else if (['link', 'image', 'video'].includes(type)) {
       urlRef.current.focus()
-    } else if (type === 'update') {
+    } else if (['update', 'snippet'].includes(type)) {
       contentRef.current.focus()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -216,7 +216,7 @@ const PostForm = (props) => {
           </>
         )}
 
-        <div className="flex md:items-center justify-between flex-col md:flex-row p-6 bg-gray-50 border-t border-solid border-gray-200">
+        <div className="post-confirm flex md:items-center justify-between flex-col md:flex-row p-6 bg-gray-50 border-t border-solid border-gray-200">
           <div
             className={`${
               type === 'share' ? 'hidden ' : ''
@@ -226,8 +226,8 @@ const PostForm = (props) => {
               <CheckboxField
                 name="private"
                 defaultChecked={props.post?.private}
-                className="mr-2"
-                errorClassName="mr-2"
+                className={`mr-2 focus:outline-none focus:ring-${filter.color}-500 h-4 w-4 text-${filter.color}-500 border-gray-400 rounded`}
+                errorClassName="mr-2 focus-visible:ring-yellow-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
               />
               <Label name="private" className="" errorClassName="">
                 Private

@@ -54,12 +54,12 @@ export const Success = ({
       <div
         className={`${
           !horizontalImg ? 'w-1/4' : 'aspect-w-16 aspect-h-9'
-        } transition-opacity duration-300 group-hover:opacity-80`}
+        } transition-opacity duration-300 group-hover:opacity-90`}
       >
         <img src={ogData.image} alt="" className="content-cover" />
       </div>
       <div className="flex-1 flex flex-col justify-center bg-gray-200 p-6 transition-colors duration-300 group-hover:bg-gray-300">
-        <h3 className="font-bold">{ogData.title}</h3>
+        <h3 className="font-bold text-base">{ogData.title}</h3>
         <p>{ogData.description}</p>
       </div>
     </a>
