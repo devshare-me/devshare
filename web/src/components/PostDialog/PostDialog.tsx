@@ -1,8 +1,10 @@
+import { useAuth } from '@redwoodjs/auth'
 import { filters } from 'src/utils/filters'
 import NewPost from 'src/components/Post/NewPost'
 
 const PostDialog = () => {
-  const [postType, setPostType] = React.useState('update')
+  const { currentUser } = useAuth()
+  const [postType, setPostType] = React.useState(currentUser.defaultPostType)
 
   function onPostTypeClick(type) {
     if (type.toLowerCase() === postType) {

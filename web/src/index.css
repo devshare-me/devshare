@@ -49,6 +49,10 @@ hr {
   @apply bg-white dark:bg-gray-800;
 }
 
+input[name="search"] {
+  @apply bg-gray-100;
+}
+
 #post-dialog [type='text'],
 #post-dialog [type='email'],
 #post-dialog [type='url'],
@@ -85,11 +89,15 @@ hr {
 }
 
 .rw-label {
-  @apply block text-sm font-semibold text-gray-600 dark:text-gray-400;
+  @apply block text-sm mb-1 font-semibold text-gray-600 dark:text-gray-400;
 }
 
 .rw-input {
-  @apply focus:ring-yellow-400 focus:border-yellow-400 block w-full sm:text-sm border-gray-200 dark:border-gray-800 rounded-md;
+  @apply focus:ring-yellow-400 focus:border-yellow-400 block w-full sm:text-sm border-gray-200 dark:border-gray-500 rounded-md;
+}
+
+div.flex.rounded-md > span + .rw-input {
+  @apply flex-1 min-w-0 rounded-none rounded-r-md;
 }
 
 .rw-input-error {

@@ -16,6 +16,8 @@ export const QUERY = gql`
       github
       twitter
       website
+      darkMode
+      defaultPostType
       createdAt
     }
   }
@@ -54,7 +56,7 @@ export const Success = ({ user }) => {
   }
 
   return (
-    <div className="bg-white p-6 rounded-xl border border-gray-200">
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-600">
       <UserForm user={user} onSave={onSave} error={error} loading={loading} />
     </div>
   )

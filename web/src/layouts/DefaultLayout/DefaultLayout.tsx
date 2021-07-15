@@ -22,21 +22,44 @@ type DefaultLayoutProps = {
   children: React.ReactNode
 }
 
+export const DarkModeContext = React.createContext({
+  isDarkMode: true,
+  setIsDarkMode: () => {},
+})
+
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   const { isAuthenticated, logOut, currentUser } = useAuth()
+
   const [isOpen, setIsOpen] = React.useState(false)
+  const [isDarkMode, setIsDarkMode] = React.useState(true)
+
+  const darkModeValue = { isDarkMode, setIsDarkMode }
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      setIsDarkMode(currentUser.darkMode)
+    } else {
+      setIsDarkMode(true)
+    }
+  }, [isAuthenticated, currentUser])
 
   return (
-    <>
-      <Helmet titleTemplate="%s | DevShare" defaultTitle="DevShare" />
-      <SkipNavLink contentId="main" style={{ zIndex: '100' }} />
-      <Toaster
-        toastOptions={{
-          className:
-            'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-xl',
-        }}
-      />
-      <div className="flex flex-col min-h-screen">
+    <DarkModeContext.Provider value={darkModeValue}>
+      <div
+        className={`${
+          isDarkMode
+            ? 'dark text-gray-100 bg-gray-900'
+            : 'text-gray-900 bg-gray-100'
+        } flex flex-col min-h-screen`}
+      >
+        <Helmet titleTemplate="%s | DevShare" defaultTitle="DevShare" />
+        <SkipNavLink contentId="main" style={{ zIndex: '100' }} />
+        <Toaster
+          toastOptions={{
+            className:
+              'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-xl',
+          }}
+        />
         <header className="px-4 py-2 bg-white dark:bg-gray-900 backdrop-filter backdrop-blur bg-opacity-75 dark:bg-opacity-75 fixed top-0 w-full left-0 right-0 border-b border-gray-200 dark:border-gray-800 z-10 sm:px-8">
           <div className="flex items-center justify-between max-w-5xl mx-auto w-full">
             <Link to={routes.home()} className="font-bold text-xl mr-4">
@@ -129,7 +152,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
           </p>
         </footer>
       </div>
-    </>
+    </DarkModeContext.Provider>
   )
 }
 

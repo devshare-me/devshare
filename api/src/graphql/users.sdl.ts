@@ -15,6 +15,7 @@ export const schema = gql`
     following: [User]!
     bookmarks: [Bookmark]!
     darkMode: Boolean!
+    defaultPostType: PostType
     createdAt: DateTime!
   }
 
@@ -33,6 +34,7 @@ export const schema = gql`
     twitter: String
     website: String
     darkMode: Boolean!
+    defaultPostType: PostType
   }
 
   type Mutation {
