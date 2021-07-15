@@ -26,7 +26,7 @@ const ContentNavigation = ({ navItems, query }) => {
 
   return (
     <>
-      <nav className="flex items-center flex-wrap mb-1">
+      <nav className="flex items-center flex-wrap mb-1 -mt-1">
         <Link
           to={setUrlParams()}
           className={`${

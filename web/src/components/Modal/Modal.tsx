@@ -1,6 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { FiX } from 'react-icons/fi'
+import { DarkModeContext } from 'src/layouts/DefaultLayout'
 
 const Modal = ({
   isOpen = false,
@@ -11,6 +12,8 @@ const Modal = ({
   close = true,
   children,
 }) => {
+  const { isDarkMode, setIsDarkMode } = React.useContext(DarkModeContext)
+
   const CloseButton = ({ absolute = false }) => (
     <button
       type="button"
@@ -28,7 +31,9 @@ const Modal = ({
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
         as="div"
-        className="fixed inset-0 z-10 overflow-y-auto"
+        className={`${
+          isDarkMode ? 'dark ' : ''
+        }fixed inset-0 z-10 overflow-y-auto`}
         onClose={() => setIsOpen(false)}
       >
         <div className={`${!full ? 'px-4 ' : ''}min-h-screen text-center`}>
@@ -86,10 +91,7 @@ const Modal = ({
             >
               {title && (
                 <div className="flex items-center justify-between">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-semibold leading-6"
-                  >
+                  <Dialog.Title as="h3" className="text-xl font-bold leading-6">
                     {title}
                   </Dialog.Title>
                   {!full && close && <CloseButton absolute={true} />}

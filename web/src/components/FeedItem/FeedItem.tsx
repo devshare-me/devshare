@@ -45,6 +45,7 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
 
   const [menuVisible, setMenuVisible] = React.useState(false)
   const [repostVisible, setRepostVisible] = React.useState(false)
+  const [deleteVisible, setDeleteVisible] = React.useState(false)
 
   let filterAttr = filters.find(
     (x) => x.singular === type.charAt(0).toUpperCase() + type.slice(1)
@@ -85,15 +86,16 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
     awaitRefetchQueries: true,
   })
 
+  const onDeleteButtonClick = () => {
+    setMenuVisible(false)
+    setTimeout(() => {
+      setDeleteVisible(true)
+    }, 250)
+  }
+
   const onDeleteClick = () => {
-    if (
-      confirm(
-        `Are you sure you want to delete this ${filterAttr.singular.toLowerCase()} post?`
-      )
-    ) {
-      deletePost({ variables: { id: item.id } })
-      setMenuVisible(false)
-    }
+    deletePost({ variables: { id: item.id, username: currentUser.username } })
+    setDeleteVisible(false)
   }
 
   return (
@@ -238,26 +240,24 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
           {pathname !== routes.post({ id: itemCheck.id }) && (
             <Link
               to={routes.post({ id: itemCheck.id })}
-              className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
+              className="flex items-center p-2 w-full rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100"
             >
               <FiExternalLink className="mr-2" />
               View {filterAttr.singular.toLowerCase()} post page
             </Link>
           )}
           {itemCheck.user.username === currentUser?.username && (
-            <>
-              <Link
-                to={routes.editPost({ id: itemCheck.id })}
-                className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
-              >
-                <FiEdit3 className="mr-2" />
-                Edit {filterAttr.singular.toLowerCase()} post
-              </Link>
-            </>
+            <Link
+              to={routes.editPost({ id: itemCheck.id })}
+              className="flex items-center p-2 w-full rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100"
+            >
+              <FiEdit3 className="mr-2" />
+              Edit {filterAttr.singular.toLowerCase()} post
+            </Link>
           )}
           <Link
             to={routes.report({ id: itemCheck.id })}
-            className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
+            className="flex items-center p-2 w-full rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100"
           >
             <FiThumbsDown className="mr-2" />
             Report {filterAttr.singular.toLowerCase()} post
@@ -265,8 +265,8 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
           {item.user.username === currentUser?.username && (
             <>
               <button
-                className="flex items-center p-2 w-full rounded-md text-red-600 hover:bg-gray-100"
-                onClick={onDeleteClick}
+                className="flex items-center p-2 w-full rounded-md text-red-600 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-800 dark:hover:bg-opacity-25"
+                onClick={onDeleteButtonClick}
               >
                 <FiTrash className="mr-2" />
                 Delete {item.type} post
@@ -277,12 +277,49 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
       </Modal>
 
       <Modal
+        isOpen={deleteVisible}
+        setIsOpen={setDeleteVisible}
+        title="Delete post"
+        color="red"
+      >
+        <div className="space-y-2">
+          <p>
+            Are you sure you want to delete this post?{' '}
+            {!itemCheck.private &&
+              `All comments, bookmarks,
+            and shares will also be deleted.`}
+          </p>
+          <p>
+            <strong>This cannot be recovered!</strong>
+          </p>
+          <div className="flex items-center justify-end space-x-2 pt-6">
+            <button
+              onClick={() => {
+                setDeleteVisible(false)
+              }}
+              type="button"
+              className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700 border border-transparent rounded-md transition-colors duration-300 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={onDeleteClick}
+              className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-red-900 dark:text-red-100 bg-red-200 dark:bg-red-800 border border-transparent rounded-md transition-colors duration-300 hover:bg-red-300 dark:hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              Delete post
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
         isOpen={repostVisible}
         setIsOpen={setRepostVisible}
         title={`Repost ${filterAttr.singular.toLowerCase()}`}
         color={filterAttr.color}
       >
-        <div className="-mx-6 -mb-6">
+        <div className="-mx-6 -mb-6 post-dialog">
           <NewPost
             type="share"
             setSharePost={setRepostVisible}

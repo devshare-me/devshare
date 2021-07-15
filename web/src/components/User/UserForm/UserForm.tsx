@@ -7,16 +7,19 @@ import {
   TextField,
   Submit,
 } from '@redwoodjs/forms'
-import { Link, navigate, routes } from '@redwoodjs/router'
+import { navigate, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { DarkModeContext } from 'src/layouts/DefaultLayout'
+import { DarkModeContext, DefaultTypeContext } from 'src/layouts/DefaultLayout'
 import { filters } from 'src/utils/filters'
 
 const UserForm = (props) => {
   const { currentUser } = useAuth()
   const { isDarkMode, setIsDarkMode } = React.useContext(DarkModeContext)
+  const { defaultPostType, setDefaultPostType } =
+    React.useContext(DefaultTypeContext)
 
   const onSubmit = (data) => {
+    setDefaultPostType(data.defaultPostType)
     props.onSave(data, props?.user?.id)
   }
 
@@ -159,7 +162,7 @@ const UserForm = (props) => {
           <CheckboxField
             name="darkMode"
             defaultChecked={props.user?.darkMode}
-            className={`mr-2 focus:outline-none focus:ring-offset-0 focus:ring-yellow-500 h-4 w-4 text-yellow-500 border-gray-400 dark:bg-gray-700 rounded`}
+            className={`mr-2 focus:outline-none focus:ring-offset-0 focus:ring-yellow-500 h-4 w-4 text-yellow-500 border-gray-400 dark:bg-gray-700 dark:checked:bg-yellow-600 rounded`}
             onChange={(e) => setIsDarkMode(e.target.checked)}
           />
           <Label name="darkMode" className="" errorClassName="">

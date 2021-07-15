@@ -23,12 +23,8 @@ const User = ({ user }) => {
           <ProfileItem user={user} />
         </div>
         <div className="flex-1">
-          {currentUser?.username === user.username && (
-            <div className="mb-6">
-              <PostDialog />
-            </div>
-          )}
-          <h2 className="text-xl font-bold mb-2">Feed</h2>
+          {currentUser?.username === user.username && <PostDialog />}
+          <h2 className="sr-only">Feed</h2>
           <ContentNavigation navItems={filters} query="filter" />
           <UserFeedCell username={user.username} filter={filter} />
         </div>
