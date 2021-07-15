@@ -39,7 +39,7 @@ export const Success = ({ post }) => {
           Post by {post?.user?.name ? post.user.name : `@${post.user.username}`}
         </title>
       </Helmet>
-      <FeedItem item={post} />
+      <FeedItem item={post} showComments={true} />
     </>
   )
 }
