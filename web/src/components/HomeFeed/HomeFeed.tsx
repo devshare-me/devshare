@@ -32,10 +32,7 @@ const HomeFeed = () => {
             <LoginButton />
           </div>
         ) : (
-          <>
-            <h2 className="text-xl font-bold mb-2">New Post</h2>
-            <PostDialog />
-          </>
+          <PostDialog />
         )}
       </div>
       <h1 className="text-2xl font-bold mb-4">Feed</h1>

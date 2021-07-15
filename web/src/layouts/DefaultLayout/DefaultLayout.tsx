@@ -9,6 +9,7 @@ import {
   SkipNavContent,
 } from '@redwoodjs/router'
 import { Toaster } from '@redwoodjs/web/toast'
+import Modal from 'src/components/Modal'
 import LoginButton from 'src/components/LoginButton'
 import SearchForm from 'src/components/SearchForm'
 import { Helmet } from 'react-helmet'
@@ -25,21 +26,18 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   const { isAuthenticated, logOut, currentUser } = useAuth()
   const [isOpen, setIsOpen] = React.useState(false)
 
-  function closeModal() {
-    setIsOpen(false)
-  }
-
-  function openModal() {
-    setIsOpen(true)
-  }
-
   return (
     <>
       <Helmet titleTemplate="%s | DevShare" defaultTitle="DevShare" />
-      <SkipNavLink contentId="main" style={{ zIndex: '50' }} />
-      <Toaster />
+      <SkipNavLink contentId="main" style={{ zIndex: '100' }} />
+      <Toaster
+        toastOptions={{
+          className:
+            'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-xl',
+        }}
+      />
       <div className="flex flex-col min-h-screen">
-        <header className="px-4 py-2 bg-white dark:bg-gray-900 fixed top-0 w-full left-0 right-0 border-b border-gray-200 dark:border-gray-800 z-10 sm:px-8">
+        <header className="px-4 py-2 bg-white dark:bg-gray-900 backdrop-filter backdrop-blur bg-opacity-75 dark:bg-opacity-75 fixed top-0 w-full left-0 right-0 border-b border-gray-200 dark:border-gray-800 z-10 sm:px-8">
           <div className="flex items-center justify-between max-w-5xl mx-auto w-full">
             <Link to={routes.home()} className="font-bold text-xl mr-4">
               <span className="hidden sm:block">
@@ -78,79 +76,40 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                     <FiSettings />
                     <span className="sr-only">Settings</span>
                   </NavLink>
-                  <button onClick={openModal} className="rounded-btn ml-3">
+                  <button
+                    onClick={() => setIsOpen(true)}
+                    className="rounded-btn ml-3"
+                  >
                     <FiLogOut />
                     <span className="sr-only">Log out</span>
                   </button>
-                  <Transition appear show={isOpen} as={Fragment}>
-                    <Dialog
-                      as="div"
-                      className="fixed inset-0 z-10 overflow-y-auto"
-                      onClose={closeModal}
-                    >
-                      <div className="min-h-screen px-4 text-center">
-                        <Transition.Child
-                          as={Fragment}
-                          enter="ease-out duration-300"
-                          enterFrom="opacity-0"
-                          enterTo="opacity-100"
-                          leave="ease-in duration-200"
-                          leaveFrom="opacity-100"
-                          leaveTo="opacity-0"
-                        >
-                          <Dialog.Overlay className="fixed inset-0 bg-yellow-200 dark:bg-yellow-800 bg-opacity-95" />
-                        </Transition.Child>
+                  <Modal
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    title="Log out"
+                    color="yellow"
+                  >
+                    <p className="text-sm text-gray-500">
+                      Are you sure you want to log out?
+                    </p>
 
-                        {/* This element is to trick the browser into centering the modal contents. */}
-                        <span
-                          className="inline-block h-screen align-middle"
-                          aria-hidden="true"
-                        >
-                          &#8203;
-                        </span>
-                        <Transition.Child
-                          as={Fragment}
-                          enter="ease-out duration-300"
-                          enterFrom="opacity-0 scale-95"
-                          enterTo="opacity-100 scale-100"
-                          leave="ease-in duration-200"
-                          leaveFrom="opacity-100 scale-100"
-                          leaveTo="opacity-0 scale-95"
-                        >
-                          <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                            <Dialog.Title
-                              as="h3"
-                              className="text-lg font-bold leading-6 text-gray-900"
-                            >
-                              Log out
-                            </Dialog.Title>
-                            <div className="mt-2">
-                              <p className="text-sm text-gray-500">
-                                Are you sure you want to log out?
-                              </p>
-                            </div>
-
-                            <div className="mt-4 flex items-center">
-                              <button
-                                type="button"
-                                className="inline-flex justify-center mr-2 px-4 py-2 text-sm font-semibold text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                                onClick={closeModal}
-                              >
-                                Cancel
-                              </button>
-                              <button
-                                type="button"
-                                className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-yellow-900 bg-yellow-100 border border-transparent rounded-md hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
-                                onClick={logOut}
-                              >
-                                Log out
-                              </button>
-                            </div>
-                          </div>
-                        </Transition.Child>
-                      </div>
-                    </Dialog>
-                  </Transition>{' '}
+                    <div className="mt-4 flex items-center">
+                      <button
+                        type="button"
+                        className="inline-flex justify-center mr-2 px-4 py-2 text-sm font-semibold text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-yellow-900 bg-yellow-100 border border-transparent rounded-md hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                        onClick={logOut}
+                      >
+                        Log out
+                      </button>
+                    </div>
+                  </Modal>
                 </>
               )}
             </nav>

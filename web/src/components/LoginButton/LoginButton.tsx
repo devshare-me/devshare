@@ -6,7 +6,7 @@ const LoginButton = () => {
 
   return (
     <button
-      className="bg-gray-900 text-gray-100 rounded-full px-3 py-2 flex items-center text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+      className="bg-gray-900 dark:bg-gray-300 text-gray-100 dark:text-gray-900 rounded-full px-3 py-2 flex items-center text-sm font-semibold transition-colors duration-300 hover:bg-gray-800 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 dark:focus:ring-gray-400"
       onClick={async () => {
         await logIn({
           provider: 'github',

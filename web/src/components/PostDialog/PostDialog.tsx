@@ -2,7 +2,7 @@ import { filters } from 'src/utils/filters'
 import NewPost from 'src/components/Post/NewPost'
 
 const PostDialog = () => {
-  const [postType, setPostType] = React.useState('')
+  const [postType, setPostType] = React.useState('update')
 
   function onPostTypeClick(type) {
     if (type.toLowerCase() === postType) {
@@ -15,7 +15,7 @@ const PostDialog = () => {
   return (
     <div
       id="post-dialog"
-      className="bg-white dark:bg-gray-800 rounded-xl w-full overflow-hidden border border-gray-200 dark:border-gray-800"
+      className="bg-white dark:bg-gray-800 rounded-xl w-full overflow-hidden border border-gray-200 dark:border-gray-600"
     >
       <div className="flex items-center">
         {filters.map(

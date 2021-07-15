@@ -5,19 +5,17 @@ import { useAuth } from '@redwoodjs/auth'
 import { QUERY as ProfileQuery } from 'src/components/UserFeedCell'
 import { QUERY as RecentQuery } from 'src/components/RecentFeedCell'
 import NewPost from 'src/components/Post/NewPost'
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
 import TimeTag from 'src/components/TimeTag'
 import BookmarkButton from 'src/components/BookmarkButton'
 import VideoPost from 'src/components/PostElements/VideoPost'
 import ImagePost from 'src/components/PostElements/ImagePost'
 import LinkPostCell from 'src/components/PostElements/LinkPostCell'
+import Modal from 'src/components/Modal'
 import { filters } from 'src/utils/filters'
 import {
   FiLock,
   FiMoreHorizontal,
   FiExternalLink,
-  FiX,
   FiTrash,
   FiThumbsDown,
   FiEdit3,
@@ -61,14 +59,15 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
     }
   }
 
-  let currentUserBookmark = itemCheck?.bookmarkedBy
-    ? itemCheck.bookmarkedBy.filter(function (e) {
-        if (e.userId === currentUser.id) {
-          return true
-        }
-        return false
-      })
-    : false
+  let currentUserBookmark =
+    isAuthenticated && itemCheck?.bookmarkedBy
+      ? itemCheck.bookmarkedBy.filter(function (e) {
+          if (e.userId === currentUser.id) {
+            return true
+          }
+          return false
+        })
+      : false
 
   currentUserBookmark = currentUserBookmark.length ? true : false
 
@@ -145,7 +144,7 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
               <FiLock className="text-gray-400 mr-2" />
             )}
             <div
-              className={`rounded-full p-2 font-semibold text-${filterAttr.color}-700 dark:text-${filterAttr.color}-100 bg-${filterAttr.color}-100 dark:bg-${filterAttr.color}-500`}
+              className={`rounded-full p-2 font-semibold text-${filterAttr.color}-700 dark:text-${filterAttr.color}-100 bg-${filterAttr.color}-100 dark:bg-${filterAttr.color}-600`}
             >
               <filterAttr.icon />
             </div>
@@ -228,172 +227,69 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
           )}
         </nav>
       </div>
-      <Transition appear show={menuVisible} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={() => setMenuVisible(false)}
-        >
-          <div className="min-h-screen px-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay
-                className={`fixed inset-0 bg-${filterAttr.color}-200 bg-opacity-95`}
-              />
-            </Transition.Child>
-            <span
-              className="inline-block h-screen align-middle"
-              aria-hidden="true"
-            >
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <div className="inline-block w-full max-w-xs p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div>
-                  <div className="flex items-center justify-between">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-bold leading-6 text-gray-900"
-                    >
-                      More {filterAttr.singular.toLowerCase()} post options
-                    </Dialog.Title>
-                    <button
-                      type="button"
-                      className={`inline-flex justify-center p-2 text-sm font-semibold text-gray-900 bg-gray-200 border border-transparent rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
-                      onClick={() => setMenuVisible(false)}
-                    >
-                      <FiX />
-                      <span className="sr-only">Close dialog</span>
-                    </button>
-                  </div>
-                  <nav className="mt-4 text-base flex flex-col items-start space-y-1 -mx-2">
-                    {pathname !== routes.post({ id: itemCheck.id }) && (
-                      <Link
-                        to={routes.post({ id: itemCheck.id })}
-                        className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
-                      >
-                        <FiExternalLink className="mr-2" />
-                        View {filterAttr.singular.toLowerCase()} post page
-                      </Link>
-                    )}
-                    {itemCheck.user.username === currentUser?.username && (
-                      <>
-                        <Link
-                          to={routes.editPost({ id: itemCheck.id })}
-                          className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
-                        >
-                          <FiEdit3 className="mr-2" />
-                          Edit {filterAttr.singular.toLowerCase()} post
-                        </Link>
-                      </>
-                    )}
-                    <Link
-                      to={routes.report({ id: itemCheck.id })}
-                      className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
-                    >
-                      <FiThumbsDown className="mr-2" />
-                      Report {filterAttr.singular.toLowerCase()} post
-                    </Link>
-                    {item.user.username === currentUser?.username && (
-                      <>
-                        <button
-                          className="flex items-center p-2 w-full rounded-md text-red-600 hover:bg-gray-100"
-                          onClick={onDeleteClick}
-                        >
-                          <FiTrash className="mr-2" />
-                          Delete {item.type} post
-                        </button>
-                      </>
-                    )}
-                  </nav>
-                </div>
-              </div>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition>
 
-      <Transition appear show={repostVisible} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={() => setRepostVisible(false)}
-        >
-          <div className="min-h-screen px-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
+      <Modal
+        isOpen={menuVisible}
+        setIsOpen={setMenuVisible}
+        title={`More ${filterAttr.singular.toLowerCase()} post options`}
+        color={filterAttr.color}
+      >
+        <nav className="text-base flex flex-col items-start space-y-1 -mx-2">
+          {pathname !== routes.post({ id: itemCheck.id }) && (
+            <Link
+              to={routes.post({ id: itemCheck.id })}
+              className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
             >
-              <Dialog.Overlay
-                className={`fixed inset-0 bg-${filterAttr.color}-200 bg-opacity-95`}
-              />
-            </Transition.Child>
-            <span
-              className="inline-block h-screen align-middle"
-              aria-hidden="true"
-            >
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div>
-                  <div className="flex items-center justify-between">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-bold leading-6 text-gray-900"
-                    >
-                      Repost {filterAttr.singular.toLowerCase()}
-                    </Dialog.Title>
-                    <button
-                      type="button"
-                      className={`inline-flex justify-center p-2 text-sm font-semibold text-gray-900 bg-gray-200 border border-transparent rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
-                      onClick={() => setRepostVisible(false)}
-                    >
-                      <FiX />
-                      <span className="sr-only">Close dialog</span>
-                    </button>
-                  </div>
-                  <div className="mt-4 -mx-6 -mb-6">
-                    <NewPost
-                      type="share"
-                      setSharePost={setRepostVisible}
-                      sharedPostId={itemCheck.id}
-                    />
-                  </div>
-                </div>
-              </div>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition>
+              <FiExternalLink className="mr-2" />
+              View {filterAttr.singular.toLowerCase()} post page
+            </Link>
+          )}
+          {itemCheck.user.username === currentUser?.username && (
+            <>
+              <Link
+                to={routes.editPost({ id: itemCheck.id })}
+                className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
+              >
+                <FiEdit3 className="mr-2" />
+                Edit {filterAttr.singular.toLowerCase()} post
+              </Link>
+            </>
+          )}
+          <Link
+            to={routes.report({ id: itemCheck.id })}
+            className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
+          >
+            <FiThumbsDown className="mr-2" />
+            Report {filterAttr.singular.toLowerCase()} post
+          </Link>
+          {item.user.username === currentUser?.username && (
+            <>
+              <button
+                className="flex items-center p-2 w-full rounded-md text-red-600 hover:bg-gray-100"
+                onClick={onDeleteClick}
+              >
+                <FiTrash className="mr-2" />
+                Delete {item.type} post
+              </button>
+            </>
+          )}
+        </nav>
+      </Modal>
+
+      <Modal
+        isOpen={repostVisible}
+        setIsOpen={setRepostVisible}
+        title={`Repost ${filterAttr.singular.toLowerCase()}`}
+        color={filterAttr.color}
+      >
+        <div className="-mx-6 -mb-6">
+          <NewPost
+            type="share"
+            setSharePost={setRepostVisible}
+            sharedPostId={itemCheck.id}
+          />
+        </div>
+      </Modal>
     </>
   )
 }

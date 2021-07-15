@@ -25,7 +25,6 @@ const User = ({ user }) => {
         <div className="flex-1">
           {currentUser?.username === user.username && (
             <div className="mb-6">
-              <h2 className="text-xl font-bold mb-2">New Post</h2>
               <PostDialog />
             </div>
           )}
