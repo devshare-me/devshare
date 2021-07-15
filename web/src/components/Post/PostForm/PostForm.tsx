@@ -9,15 +9,67 @@ import {
   CheckboxField,
   Submit,
 } from '@redwoodjs/forms'
+import { useForm } from 'react-hook-form'
 import { filters } from 'src/utils/filters'
+import ReactPlayer from 'react-player'
+import VideoPost from 'src/components/PostElements/VideoPost'
+import ImagePost from 'src/components/PostElements/ImagePost'
+import LinkPostCell from 'src/components/PostElements/LinkPostCell'
 import { FiCornerUpRight } from 'react-icons/fi'
 
 const PostForm = (props) => {
   const type = props.type ? props.type : props.post.type
+  const formMethods = useForm()
+
+  const [linkUrl, setLinkUrl] = React.useState(props.post?.url)
+  const [imageUrl, setImageUrl] = React.useState(props.post?.url)
+  const [videoUrl, setVideoUrl] = React.useState(props.post?.url)
+  const [urlWorks, setUrlWorks] = React.useState(true)
+
+  const titleRef = React.useRef(null)
+  const urlRef = React.useRef(null)
+  const contentRef = React.useRef(null)
+
+  const isValidUrl = (url: string) => {
+    const regexp =
+      /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/
+
+    if (regexp.test(url)) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  React.useEffect(() => {
+    formMethods.clearErrors()
+    if (type === 'article') {
+      titleRef.current.focus()
+    } else if (['link', 'image', 'video'].includes(type)) {
+      urlRef.current.focus()
+    } else if (['update', 'snippet'].includes(type)) {
+      contentRef.current.focus()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type])
 
   const onSubmit = (data) => {
     data.type = type
     props.onSave(data, props?.post?.id)
+  }
+
+  const setUrl = (e) => {
+    const value = e.target.value
+    setUrlWorks(true)
+
+    if (type === 'video') {
+      setVideoUrl(value)
+      setUrlWorks(ReactPlayer.canPlay(value))
+    } else if (type === 'image') {
+      setImageUrl(value)
+    } else {
+      setLinkUrl(value)
+    }
   }
 
   let filter = filters.find(
@@ -35,7 +87,7 @@ const PostForm = (props) => {
 
   return (
     <div className="rw-form-wrapper">
-      <Form onSubmit={onSubmit} error={props.error}>
+      <Form onSubmit={onSubmit} error={props.error} formMethods={formMethods}>
         <FormError
           error={props.error}
           wrapperClassName="rw-form-error-wrapper"
@@ -50,13 +102,15 @@ const PostForm = (props) => {
             </Label>
             <TextField
               name="title"
+              ref={titleRef}
               defaultValue={props.post?.title}
-              className="rw-input text-lg font-bold"
-              errorClassName="rw-input text-lg font-bold rw-input-error"
+              className="rw-input font-bold"
+              errorClassName="rw-input font-bold rw-input-error"
               placeholder="Article title"
               validation={{ required: true }}
             />
             <FieldError name="title" className="rw-field-error" />
+            <hr />
           </>
         )}
 
@@ -67,13 +121,39 @@ const PostForm = (props) => {
             </Label>
             <TextField
               name="url"
+              ref={urlRef}
               defaultValue={props.post?.url}
               className="rw-input"
               errorClassName="rw-input rw-input-error"
-              placeholder={`${type} URL`}
+              placeholder={`${filter.singular} URL`}
               validation={{ required: true }}
+              onChange={(e) => setUrl(e)}
             />
             <FieldError name="url" className="rw-field-error" />
+
+            {(linkUrl || imageUrl || videoUrl) && (
+              <>
+                {!urlWorks && (
+                  <div className="text-red-700 px-6 py-2 font-semibold">
+                    URL is not valid or is not compatible. Please check the URL
+                    and try again.
+                  </div>
+                )}
+                {type === 'video' &&
+                  videoUrl &&
+                  isValidUrl(videoUrl) &&
+                  urlWorks && <VideoPost url={videoUrl} />}
+                {type === 'image' &&
+                  imageUrl &&
+                  isValidUrl(imageUrl) &&
+                  urlWorks && <ImagePost url={imageUrl} />}
+                {type === 'link' &&
+                  linkUrl &&
+                  isValidUrl(linkUrl) &&
+                  urlWorks && <LinkPostCell url={linkUrl} />}
+              </>
+            )}
+            <hr />
           </>
         )}
 
@@ -84,6 +164,7 @@ const PostForm = (props) => {
             </Label>
             <TextAreaField
               name="content"
+              ref={contentRef}
               defaultValue={props.post?.content}
               className="rw-input"
               errorClassName="rw-input rw-input-error"
@@ -92,11 +173,12 @@ const PostForm = (props) => {
                   ? 'What are you up to?'
                   : type === 'article'
                   ? 'Write your article...'
-                  : 'Snippet content'
+                  : 'Write your code...'
               }
               validation={{ required: true }}
             />
             <FieldError name="content" className="rw-field-error" />
+            {type === 'snippet' && <hr className="px-6" />}
           </>
         )}
 
@@ -115,7 +197,7 @@ const PostForm = (props) => {
               className="rw-input"
               errorClassName="rw-input rw-input-error"
               validation={{ required: false }}
-              placeholder={`${type} description (optional)`}
+              placeholder={`Description (optional)`}
             />
             <FieldError name="description" className="rw-field-error" />
           </>
@@ -134,7 +216,7 @@ const PostForm = (props) => {
           </>
         )}
 
-        <div className="flex md:items-center justify-between flex-col md:flex-row mt-6 p-6 -mx-6 -mb-6 bg-gray-50 border-t border-solid border-gray-200">
+        <div className="post-confirm flex md:items-center justify-between flex-col md:flex-row p-6 bg-gray-50 border-t border-solid border-gray-200">
           <div
             className={`${
               type === 'share' ? 'hidden ' : ''
@@ -144,8 +226,8 @@ const PostForm = (props) => {
               <CheckboxField
                 name="private"
                 defaultChecked={props.post?.private}
-                className="mr-2"
-                errorClassName="mr-2"
+                className={`mr-2 focus:outline-none focus:ring-${filter.color}-500 h-4 w-4 text-${filter.color}-500 border-gray-400 rounded`}
+                errorClassName="mr-2 focus-visible:ring-yellow-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
               />
               <Label name="private" className="" errorClassName="">
                 Private

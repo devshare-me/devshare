@@ -28,10 +28,53 @@ a {
   @apply w-5 h-auto;
 }
 
-.rw-input {
-  @apply text-base border-none;
+#post-dialog [type='text'],
+#post-dialog [type='email'],
+#post-dialog [type='url'],
+#post-dialog [type='password'],
+#post-dialog [type='number'],
+#post-dialog [type='date'],
+#post-dialog [type='datetime-local'],
+#post-dialog [type='month'],
+#post-dialog [type='search'],
+#post-dialog [type='tel'],
+#post-dialog [type='time'],
+#post-dialog [type='week'],
+#post-dialog [multiple],
+#post-dialog textarea,
+#post-dialog select {
+  @apply mt-0 text-base border-none p-6 w-full focus:outline-none focus:ring-0;
 }
 
-/**
- * END --- TAILWIND GENERATOR EDIT
- */
+#post-dialog textarea {
+  min-height: 100px;
+  @apply max-h-96 align-top;
+}
+
+#post-dialog hr {
+  @apply m-0;
+}
+
+#post-dialog .post-confirm {
+  @apply mt-0;
+}
+
+.rw-form-wrapper form {
+  @apply space-y-4;
+}
+
+.rw-label {
+  @apply block text-sm font-semibold text-gray-600;
+}
+
+.rw-input {
+  @apply focus:ring-yellow-400 focus:border-yellow-400 block w-full sm:text-sm border-gray-200 rounded-md;
+}
+
+.rw-input-error {
+  @apply ring-red-500 ring-inset ring-1;
+}
+
+.rw-field-error {
+  @apply sr-only;
+}

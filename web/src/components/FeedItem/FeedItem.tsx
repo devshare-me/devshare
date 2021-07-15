@@ -9,6 +9,9 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import TimeTag from 'src/components/TimeTag'
 import BookmarkButton from 'src/components/BookmarkButton'
+import VideoPost from 'src/components/PostElements/VideoPost'
+import ImagePost from 'src/components/PostElements/ImagePost'
+import LinkPostCell from 'src/components/PostElements/LinkPostCell'
 import { filters } from 'src/utils/filters'
 import {
   FiLock,
@@ -151,6 +154,21 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
         )}
         {itemCheck.description && <p>{itemCheck.description}</p>}
         {itemCheck.content && <p>{itemCheck.content}</p>}
+        {itemCheck.type === 'video' && (
+          <div className="-mx-6 mt-6 -mb-6">
+            <VideoPost url={itemCheck.url} />
+          </div>
+        )}
+        {itemCheck.type === 'image' && (
+          <div className="-mx-6 mt-6 -mb-6">
+            <ImagePost url={itemCheck.url} />
+          </div>
+        )}
+        {itemCheck.type === 'link' && (
+          <div className="-mx-6 mt-6 -mb-6">
+            <LinkPostCell url={itemCheck.url} />
+          </div>
+        )}
         {item.type === 'share' && item.description && (
           <div className="mt-4">
             <FeedItem item={item.sharedPost} viewPost={true} />
@@ -361,7 +379,7 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
                       <span className="sr-only">Close dialog</span>
                     </button>
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-4 -mx-6 -mb-6">
                     <NewPost
                       type="share"
                       setSharePost={setRepostVisible}
