@@ -6,13 +6,13 @@ import {
   TextField,
   TextAreaField,
   HiddenField,
-  CheckboxField,
   Submit,
 } from '@redwoodjs/forms'
 import { useForm } from 'react-hook-form'
 import { filters } from 'src/utils/filters'
 import ReactPlayer from 'react-player'
 import Modal from 'src/components/Modal'
+import Toggle from 'src/components/Toggle'
 import VideoPost from 'src/components/PostElements/VideoPost'
 import ImagePost from 'src/components/PostElements/ImagePost'
 import LinkPostCell from 'src/components/PostElements/LinkPostCell'
@@ -62,6 +62,7 @@ const PostForm = (props) => {
 
   const onSubmit = (data) => {
     data.type = type
+    data.private = isPrivate
 
     setFormData(data)
 
@@ -241,16 +242,14 @@ const PostForm = (props) => {
               type === 'share' ? 'hidden ' : ''
             }mb-4 md:mb-0 md:max-w-xs`}
           >
-            <div className="flex items-center text-sm font-semibold">
-              <CheckboxField
-                name="private"
-                checked={isPrivate}
-                onChange={(e) => setIsPrivate(e.target.checked)}
-                className={`mr-2 focus:outline-none focus:ring-offset-0 focus:ring-${filter.color}-500 h-4 w-4 text-${filter.color}-500 border-gray-400 dark:bg-gray-700 dark:checked:bg-${filter.color}-600 rounded`}
+            <div>
+              <Toggle
+                enabled={isPrivate}
+                setEnabled={setIsPrivate}
+                label="Private"
+                flex={true}
+                color={filter.color}
               />
-              <Label name="private" className="" errorClassName="">
-                Private
-              </Label>
             </div>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               When marked as private, comments are disabled and only you can see

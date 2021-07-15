@@ -1,7 +1,6 @@
 import {
   Form,
   FormError,
-  CheckboxField,
   SelectField,
   Label,
   TextField,
@@ -10,6 +9,7 @@ import {
 import { navigate, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { DarkModeContext, DefaultTypeContext } from 'src/layouts/DefaultLayout'
+import Toggle from 'src/components/Toggle'
 import { filters } from 'src/utils/filters'
 
 const UserForm = (props) => {
@@ -17,9 +17,11 @@ const UserForm = (props) => {
   const { isDarkMode, setIsDarkMode } = React.useContext(DarkModeContext)
   const { defaultPostType, setDefaultPostType } =
     React.useContext(DefaultTypeContext)
+  const [darkToggle, setDarkToggle] = React.useState(props.user?.darkMode)
 
   const onSubmit = (data) => {
     setDefaultPostType(data.defaultPostType)
+    data.darkMode = darkToggle
     props.onSave(data, props?.user?.id)
   }
 
@@ -27,6 +29,10 @@ const UserForm = (props) => {
     setIsDarkMode(props.user?.darkMode)
     navigate(routes.profile({ username: currentUser.username }))
   }
+
+  React.useEffect(() => {
+    setIsDarkMode(darkToggle)
+  }, [darkToggle])
 
   return (
     <div className="rw-form-wrapper">
@@ -158,16 +164,12 @@ const UserForm = (props) => {
           </SelectField>
         </div>
 
-        <div className="flex items-center text-sm font-semibold">
-          <CheckboxField
-            name="darkMode"
-            defaultChecked={props.user?.darkMode}
-            className={`mr-2 focus:outline-none focus:ring-offset-0 focus:ring-yellow-500 h-4 w-4 text-yellow-500 border-gray-400 dark:bg-gray-700 dark:checked:bg-yellow-600 rounded`}
-            onChange={(e) => setIsDarkMode(e.target.checked)}
+        <div>
+          <Toggle
+            enabled={darkToggle}
+            setEnabled={setDarkToggle}
+            label="Dark mode"
           />
-          <Label name="darkMode" className="" errorClassName="">
-            Dark Mode
-          </Label>
         </div>
 
         <div className="flex items-center justify-end space-x-2 mt-6">

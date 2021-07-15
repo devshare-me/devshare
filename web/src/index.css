@@ -93,7 +93,11 @@ input[name="search"] {
 }
 
 .rw-input {
-  @apply focus:ring-yellow-400 focus:border-yellow-400 block w-full sm:text-sm border-gray-200 dark:border-gray-500 rounded-md;
+  @apply focus:ring-yellow-400 focus:border-yellow-400 block w-full sm:text-sm border-gray-200 dark:border-gray-500 rounded-md bg-gray-50 dark:bg-gray-700;
+}
+
+.post-dialog .rw-input {
+  @apply dark:bg-transparent;
 }
 
 div.flex.rounded-md > span + .rw-input {
