@@ -13,7 +13,10 @@ const PostDialog = () => {
   }
 
   return (
-    <div className="bg-white rounded-xl w-full overflow-hidden border border-gray-200">
+    <div
+      id="post-dialog"
+      className="bg-white rounded-xl w-full overflow-hidden border border-gray-200"
+    >
       <div className="flex items-center">
         {filters.map(
           (type, i) =>
@@ -39,11 +42,7 @@ const PostDialog = () => {
             )
         )}
       </div>
-      {postType && (
-        <div className="p-6">
-          <NewPost type={postType} setType={setPostType} />
-        </div>
-      )}
+      {postType && <NewPost type={postType} setType={setPostType} />}
     </div>
   )
 }

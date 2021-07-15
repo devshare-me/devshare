@@ -48,7 +48,7 @@ export const Success = ({ post }) => {
   }
 
   return (
-    <div className="bg-white p-6 rounded-xl overflow-hidden">
+    <div className="bg-white rounded-xl overflow-hidden">
       {currentUser?.id !== post.userId ? (
         <p className="font-bold text-lg">
           You cannot edit a post that is not your own
