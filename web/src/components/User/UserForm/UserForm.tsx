@@ -2,6 +2,7 @@ import {
   Form,
   FormError,
   FieldError,
+  CheckboxField,
   Label,
   TextField,
   Submit,

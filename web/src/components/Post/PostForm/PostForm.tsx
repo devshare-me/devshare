@@ -216,7 +216,7 @@ const PostForm = (props) => {
           </>
         )}
 
-        <div className="post-confirm flex md:items-center justify-between flex-col md:flex-row p-6 bg-gray-50 border-t border-solid border-gray-200">
+        <div className="post-confirm flex md:items-center justify-between flex-col md:flex-row p-6 bg-gray-50 dark:bg-gray-800 border-t border-solid border-gray-200 dark:border-gray-700">
           <div
             className={`${
               type === 'share' ? 'hidden ' : ''
@@ -226,14 +226,13 @@ const PostForm = (props) => {
               <CheckboxField
                 name="private"
                 defaultChecked={props.post?.private}
-                className={`mr-2 focus:outline-none focus:ring-${filter.color}-500 h-4 w-4 text-${filter.color}-500 border-gray-400 rounded`}
-                errorClassName="mr-2 focus-visible:ring-yellow-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                className={`mr-2 focus:outline-none focus:ring-offset-0 focus:ring-${filter.color}-500 h-4 w-4 text-${filter.color}-500 border-gray-400 dark:bg-gray-700 rounded`}
               />
               <Label name="private" className="" errorClassName="">
                 Private
               </Label>
             </div>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               When marked as private, comments are disabled and only you can see
               the private {filter.singular.toLowerCase()}
             </p>
@@ -241,7 +240,7 @@ const PostForm = (props) => {
 
           <Submit
             disabled={props.loading}
-            className={`inline-flex justify-center px-4 py-2 text-sm font-semibold text-${filter.color}-900 bg-${filter.color}-200 border border-transparent rounded-md transition-colors duration-300 hover:bg-${filter.color}-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${filter.color}-500`}
+            className={`inline-flex justify-center px-4 py-2 text-sm font-semibold text-${filter.color}-900 dark:text-${filter.color}-100 bg-${filter.color}-200 dark:bg-${filter.color}-600 dark:hover:bg-${filter.color}-700 border border-transparent rounded-md transition-colors duration-300 hover:bg-${filter.color}-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${filter.color}-500 dark:focus:ring-${filter.color}-400`}
           >
             {`${props.edit ? 'Save' : 'Post'} ${filter.singular}`}
           </Submit>

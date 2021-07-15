@@ -32,8 +32,8 @@ const SearchForm = () => {
         <TextField
           name="search"
           value={searchQuery}
-          className="bg-gray-100 w-full border-0 rounded-full text-base py-2 px-4 focus:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
-          errorClassName="rw-input text-lg font-bold rw-input-error"
+          className="bg-gray-100 dark:bg-gray-800 w-full border-0 rounded-full text-base py-2 px-4 focus:bg-gray-50 focus:bg-gray-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
+          errorClassName="bg-gray-100 dark:bg-gray-800 w-full border-0 rounded-full text-base py-2 px-4 focus:bg-gray-50 focus:bg-gray-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
           placeholder="Search for users and posts..."
           onChange={(e) => setSearchQuery(e.target.value)}
           validation={{ required: true }}
@@ -62,7 +62,7 @@ const SearchForm = () => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 bg-gray-200 bg-opacity-95" />
+              <Dialog.Overlay className="fixed inset-0 bg-gray-200 dark:bg-gray-800 bg-opacity-95" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}

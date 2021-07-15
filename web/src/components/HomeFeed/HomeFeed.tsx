@@ -21,10 +21,10 @@ const HomeFeed = () => {
     <>
       <div className="mb-6">
         {!isAuthenticated ? (
-          <div className="flex items-center justify-between flex-wrap bg-yellow-100 border border-gray-200 p-6 rounded-xl">
+          <div className="flex items-center justify-between flex-wrap bg-yellow-100 dark:bg-yellow-500 dark:bg-opacity-50 border border-gray-200 dark:border-gray-700 p-6 rounded-xl">
             <div className="max-w-xs mr-4 my-4">
               <h2 className="text-3xl font-bold">Join other developers</h2>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-gray-600 dark:text-gray-200 mt-1">
                 Sign up for a free account to curate your content and follow
                 other devs!
               </p>

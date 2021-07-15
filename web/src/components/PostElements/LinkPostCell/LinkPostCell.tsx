@@ -58,7 +58,7 @@ export const Success = ({
       >
         <img src={ogData.image} alt="" className="content-cover" />
       </div>
-      <div className="flex-1 flex flex-col justify-center bg-gray-200 p-6 transition-colors duration-300 group-hover:bg-gray-300">
+      <div className="flex-1 flex flex-col justify-center bg-gray-200 dark:bg-gray-600 p-6 transition-colors duration-300 group-hover:bg-gray-300 dark:group-hover:bg-gray-700 dark:group-hover:text-gray-100">
         <h3 className="font-bold text-base">{ogData.title}</h3>
         <p>{ogData.description}</p>
       </div>

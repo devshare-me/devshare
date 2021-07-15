@@ -60,8 +60,10 @@ const BookmarkButton = ({ postId, count, bookmarked }: BookmarkProps) => {
   return (
     <button
       className={`${
-        userBookmark ? 'text-blue-600 bg-blue-50 ' : ''
-      }p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-blue-100`}
+        userBookmark
+          ? 'text-blue-600 dark:text-blue-100 bg-blue-50 dark:bg-blue-500 '
+          : ''
+      }p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-blue-100 dark:hover:bg-blue-500`}
       onClick={toggleBookmark}
       disabled={!isAuthenticated || loading ? true : false}
     >

@@ -31,9 +31,9 @@ const ContentNavigation = ({ navItems, query }) => {
           to={setUrlParams()}
           className={`${
             term === null
-              ? 'bg-gray-300 hover:bg-gray-200'
-              : 'bg-gray-200 hover:bg-gray-300'
-          } rounded-full flex items-center mr-2 my-1 px-3 py-1 font-semibold hover:text-gray-900 focus:ring-gray-500 text-sm`}
+              ? 'bg-gray-300 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800'
+              : 'bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700'
+          } rounded-full flex items-center mr-2 my-1 px-3 py-1 font-semibold hover:text-gray-900 dark:hover:text-gray-100 dark:focus:ring-offset-0 focus:ring-gray-500 text-sm`}
         >
           <firstItem.icon className="mr-1" />
           <span>{firstItem.name}</span>
@@ -44,13 +44,15 @@ const ContentNavigation = ({ navItems, query }) => {
             to={setUrlParams(item.singular ? item.singular.toLowerCase() : '')}
             className={`${
               term === (item.singular ? item.singular.toLowerCase() : '')
-                ? `bg-${item.color}-200 text-${item.color}-800`
-                : 'bg-gray-200'
+                ? `bg-${item.color}-200 dark:bg-${item.color}-800 text-${item.color}-800 dark:text-${item.color}-200`
+                : 'bg-gray-200 dark:bg-gray-800'
             } rounded-full flex items-center mr-2 my-1 px-3 py-1 font-semibold hover:bg-${
               item.color
-            }-200 text-sm hover:text-${item.color}-800 focus:ring-${
+            }-200 dark:hover:bg-${item.color}-800 text-sm hover:text-${
               item.color
-            }-500`}
+            }-800 dark:hover:text-${item.color}-200 focus:ring-${
+              item.color
+            }-500 dark:focus:ring-offset-0`}
           >
             {item.icon && <item.icon className="mr-1" />}
             <span>{item.name}</span>

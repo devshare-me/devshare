@@ -15,7 +15,7 @@ const PostDialog = () => {
   return (
     <div
       id="post-dialog"
-      className="bg-white rounded-xl w-full overflow-hidden border border-gray-200"
+      className="bg-white dark:bg-gray-800 rounded-xl w-full overflow-hidden border border-gray-200 dark:border-gray-800"
     >
       <div className="flex items-center">
         {filters.map(
@@ -28,13 +28,15 @@ const PostDialog = () => {
                   !postType
                     ? 'border-transparent'
                     : type.singular.toLowerCase() === postType
-                    ? `bg-${type.color}-100 border-${type.color}-700`
-                    : `border-gray-100`
+                    ? `bg-${type.color}-100 dark:bg-${type.color}-800 dark:bg-opacity-50 border-${type.color}-700`
+                    : `border-gray-100 dark:border-gray-700`
                 } flex flex-1 items-center justify-center text-${
                   type.color
-                }-600 font-semibold px-4 py-4 border-b-2 border-solid text-lg bg-transparent md:text-sm transition-colors duration-300 hover:bg-${
+                }-600 dark:text-${
                   type.color
-                }-100`}
+                }-300 font-semibold px-4 py-4 border-b-2 border-solid text-lg bg-transparent md:text-sm transition-colors duration-300 hover:bg-${
+                  type.color
+                }-100 dark:hover:bg-${type.color}-800 dark:hover:bg-opacity-50`}
               >
                 <type.icon />
                 <span className="hidden md:block md:ml-1">{type.singular}</span>

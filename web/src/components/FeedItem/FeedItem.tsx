@@ -99,9 +99,9 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
 
   return (
     <>
-      <div className="bg-white p-6 flex-1 border border-gray-200 overflow-hidden rounded-xl">
+      <div className="bg-white dark:bg-gray-800 p-6 flex-1 border border-gray-200 dark:border-gray-600 overflow-hidden rounded-xl">
         {item.type === 'share' && !item.description && (
-          <div className="bg-gray-50 flex items-center px-6 py-2 -mx-6 -mt-6 mb-6 text-xs text-gray-600 border-b border-gray-200">
+          <div className="bg-gray-50 dark:bg-gray-700 flex items-center px-6 py-2 -mx-6 -mt-6 mb-6 text-xs text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-600">
             <FiCornerUpRight className="mr-1" />
             <span>
               <Link to={routes.profile({ username: item.user.username })}>
@@ -130,12 +130,14 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
                 {itemCheck.user?.name || '@' + itemCheck.user.username}
               </span>
             </Link>
-            <span className="text-gray-600 text-xs">
+            <span className="text-gray-600 dark:text-gray-400 text-xs">
               <TimeTag datetime={itemCheck.createdAt} />
             </span>
             {itemCheck.updatedAt &&
               itemCheck.createdAt !== itemCheck.updatedAt && (
-                <span className="text-gray-600 text-xs ml-2">Edited</span>
+                <span className="text-gray-600 dark:text-gray-400 text-xs ml-2">
+                  Edited
+                </span>
               )}
           </div>
           <div className="flex items-center text-sm">
@@ -143,7 +145,7 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
               <FiLock className="text-gray-400 mr-2" />
             )}
             <div
-              className={`rounded-full p-2 font-semibold text-${filterAttr.color}-700 bg-${filterAttr.color}-100`}
+              className={`rounded-full p-2 font-semibold text-${filterAttr.color}-700 dark:text-${filterAttr.color}-100 bg-${filterAttr.color}-100 dark:bg-${filterAttr.color}-500`}
             >
               <filterAttr.icon />
             </div>
@@ -174,7 +176,7 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
             <FeedItem item={item.sharedPost} viewPost={true} />
           </div>
         )}
-        <nav className="flex items-stretch bg-gray-50 text-gray-600 border-t border-gray-200 mt-6 -mx-6 -mb-6">
+        <nav className="flex items-stretch bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-200 border-t border-gray-200 dark:border-gray-600 mt-6 -mx-6 -mb-6">
           {viewPost ? (
             <Link
               to={routes.post({ id: itemCheck.id })}
@@ -186,14 +188,14 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
             <>
               {!itemCheck.private && (
                 <>
-                  <button className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200">
+                  <button className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200 dark:hover:bg-gray-600">
                     <FiMessageCircle />
                     <span className="ml-1 text-xs">23</span>
                     <span className="sr-only">{'Comment(s)'}</span>
                   </button>
                   {itemCheck.type !== 'share' && (
                     <button
-                      className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200"
+                      className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                       onClick={() => {
                         if (isAuthenticated) setRepostVisible(true)
                       }}
@@ -216,7 +218,7 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
                 </>
               )}
               <button
-                className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200"
+                className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 onClick={() => setMenuVisible(true)}
               >
                 <FiMoreHorizontal />
