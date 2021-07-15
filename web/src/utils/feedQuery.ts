@@ -27,3 +27,15 @@ export const feedQuery = `
     ${postQuery}
   }
 `
+
+export const userQuery = `
+  id
+  username
+  name
+  image
+  location
+  github
+  twitter
+  website
+  createdAt
+`

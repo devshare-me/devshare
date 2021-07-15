@@ -8,6 +8,7 @@ const Routes = () => {
       <Set wrap={DefaultLayout}>
         <Set wrap={Wrapper} full={true}>
           <Route path="/u/{username}" page={UserUserPage} name="profile" />
+          <Route path="/search" page={SearchPage} name="search" />
         </Set>
         <Set wrap={Wrapper}>
           <Route path="/posts/{id}/edit" page={PostEditPostPage} name="editPost" />
