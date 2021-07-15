@@ -23,6 +23,7 @@ model User {
   followers User[]     @relation("Follows", references: [id])
   following User[]     @relation("Follows", references: [id])
   bookmarks Bookmark[]
+  darkMode  Boolean    @default(true)
   createdAt DateTime   @default(now())
 }
 

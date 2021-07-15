@@ -14,6 +14,7 @@ export const schema = gql`
     followers: [User]!
     following: [User]!
     bookmarks: [Bookmark]!
+    darkMode: Boolean!
     createdAt: DateTime!
   }
 
@@ -31,10 +32,12 @@ export const schema = gql`
     github: String
     twitter: String
     website: String
+    darkMode: Boolean!
   }
 
   type Mutation {
     updateUser(id: String!, input: UpdateUserInput!): User!
+    updateDarkMode(id: String!, darkMode: Boolean!): User!
     deleteUser(id: String!): User!
   }
 `
