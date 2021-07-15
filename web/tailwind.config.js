@@ -96,7 +96,7 @@ module.exports = {
       'focus:ring-green-500',
     ],
   },
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     fontFamily: {
       sans: ['"Source Sans Pro"', ...defaultTheme.fontFamily.sans],
@@ -105,7 +105,9 @@ module.exports = {
     extend: {},
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ['checked'],
+    },
   },
   plugins: [
     require('@tailwindcss/aspect-ratio'),

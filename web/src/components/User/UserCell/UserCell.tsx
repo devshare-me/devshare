@@ -13,6 +13,8 @@ export const QUERY = gql`
       github
       twitter
       website
+      darkMode
+      defaultPostType
       createdAt
     }
   }

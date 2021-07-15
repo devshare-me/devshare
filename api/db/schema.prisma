@@ -9,21 +9,23 @@ generator client {
 }
 
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
-  username  String     @unique
-  name      String?
-  image     String?
-  location  String?
-  github    String?
-  twitter   String?
-  website   String?
-  posts     Post[]
-  comments  Comment[]
-  followers User[]     @relation("Follows", references: [id])
-  following User[]     @relation("Follows", references: [id])
-  bookmarks Bookmark[]
-  createdAt DateTime   @default(now())
+  id              String     @id @default(cuid())
+  email           String     @unique
+  username        String     @unique
+  name            String?
+  image           String?
+  location        String?
+  github          String?
+  twitter         String?
+  website         String?
+  posts           Post[]
+  comments        Comment[]
+  followers       User[]     @relation("Follows", references: [id])
+  following       User[]     @relation("Follows", references: [id])
+  bookmarks       Bookmark[]
+  darkMode        Boolean    @default(true)
+  defaultPostType PostType   @default(update)
+  createdAt       DateTime   @default(now())
 }
 
 model Post {

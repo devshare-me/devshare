@@ -6,12 +6,13 @@ import {
   TextField,
   TextAreaField,
   HiddenField,
-  CheckboxField,
   Submit,
 } from '@redwoodjs/forms'
 import { useForm } from 'react-hook-form'
 import { filters } from 'src/utils/filters'
 import ReactPlayer from 'react-player'
+import Modal from 'src/components/Modal'
+import Toggle from 'src/components/Toggle'
 import VideoPost from 'src/components/PostElements/VideoPost'
 import ImagePost from 'src/components/PostElements/ImagePost'
 import LinkPostCell from 'src/components/PostElements/LinkPostCell'
@@ -25,10 +26,14 @@ const PostForm = (props) => {
   const [imageUrl, setImageUrl] = React.useState(props.post?.url)
   const [videoUrl, setVideoUrl] = React.useState(props.post?.url)
   const [urlWorks, setUrlWorks] = React.useState(true)
+  const [isPrivate, setIsPrivate] = React.useState(props?.post?.private)
+  const [isPrivateOpen, setIsPrivateOpen] = React.useState(false)
+  const [formData, setFormData] = React.useState({})
 
   const titleRef = React.useRef(null)
   const urlRef = React.useRef(null)
   const contentRef = React.useRef(null)
+  const descriptionRef = React.useRef(null)
 
   const isValidUrl = (url: string) => {
     const regexp =
@@ -49,12 +54,26 @@ const PostForm = (props) => {
       urlRef.current.focus()
     } else if (['update', 'snippet'].includes(type)) {
       contentRef.current.focus()
+    } else if (type === 'share') {
+      descriptionRef.current.focus()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type])
 
   const onSubmit = (data) => {
     data.type = type
+    data.private = isPrivate
+
+    setFormData(data)
+
+    if (props.edit && !props?.post?.private && data.private) {
+      setIsPrivateOpen(true)
+    } else {
+      onConfirmSubmit(data)
+    }
+  }
+
+  const onConfirmSubmit = (data) => {
     props.onSave(data, props?.post?.id)
   }
 
@@ -96,7 +115,7 @@ const PostForm = (props) => {
         />
 
         {['article'].includes(type) && (
-          <>
+          <div>
             <Label name="title" className="sr-only" errorClassName="sr-only">
               Title
             </Label>
@@ -111,11 +130,11 @@ const PostForm = (props) => {
             />
             <FieldError name="title" className="rw-field-error" />
             <hr />
-          </>
+          </div>
         )}
 
         {['link', 'image', 'video'].includes(type) && (
-          <>
+          <div>
             <Label name="url" className="sr-only" errorClassName="sr-only">
               Url
             </Label>
@@ -154,11 +173,11 @@ const PostForm = (props) => {
               </>
             )}
             <hr />
-          </>
+          </div>
         )}
 
         {['update', 'article', 'snippet'].includes(type) && (
-          <>
+          <div>
             <Label name="content" className="sr-only" errorClassName="sr-only">
               Content
             </Label>
@@ -179,11 +198,11 @@ const PostForm = (props) => {
             />
             <FieldError name="content" className="rw-field-error" />
             {type === 'snippet' && <hr className="px-6" />}
-          </>
+          </div>
         )}
 
         {['snippet', 'link', 'image', 'video', 'share'].includes(type) && (
-          <>
+          <div>
             <Label
               name="description"
               className="sr-only"
@@ -193,6 +212,7 @@ const PostForm = (props) => {
             </Label>
             <TextAreaField
               name="description"
+              ref={descriptionRef}
               defaultValue={props.post?.description}
               className="rw-input"
               errorClassName="rw-input rw-input-error"
@@ -200,7 +220,7 @@ const PostForm = (props) => {
               placeholder={`Description (optional)`}
             />
             <FieldError name="description" className="rw-field-error" />
-          </>
+          </div>
         )}
 
         {type === 'share' && (
@@ -216,32 +236,65 @@ const PostForm = (props) => {
           </>
         )}
 
-        <div className="post-confirm flex md:items-center justify-between flex-col md:flex-row p-6 bg-gray-50 border-t border-solid border-gray-200">
+        <div className="post-confirm flex md:items-center justify-between flex-col md:flex-row p-6 bg-gray-50 dark:bg-gray-800 border-t border-solid border-gray-200 dark:border-gray-700">
           <div
             className={`${
               type === 'share' ? 'hidden ' : ''
             }mb-4 md:mb-0 md:max-w-xs`}
           >
-            <div className="flex items-center text-sm font-semibold">
-              <CheckboxField
-                name="private"
-                defaultChecked={props.post?.private}
-                className={`mr-2 focus:outline-none focus:ring-${filter.color}-500 h-4 w-4 text-${filter.color}-500 border-gray-400 rounded`}
-                errorClassName="mr-2 focus-visible:ring-yellow-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+            <div>
+              <Toggle
+                enabled={isPrivate}
+                setEnabled={setIsPrivate}
+                label="Private"
+                flex={true}
+                color={filter.color}
               />
-              <Label name="private" className="" errorClassName="">
-                Private
-              </Label>
             </div>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               When marked as private, comments are disabled and only you can see
               the private {filter.singular.toLowerCase()}
             </p>
           </div>
 
+          <Modal
+            isOpen={isPrivateOpen}
+            setIsOpen={setIsPrivateOpen}
+            title="Warning: Switching to private post"
+          >
+            <div className="space-y-2">
+              <p>
+                Are you sure you want to switch this to a private post? If you
+                switch from a public post to a private post all comments,
+                bookmarks, and shares with be deleted.
+              </p>
+              <p>
+                <strong>These cannot be recovered!</strong>
+              </p>
+              <div className="flex items-center justify-end space-x-2 pt-6">
+                <button
+                  onClick={() => {
+                    setIsPrivateOpen(false)
+                  }}
+                  type="button"
+                  className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700 border border-transparent rounded-md transition-colors duration-300 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onConfirmSubmit(formData)}
+                  className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-red-900 dark:text-red-100 bg-red-200 dark:bg-red-800 border border-transparent rounded-md transition-colors duration-300 hover:bg-red-300 dark:hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
+                  Confirm private post
+                </button>
+              </div>
+            </div>
+          </Modal>
+
           <Submit
             disabled={props.loading}
-            className={`inline-flex justify-center px-4 py-2 text-sm font-semibold text-${filter.color}-900 bg-${filter.color}-200 border border-transparent rounded-md transition-colors duration-300 hover:bg-${filter.color}-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${filter.color}-500`}
+            className={`inline-flex justify-center px-4 py-2 text-sm font-semibold text-${filter.color}-900 dark:text-${filter.color}-100 bg-${filter.color}-200 dark:bg-${filter.color}-600 dark:hover:bg-${filter.color}-700 border border-transparent rounded-md transition-colors duration-300 hover:bg-${filter.color}-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${filter.color}-500 dark:focus:ring-${filter.color}-400`}
           >
             {`${props.edit ? 'Save' : 'Post'} ${filter.singular}`}
           </Submit>

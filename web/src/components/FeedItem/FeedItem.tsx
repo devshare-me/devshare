@@ -5,19 +5,17 @@ import { useAuth } from '@redwoodjs/auth'
 import { QUERY as ProfileQuery } from 'src/components/UserFeedCell'
 import { QUERY as RecentQuery } from 'src/components/RecentFeedCell'
 import NewPost from 'src/components/Post/NewPost'
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
 import TimeTag from 'src/components/TimeTag'
 import BookmarkButton from 'src/components/BookmarkButton'
 import VideoPost from 'src/components/PostElements/VideoPost'
 import ImagePost from 'src/components/PostElements/ImagePost'
 import LinkPostCell from 'src/components/PostElements/LinkPostCell'
+import Modal from 'src/components/Modal'
 import { filters } from 'src/utils/filters'
 import {
   FiLock,
   FiMoreHorizontal,
   FiExternalLink,
-  FiX,
   FiTrash,
   FiThumbsDown,
   FiEdit3,
@@ -47,6 +45,7 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
 
   const [menuVisible, setMenuVisible] = React.useState(false)
   const [repostVisible, setRepostVisible] = React.useState(false)
+  const [deleteVisible, setDeleteVisible] = React.useState(false)
 
   let filterAttr = filters.find(
     (x) => x.singular === type.charAt(0).toUpperCase() + type.slice(1)
@@ -61,14 +60,15 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
     }
   }
 
-  let currentUserBookmark = itemCheck?.bookmarkedBy
-    ? itemCheck.bookmarkedBy.filter(function (e) {
-        if (e.userId === currentUser.id) {
-          return true
-        }
-        return false
-      })
-    : false
+  let currentUserBookmark =
+    isAuthenticated && itemCheck?.bookmarkedBy
+      ? itemCheck.bookmarkedBy.filter(function (e) {
+          if (e.userId === currentUser.id) {
+            return true
+          }
+          return false
+        })
+      : false
 
   currentUserBookmark = currentUserBookmark.length ? true : false
 
@@ -86,22 +86,23 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
     awaitRefetchQueries: true,
   })
 
+  const onDeleteButtonClick = () => {
+    setMenuVisible(false)
+    setTimeout(() => {
+      setDeleteVisible(true)
+    }, 250)
+  }
+
   const onDeleteClick = () => {
-    if (
-      confirm(
-        `Are you sure you want to delete this ${filterAttr.singular.toLowerCase()} post?`
-      )
-    ) {
-      deletePost({ variables: { id: item.id } })
-      setMenuVisible(false)
-    }
+    deletePost({ variables: { id: item.id, username: currentUser.username } })
+    setDeleteVisible(false)
   }
 
   return (
     <>
-      <div className="bg-white p-6 flex-1 border border-gray-200 overflow-hidden rounded-xl">
+      <div className="bg-white dark:bg-gray-800 p-6 flex-1 border border-gray-200 dark:border-gray-600 overflow-hidden rounded-xl">
         {item.type === 'share' && !item.description && (
-          <div className="bg-gray-50 flex items-center px-6 py-2 -mx-6 -mt-6 mb-6 text-xs text-gray-600 border-b border-gray-200">
+          <div className="bg-gray-50 dark:bg-gray-700 flex items-center px-6 py-2 -mx-6 -mt-6 mb-6 text-xs text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-600">
             <FiCornerUpRight className="mr-1" />
             <span>
               <Link to={routes.profile({ username: item.user.username })}>
@@ -130,12 +131,14 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
                 {itemCheck.user?.name || '@' + itemCheck.user.username}
               </span>
             </Link>
-            <span className="text-gray-600 text-xs">
+            <span className="text-gray-600 dark:text-gray-400 text-xs">
               <TimeTag datetime={itemCheck.createdAt} />
             </span>
             {itemCheck.updatedAt &&
               itemCheck.createdAt !== itemCheck.updatedAt && (
-                <span className="text-gray-600 text-xs ml-2">Edited</span>
+                <span className="text-gray-600 dark:text-gray-400 text-xs ml-2">
+                  Edited
+                </span>
               )}
           </div>
           <div className="flex items-center text-sm">
@@ -143,7 +146,7 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
               <FiLock className="text-gray-400 mr-2" />
             )}
             <div
-              className={`rounded-full p-2 font-semibold text-${filterAttr.color}-700 bg-${filterAttr.color}-100`}
+              className={`rounded-full p-2 font-semibold text-${filterAttr.color}-700 dark:text-${filterAttr.color}-100 bg-${filterAttr.color}-100 dark:bg-${filterAttr.color}-600`}
             >
               <filterAttr.icon />
             </div>
@@ -174,7 +177,7 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
             <FeedItem item={item.sharedPost} viewPost={true} />
           </div>
         )}
-        <nav className="flex items-stretch bg-gray-50 text-gray-600 border-t border-gray-200 mt-6 -mx-6 -mb-6">
+        <nav className="flex items-stretch bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-200 border-t border-gray-200 dark:border-gray-600 mt-6 -mx-6 -mb-6">
           {viewPost ? (
             <Link
               to={routes.post({ id: itemCheck.id })}
@@ -186,14 +189,14 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
             <>
               {!itemCheck.private && (
                 <>
-                  <button className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200">
+                  <button className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200 dark:hover:bg-gray-600">
                     <FiMessageCircle />
                     <span className="ml-1 text-xs">23</span>
                     <span className="sr-only">{'Comment(s)'}</span>
                   </button>
                   {itemCheck.type !== 'share' && (
                     <button
-                      className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200"
+                      className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                       onClick={() => {
                         if (isAuthenticated) setRepostVisible(true)
                       }}
@@ -216,7 +219,7 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
                 </>
               )}
               <button
-                className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200"
+                className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 onClick={() => setMenuVisible(true)}
               >
                 <FiMoreHorizontal />
@@ -226,172 +229,104 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
           )}
         </nav>
       </div>
-      <Transition appear show={menuVisible} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={() => setMenuVisible(false)}
-        >
-          <div className="min-h-screen px-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay
-                className={`fixed inset-0 bg-${filterAttr.color}-200 bg-opacity-95`}
-              />
-            </Transition.Child>
-            <span
-              className="inline-block h-screen align-middle"
-              aria-hidden="true"
-            >
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <div className="inline-block w-full max-w-xs p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div>
-                  <div className="flex items-center justify-between">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-bold leading-6 text-gray-900"
-                    >
-                      More {filterAttr.singular.toLowerCase()} post options
-                    </Dialog.Title>
-                    <button
-                      type="button"
-                      className={`inline-flex justify-center p-2 text-sm font-semibold text-gray-900 bg-gray-200 border border-transparent rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
-                      onClick={() => setMenuVisible(false)}
-                    >
-                      <FiX />
-                      <span className="sr-only">Close dialog</span>
-                    </button>
-                  </div>
-                  <nav className="mt-4 text-base flex flex-col items-start space-y-1 -mx-2">
-                    {pathname !== routes.post({ id: itemCheck.id }) && (
-                      <Link
-                        to={routes.post({ id: itemCheck.id })}
-                        className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
-                      >
-                        <FiExternalLink className="mr-2" />
-                        View {filterAttr.singular.toLowerCase()} post page
-                      </Link>
-                    )}
-                    {itemCheck.user.username === currentUser?.username && (
-                      <>
-                        <Link
-                          to={routes.editPost({ id: itemCheck.id })}
-                          className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
-                        >
-                          <FiEdit3 className="mr-2" />
-                          Edit {filterAttr.singular.toLowerCase()} post
-                        </Link>
-                      </>
-                    )}
-                    <Link
-                      to={routes.report({ id: itemCheck.id })}
-                      className="flex items-center p-2 w-full rounded-md hover:bg-gray-100 hover:text-gray-900"
-                    >
-                      <FiThumbsDown className="mr-2" />
-                      Report {filterAttr.singular.toLowerCase()} post
-                    </Link>
-                    {item.user.username === currentUser?.username && (
-                      <>
-                        <button
-                          className="flex items-center p-2 w-full rounded-md text-red-600 hover:bg-gray-100"
-                          onClick={onDeleteClick}
-                        >
-                          <FiTrash className="mr-2" />
-                          Delete {item.type} post
-                        </button>
-                      </>
-                    )}
-                  </nav>
-                </div>
-              </div>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition>
 
-      <Transition appear show={repostVisible} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={() => setRepostVisible(false)}
-        >
-          <div className="min-h-screen px-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
+      <Modal
+        isOpen={menuVisible}
+        setIsOpen={setMenuVisible}
+        title={`More ${filterAttr.singular.toLowerCase()} post options`}
+        color={filterAttr.color}
+      >
+        <nav className="text-base flex flex-col items-start space-y-1 -mx-2">
+          {pathname !== routes.post({ id: itemCheck.id }) && (
+            <Link
+              to={routes.post({ id: itemCheck.id })}
+              className="flex items-center p-2 w-full rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100"
             >
-              <Dialog.Overlay
-                className={`fixed inset-0 bg-${filterAttr.color}-200 bg-opacity-95`}
-              />
-            </Transition.Child>
-            <span
-              className="inline-block h-screen align-middle"
-              aria-hidden="true"
+              <FiExternalLink className="mr-2" />
+              View {filterAttr.singular.toLowerCase()} post page
+            </Link>
+          )}
+          {itemCheck.user.username === currentUser?.username && (
+            <Link
+              to={routes.editPost({ id: itemCheck.id })}
+              className="flex items-center p-2 w-full rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100"
             >
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
+              <FiEdit3 className="mr-2" />
+              Edit {filterAttr.singular.toLowerCase()} post
+            </Link>
+          )}
+          <Link
+            to={routes.report({ id: itemCheck.id })}
+            className="flex items-center p-2 w-full rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100"
+          >
+            <FiThumbsDown className="mr-2" />
+            Report {filterAttr.singular.toLowerCase()} post
+          </Link>
+          {item.user.username === currentUser?.username && (
+            <>
+              <button
+                className="flex items-center p-2 w-full rounded-md text-red-600 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-800 dark:hover:bg-opacity-25"
+                onClick={onDeleteButtonClick}
+              >
+                <FiTrash className="mr-2" />
+                Delete {item.type} post
+              </button>
+            </>
+          )}
+        </nav>
+      </Modal>
+
+      <Modal
+        isOpen={deleteVisible}
+        setIsOpen={setDeleteVisible}
+        title="Delete post"
+        color="red"
+      >
+        <div className="space-y-2">
+          <p>
+            Are you sure you want to delete this post?{' '}
+            {!itemCheck.private &&
+              `All comments, bookmarks,
+            and shares will also be deleted.`}
+          </p>
+          <p>
+            <strong>This cannot be recovered!</strong>
+          </p>
+          <div className="flex items-center justify-end space-x-2 pt-6">
+            <button
+              onClick={() => {
+                setDeleteVisible(false)
+              }}
+              type="button"
+              className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700 border border-transparent rounded-md transition-colors duration-300 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
             >
-              <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div>
-                  <div className="flex items-center justify-between">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-bold leading-6 text-gray-900"
-                    >
-                      Repost {filterAttr.singular.toLowerCase()}
-                    </Dialog.Title>
-                    <button
-                      type="button"
-                      className={`inline-flex justify-center p-2 text-sm font-semibold text-gray-900 bg-gray-200 border border-transparent rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
-                      onClick={() => setRepostVisible(false)}
-                    >
-                      <FiX />
-                      <span className="sr-only">Close dialog</span>
-                    </button>
-                  </div>
-                  <div className="mt-4 -mx-6 -mb-6">
-                    <NewPost
-                      type="share"
-                      setSharePost={setRepostVisible}
-                      sharedPostId={itemCheck.id}
-                    />
-                  </div>
-                </div>
-              </div>
-            </Transition.Child>
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={onDeleteClick}
+              className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-red-900 dark:text-red-100 bg-red-200 dark:bg-red-800 border border-transparent rounded-md transition-colors duration-300 hover:bg-red-300 dark:hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              Delete post
+            </button>
           </div>
-        </Dialog>
-      </Transition>
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={repostVisible}
+        setIsOpen={setRepostVisible}
+        title={`Repost ${filterAttr.singular.toLowerCase()}`}
+        color={filterAttr.color}
+      >
+        <div className="-mx-6 -mb-6 post-dialog">
+          <NewPost
+            type="share"
+            setSharePost={setRepostVisible}
+            sharedPostId={itemCheck.id}
+          />
+        </div>
+      </Modal>
     </>
   )
 }

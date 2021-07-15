@@ -32,6 +32,17 @@ export const updateUser = ({ id, input }: UpdateUserArgs) => {
   })
 }
 
+export const updateDarkMode = ({ id, darkMode }) => {
+  if (context.currentUser.id !== id) return
+
+  return db.user.update({
+    data: {
+      darkMode,
+    },
+    where: { id },
+  })
+}
+
 export const deleteUser = ({ id }: Prisma.UserWhereUniqueInput) => {
   if (context.currentUser.id !== id) return
 

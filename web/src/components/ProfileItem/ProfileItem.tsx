@@ -1,43 +1,37 @@
-import {Link, routes} from '@redwoodjs/router'
+import { Link, routes } from '@redwoodjs/router'
 import { RiGithubFill, RiTwitterFill } from 'react-icons/ri'
 import { BiMapPin, BiGlobe } from 'react-icons/bi'
 
 const ProfileItem = ({ user, link = false }) => {
   const name = user.name ? user.name : '@' + user.username
-  const imgClasses = 'w-32 h-32 border-2 border-gray-200 rounded-full overflow-hidden'
+  const imgClasses =
+    'w-32 h-32 border-2 border-gray-200 dark:border-gray-600 rounded-full overflow-hidden'
 
   return (
-    <div className="flex flex-col items-center bg-white border border-gray-200 rounded-xl p-4">
+    <div className="flex flex-col items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl p-4">
       {user.image && link ? (
-        <Link to={routes.profile({username: user.username})} className={imgClasses}>
-          <img
-            src={user.image}
-            alt={name}
-            className="object-cover"
-          />
+        <Link
+          to={routes.profile({ username: user.username })}
+          className={imgClasses}
+        >
+          <img src={user.image} alt={name} className="object-cover" />
         </Link>
       ) : (
         <div className={imgClasses}>
-          <img
-            src={user.image}
-            alt={name}
-            className="object-cover"
-          />
+          <img src={user.image} alt={name} className="object-cover" />
         </div>
       )}
       <h1 className="font-bold text-xl">
         {link ? (
-          <Link to={routes.profile({username: user.username})}>
-            {name}
-          </Link>
+          <Link to={routes.profile({ username: user.username })}>{name}</Link>
         ) : (
-          <>
-            {name}
-          </>
+          <>{name}</>
         )}
       </h1>
       {user.name && (
-        <p className="text-xs text-gray-500">{'@' + user.username}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          {'@' + user.username}
+        </p>
       )}
       {user.location && (
         <p className="text-sm flex items-center mt-4">

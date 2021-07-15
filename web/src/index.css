@@ -9,54 +9,79 @@ body {
   @apply text-gray-900 bg-gray-100;
 }
 
+body.dark {
+  @apply text-gray-100 bg-gray-900;
+}
+
 a {
   @apply transition-colors duration-300 hover:text-yellow-500 rounded-sm focus:outline-none focus:ring-offset-2 focus:ring-yellow-400 focus:ring-2;
+}
+
+.dark a {
+  --tw-ring-offset-width: 0px;
+  box-shadow: 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color), var(--tw-ring-shadow);
+}
+
+.dark .focus\:ring-offset-2:focus {
+  @apply ring-offset-0;
+}
+
+hr {
+  @apply border-gray-200 dark:border-gray-700;
 }
 
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
 .rounded-btn {
-  @apply bg-gray-200 flex items-center justify-center w-9 h-9 rounded-full overflow-hidden transition-colors duration-300 hover:bg-gray-300 hover:text-gray-900 focus:outline-none focus:ring-offset-2 focus:ring-gray-400 focus:ring-2;
+  @apply bg-gray-200 dark:bg-gray-800 flex items-center justify-center w-9 h-9 rounded-full overflow-hidden transition-colors duration-300 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-offset-2 focus:ring-gray-400 dark:focus:ring-gray-600 focus:ring-2;
 }
 
 .rounded-btn.active {
-  @apply bg-yellow-200;
+  @apply bg-yellow-200 dark:bg-yellow-500 dark:bg-opacity-50;
 }
 
 .rounded-btn svg {
   @apply w-5 h-auto;
 }
 
-#post-dialog [type='text'],
-#post-dialog [type='email'],
-#post-dialog [type='url'],
-#post-dialog [type='password'],
-#post-dialog [type='number'],
-#post-dialog [type='date'],
-#post-dialog [type='datetime-local'],
-#post-dialog [type='month'],
-#post-dialog [type='search'],
-#post-dialog [type='tel'],
-#post-dialog [type='time'],
-#post-dialog [type='week'],
-#post-dialog [multiple],
-#post-dialog textarea,
-#post-dialog select {
+[type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select {
+  @apply bg-white dark:bg-gray-800;
+}
+
+input[name="search"] {
+  @apply bg-gray-100;
+}
+
+.post-dialog [type='text'],
+.post-dialog [type='email'],
+.post-dialog [type='url'],
+.post-dialog [type='password'],
+.post-dialog [type='number'],
+.post-dialog [type='date'],
+.post-dialog [type='datetime-local'],
+.post-dialog [type='month'],
+.post-dialog [type='search'],
+.post-dialog [type='tel'],
+.post-dialog [type='time'],
+.post-dialog [type='week'],
+.post-dialog [multiple],
+.post-dialog textarea,
+.post-dialog select {
   @apply mt-0 text-base border-none p-6 w-full focus:outline-none focus:ring-0;
 }
 
-#post-dialog textarea {
+.post-dialog textarea {
   min-height: 100px;
   @apply max-h-96 align-top;
 }
 
-#post-dialog hr {
+.post-dialog hr {
   @apply m-0;
 }
 
-#post-dialog .post-confirm {
-  @apply mt-0;
+.post-dialog .post-confirm {
+  margin-top: 0 !important;
 }
 
 .rw-form-wrapper form {
@@ -64,11 +89,19 @@ a {
 }
 
 .rw-label {
-  @apply block text-sm font-semibold text-gray-600;
+  @apply block text-sm mb-1 font-semibold text-gray-600 dark:text-gray-400;
 }
 
 .rw-input {
-  @apply focus:ring-yellow-400 focus:border-yellow-400 block w-full sm:text-sm border-gray-200 rounded-md;
+  @apply focus:ring-yellow-400 focus:border-yellow-400 block w-full sm:text-sm border-gray-200 dark:border-gray-500 rounded-md bg-gray-50 dark:bg-gray-700;
+}
+
+.post-dialog .rw-input {
+  @apply dark:bg-transparent;
+}
+
+div.flex.rounded-md > span + .rw-input {
+  @apply flex-1 min-w-0 rounded-none rounded-r-md;
 }
 
 .rw-input-error {
