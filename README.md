@@ -31,4 +31,4 @@ Create a `.env` file and copy the contents of `.env.example` into it. Add the re
 yarn redwood dev
 ```
 
-Your browser should open automatically to `http://localhost:8910` to see the web app. Lambda functions run on `http://localhost:8911` and are also proxied to `http://localhost:8910/.redwood/functions/*`. 
+Open your browser to `http://localhost:8910` to see the web app. Lambda functions run on `http://localhost:8911` and are also proxied to `http://localhost:8910/.redwood/functions/*`. 
