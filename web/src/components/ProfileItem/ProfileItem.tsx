@@ -17,9 +17,11 @@ const ProfileItem = ({ user, link = false }) => {
           <img src={user.image} alt={name} className="object-cover" />
         </Link>
       ) : (
-        <div className={imgClasses}>
-          <img src={user.image} alt={name} className="object-cover" />
-        </div>
+        user.image && (
+          <div className={imgClasses}>
+            <img src={user.image} alt={name} className="object-cover" />
+          </div>
+        )
       )}
       <h1 className="font-bold text-xl">
         {link ? (
