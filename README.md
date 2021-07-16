@@ -5,7 +5,7 @@
 ## Technologies
 - [RedwoodJS](https://redwoodjs.com/): Open-source full-stack JAMstack framework for web and api layers
 - [Supabase](https://supabase.io/): Open-source Firebase alternative for database and user management
-- [TailwindCSS](https://tailwindcss.com/): CSS utility class framework for rapid styles generation
+- [TailwindCSS](https://tailwindcss.com/): CSS utility framework for rapid style generation
 - [HeadlessUI](https://headlessui.dev/): Accessible UI components
 - [Netlify](https://www.netlify.com/): Website hosting with continuous deployment
 
