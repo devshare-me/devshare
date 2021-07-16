@@ -1,4 +1,3 @@
-
 import { useAuth } from '@redwoodjs/auth'
 import {
   NavLink,
@@ -62,7 +61,11 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       <DefaultTypeContext.Provider value={darkPostTypeValue}>
         <div className="flex flex-col min-h-screen">
           <Helmet titleTemplate="%s | DevShare" defaultTitle="DevShare" />
-          <SkipNavLink contentId="main" style={{ zIndex: '100' }} />
+          <SkipNavLink
+            contentId="main"
+            style={{ zIndex: '100' }}
+            className="bg-gray-200 border border-gray-200 dark:bg-gray-800 dark:border-gray-600"
+          />
           <Toaster
             toastOptions={{
               className:

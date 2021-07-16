@@ -14,6 +14,7 @@ const Toggle = ({
         <Switch
           checked={enabled}
           onChange={setEnabled}
+          type="button"
           className={`${
             enabled ? `bg-${color}-500` : 'bg-gray-400 dark:bg-gray-600'
           }

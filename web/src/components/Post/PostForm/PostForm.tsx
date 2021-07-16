@@ -261,6 +261,7 @@ const PostForm = (props) => {
             isOpen={isPrivateOpen}
             setIsOpen={setIsPrivateOpen}
             title="Warning: Switching to private post"
+            color="red"
           >
             <div className="space-y-2">
               <p>
