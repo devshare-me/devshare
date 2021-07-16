@@ -191,7 +191,11 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
                 <>
                   <button className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200 dark:hover:bg-gray-600">
                     <FiMessageCircle />
-                    <span className="ml-1 text-xs">23</span>
+                    {itemCheck?._count.comments > 0 && (
+                      <span className="ml-1 text-xs">
+                        {itemCheck._count.comments}
+                      </span>
+                    )}
                     <span className="sr-only">{'Comment(s)'}</span>
                   </button>
                   {itemCheck.type !== 'share' && (
@@ -203,9 +207,9 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
                       disabled={!isAuthenticated}
                     >
                       <FiCornerUpRight />
-                      {itemCheck?.shares.length > 0 && (
+                      {itemCheck?._count.shares > 0 && (
                         <span className="ml-1 text-xs">
-                          {itemCheck.shares.length}
+                          {itemCheck._count.shares}
                         </span>
                       )}
                       <span className="sr-only">{'Share(s)'}</span>
@@ -213,7 +217,7 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
                   )}
                   <BookmarkButton
                     postId={itemCheck.id}
-                    count={itemCheck.bookmarkedBy.length}
+                    count={itemCheck._count.bookmarkedBy}
                     bookmarked={currentUserBookmark}
                   />
                 </>
