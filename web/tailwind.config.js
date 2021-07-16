@@ -1,5 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
-const safelist = import('./src/utils/tailwindSafelist.ts')
+const { safelist } = require('./src/utils/tailwindSafelist.ts')
 
 module.exports = {
   purge: {
@@ -10,7 +10,7 @@ module.exports = {
       './src/**/*.js',
       './src/**/*.css',
     ],
-    safelist,
+    safelist: safelist,
   },
   darkMode: 'class', // or 'media' or 'class'
   theme: {

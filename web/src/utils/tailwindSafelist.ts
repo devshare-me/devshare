@@ -1,8 +1,6 @@
-import { filters } from './filters'
-
-const safelist = () => {
+exports.safelist = () => {
   const safelist = []
-  const colors = ['gray']
+  const colors = ['gray', 'indigo', 'yellow', 'blue', 'pink', 'red', 'green']
   const props = [
     { start: 'bg', end: '100' },
     { start: 'hover:bg', end: '100' },
@@ -30,12 +28,6 @@ const safelist = () => {
     { start: 'dark:bg', end: '900' },
   ]
 
-  filters.forEach((filter) => {
-    if ('color' in filter) {
-      colors.push(filter.color)
-    }
-  })
-
   for (let p = 0; p < props.length; p++) {
     const prop = props[p]
     for (let c = 0; c < colors.length; c++) {
@@ -47,5 +39,3 @@ const safelist = () => {
 
   return safelist
 }
-
-export default safelist
