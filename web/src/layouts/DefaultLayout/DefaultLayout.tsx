@@ -12,6 +12,7 @@ import LoginButton from 'src/components/LoginButton'
 import SearchForm from 'src/components/SearchForm'
 import { Helmet } from 'react-helmet'
 import { FiUser, FiBookmark, FiSettings, FiLogOut } from 'react-icons/fi'
+import { VscGithubInverted } from 'react-icons/vsc'
 import LogoFull from 'src/lib/logo.svg'
 import LogoSmall from 'src/lib/logo-small.svg'
 import '@reach/skip-nav/styles.css'
@@ -60,7 +61,10 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     <DarkModeContext.Provider value={darkModeValue}>
       <DefaultTypeContext.Provider value={darkPostTypeValue}>
         <div className="flex flex-col min-h-screen">
-          <Helmet titleTemplate="%s | DevShare" defaultTitle="DevShare" />
+          <Helmet
+            titleTemplate="%s | DevShare"
+            defaultTitle="DevShare | An open-source, content sharing community for developers."
+          />
           <SkipNavLink
             contentId="main"
             style={{ zIndex: '100' }}
@@ -156,8 +160,18 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
           </header>
           <SkipNavContent id="main" />
           <main className="flex-1 pt-20 pb-8 px-4 sm:px-8">{children}</main>
-          <footer className="px-4 py-2 sm:px-8">
-            <p className="max-w-5xl mx-auto w-full text-xs text-center text-gray-500">
+          <footer className="px-4 py-2 text-gray-500 sm:px-8">
+            <nav className="flex items-center justify-center mb-2 text-lg">
+              <a
+                href="https://github.com/devshare-me/devshare"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <VscGithubInverted />
+                <span className="sr-only">GitHub</span>
+              </a>
+            </nav>
+            <p className="max-w-5xl mx-auto w-full text-xs text-center">
               &copy; {new Date().getFullYear()}{' '}
               <Link to={routes.home()}>DevShare</Link>. All rights reserved.
             </p>
