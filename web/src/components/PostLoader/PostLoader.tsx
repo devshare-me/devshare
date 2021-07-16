@@ -1,13 +1,15 @@
+import FeedWrapper from 'src/components/FeedWrapper'
+
 const PostLoader = () => {
   return (
-    <div className="grid grid-cols-1 gap-4 mt-4">
+    <FeedWrapper>
       <LoaderItem />
       <LoaderItem />
       <LoaderItem />
       <LoaderItem />
       <LoaderItem />
       <LoaderItem />
-    </div>
+    </FeedWrapper>
   )
 }
 
