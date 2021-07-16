@@ -51,7 +51,7 @@ module.exports = {
       './src/**/*.js',
       './src/**/*.css',
     ],
-    safelist,
+    safelist: safelist(),
   },
   darkMode: 'class', // or 'media' or 'class'
   theme: {
