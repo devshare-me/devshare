@@ -10,7 +10,6 @@
 - [Netlify](https://www.netlify.com/): Website hosting with continuous deployment
 
 ## Getting Started with RedwoodJS
-- [Tutorial](https://redwoodjs.com/tutorial/welcome-to-redwood): getting started and complete overview guide.
 - [Docs](https://redwoodjs.com/docs/introduction): using the Redwood Router, handling assets and files, list of command-line tools, and more.
 - [Redwood Community](https://community.redwoodjs.com): get help, share tips and tricks, and collaborate on everything about RedwoodJS.
 
@@ -21,6 +20,10 @@ We use Yarn as our package manager. To get the dependencies installed, just do t
 ```terminal
 yarn install
 ```
+
+#### Environment Variables
+
+Create a `.env` file and copy the contents of `.env.example` into it. Add the required variables before proceeding.
 
 ### Fire it up
 
