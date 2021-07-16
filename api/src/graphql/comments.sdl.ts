@@ -14,7 +14,7 @@ export const schema = gql`
   }
 
   type Query {
-    comments: [Comment!]!
+    comments(postId: String!, parentId: String): [Comment!]!
   }
 
   input CreateCommentInput {

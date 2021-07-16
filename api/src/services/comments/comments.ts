@@ -9,7 +9,7 @@ export const beforeResolver = (rules: BeforeResolverSpecType) => {
   rules.add(requireAuth)
 }
 
-export const comments = () => {
+export const comments = ({ postId, parentId }) => {
   return db.comment.findMany()
 }
 
