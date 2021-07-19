@@ -5,16 +5,16 @@ import faker from 'faker'
 import randomUrlGen from 'random-youtube-music-video'
 
 export default async ({ args }) => {
-  const { log, user } = args
+  const { log, userId } = args
 
-  const users = createUsers()
-  const follows = createFollows(users)
+  const users = !userId ? createUsers() : [{ id: userId }]
+  const follows = !userId ? createFollows(users) : []
   const posts = await createPosts(users)
   const bookmarks = createBookmarks(users, posts)
   const comments = createComments(posts, users)
 
   // USERS
-  if (!log) {
+  if (!log && !userId) {
     const newUsers = await db.user.createMany({
       data: users,
       skipDuplicates: true,
@@ -254,9 +254,12 @@ const createFollows = (users) => {
   for (let i = 0; i < users.length; i++) {
     const user = users[i]
     const otherUsers = users.filter((el) => el.id !== user.id)
-    const followUser = randomArrayElement(otherUsers)
 
-    follows.push({ userId: user.id, followId: followUser.id })
+    if (otherUsers.length > 0) {
+      const followUser = randomArrayElement(otherUsers)
+
+      follows.push({ userId: user.id, followId: followUser.id })
+    }
   }
 
   return follows
