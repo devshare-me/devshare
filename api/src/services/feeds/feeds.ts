@@ -30,7 +30,7 @@ export const recentFeed = async ({ filter }) => {
         },
         {
           description: {
-            equals: null,
+            equals: null || '',
           },
         },
       ],

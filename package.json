@@ -8,7 +8,10 @@
     ]
   },
   "devDependencies": {
-    "@redwoodjs/core": "^0.35.1"
+    "@redwoodjs/core": "^0.35.1",
+    "cuid": "^2.1.8",
+    "faker": "^5.5.3",
+    "random-youtube-music-video": "^1.0.4"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
