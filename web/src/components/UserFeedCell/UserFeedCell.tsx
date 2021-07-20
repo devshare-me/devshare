@@ -1,6 +1,7 @@
 import type { FindUserFeedQuery } from 'types/graphql'
 import { feedQuery } from 'src/utils/feedQuery'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
+import FeedWrapper from 'src/components/FeedWrapper'
 import FeedItem from 'src/components/FeedItem'
 import PostLoader from 'src/components/PostLoader'
 import Illustration from 'src/components/Illustration'
@@ -33,10 +34,10 @@ export const Failure = ({ error }: CellFailureProps) => {
 
 export const Success = ({ feed }: CellSuccessProps<FindUserFeedQuery>) => {
   return (
-    <div className="grid grid-cols-1 gap-4 mt-4">
+    <FeedWrapper>
       {feed.map((item) => (
         <FeedItem key={item.id} item={item} />
       ))}
-    </div>
+    </FeedWrapper>
   )
 }

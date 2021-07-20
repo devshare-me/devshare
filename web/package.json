@@ -18,6 +18,8 @@
     "@redwoodjs/forms": "^0.35.1",
     "@redwoodjs/router": "^0.35.1",
     "@redwoodjs/web": "^0.35.1",
+    "@sentry/react": "^6.9.0",
+    "@sentry/tracing": "^6.9.0",
     "@supabase/supabase-js": "^1.18.0",
     "@tailwindcss/aspect-ratio": "^0.2.1",
     "@tailwindcss/forms": "^0.3.3",
