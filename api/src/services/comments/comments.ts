@@ -10,7 +10,46 @@ export const beforeResolver = (rules: BeforeResolverSpecType) => {
 }
 
 export const comments = ({ postId, parentId }) => {
-  return db.comment.findMany()
+  return db.comment.findMany({
+    where: { postId },
+    orderBy: {
+      createdAt: 'asc',
+    },
+    take: 50,
+  })
+}
+
+export const comment = ({ id }: Prisma.CommentWhereUniqueInput) => {
+  return db.comment.findUnique({
+    where: { id },
+  })
+}
+
+interface CreateCommentArgs {
+  input: Prisma.CommentCreateInput
+}
+
+export const createComment = ({ input }: CreateCommentArgs) => {
+  return db.comment.create({
+    data: input,
+  })
+}
+
+interface UpdateCommentArgs extends Prisma.CommentWhereUniqueInput {
+  input: Prisma.CommentUpdateInput
+}
+
+export const updateComment = ({ id, input }: UpdateCommentArgs) => {
+  return db.comment.update({
+    data: input,
+    where: { id },
+  })
+}
+
+export const deleteComment = ({ id }: Prisma.CommentWhereUniqueInput) => {
+  return db.comment.delete({
+    where: { id },
+  })
 }
 
 export const Comment = {

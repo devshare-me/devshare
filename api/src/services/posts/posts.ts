@@ -34,7 +34,15 @@ export const posts = () => {
 export const post = ({ id }: Prisma.PostWhereUniqueInput) => {
   return db.post.findUnique({
     where: { id },
-    ...defaultValues,
+    include: {
+      _count: {
+        select: {
+          shares: true,
+          comments: true,
+          bookmarkedBy: true,
+        },
+      },
+    },
   })
 }
 
