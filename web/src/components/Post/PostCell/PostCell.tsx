@@ -1,7 +1,7 @@
 import { feedQuery } from 'src/utils/feedQuery'
 import type { CellFailureProps } from '@redwoodjs/web'
 import { Helmet } from 'react-helmet'
-import PostLoader from 'src/components/PostLoader'
+import { LoaderItem } from 'src/components/PostLoader'
 import Illustration from 'src/components/Illustration'
 import EmptyImage from 'src/lib/empty-02.svg'
 import ErrorImage from 'src/lib/error.svg'
@@ -15,7 +15,7 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <PostLoader />
+export const Loading = () => <LoaderItem />
 
 export const Empty = () => (
   <Illustration image={EmptyImage} message="No bookmarks yet" />

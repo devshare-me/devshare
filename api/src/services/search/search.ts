@@ -10,8 +10,6 @@ export const beforeResolver = (rules: BeforeResolverSpecType) => {
 }
 
 export const search = async ({ query }) => {
-  console.log(query)
-
   const posts = await db.post.findMany({
     where: {
       OR: [
