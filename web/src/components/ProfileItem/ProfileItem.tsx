@@ -80,7 +80,7 @@ const ProfileItem = ({ user, link = false }) => {
           )}
         </p>
       )}
-      {currentUser?.username !== user.username && (
+      {isAuthenticated && currentUser?.username !== user.username && (
         <FollowCell userId={currentUser.id} followId={user.id} />
       )}
     </div>

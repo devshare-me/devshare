@@ -175,7 +175,7 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
                 <>
                   <button
                     className={`${
-                      commentsVisible ? 'dark:bg-gray-800' : ''
+                      commentsVisible ? 'bg-white dark:bg-gray-800' : ''
                     } p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200 dark:hover:bg-gray-600`}
                     onClick={() => setCommentsVisible(!commentsVisible)}
                     disabled={

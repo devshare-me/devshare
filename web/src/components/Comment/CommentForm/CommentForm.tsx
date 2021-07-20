@@ -17,7 +17,7 @@ const CommentForm = (props) => {
   }
 
   return (
-    <div className="rw-form-wrapper post-dialog -mb-6 -mx-6">
+    <div className="rw-form-wrapper post-dialog -mb-6 -mx-6 mt-6 border-t dark:border-gray-600">
       <Form onSubmit={onSubmit} error={props.error}>
         <FormError
           error={props.error}
@@ -45,7 +45,7 @@ const CommentForm = (props) => {
           <div className="pt-2 pb-6 px-6">
             <Submit
               disabled={props.loading}
-              className="px-4 py-2 -mt-2 bg-yellow-500 dark:bg-yellow-400 rounded-md font-semibold text-gray-900 w-full transition-colors duration-300"
+              className="px-4 py-2 -mt-2 text-sm bg-yellow-500 dark:bg-yellow-400 rounded-md font-semibold text-gray-900 w-full transition-colors duration-300"
             >
               Add comment
             </Submit>
