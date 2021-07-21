@@ -246,17 +246,18 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
               View {filterAttr.singular.toLowerCase()} post page
             </Link>
           )}
-          {itemCheck.user.username === currentUser?.username && (
-            <Link
-              to={routes.editPost({ id: itemCheck.id })}
-              className="flex items-center p-2 w-full rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100"
-            >
-              <FiEdit3 className="mr-2" />
-              Edit {filterAttr.singular.toLowerCase()} post
-            </Link>
-          )}
+          {isAuthenticated &&
+            itemCheck.user.username === currentUser?.username && (
+              <Link
+                to={routes.editPost({ id: itemCheck.id })}
+                className="flex items-center p-2 w-full rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100"
+              >
+                <FiEdit3 className="mr-2" />
+                Edit {filterAttr.singular.toLowerCase()} post
+              </Link>
+            )}
           <Link
-            to={routes.report({ id: itemCheck.id })}
+            to={routes.report({ id: itemCheck.id, type: 'post' })}
             className="flex items-center p-2 w-full rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100"
           >
             <FiThumbsDown className="mr-2" />

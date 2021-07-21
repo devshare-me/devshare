@@ -88,6 +88,10 @@ input[name="search"] {
   @apply space-y-4;
 }
 
+.post-dialog .rw-form-wrapper form > :not([hidden]) ~ :not([hidden]) {
+  @apply my-0;
+}
+
 .rw-label {
   @apply block text-sm mb-1 font-semibold text-gray-600 dark:text-gray-400;
 }

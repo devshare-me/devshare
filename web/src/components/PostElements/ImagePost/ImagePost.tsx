@@ -8,10 +8,10 @@ const ImagePost = ({ url = '' }) => {
       {url && (
         <>
           <button
-            className="flex items-center justify-center bg-gray-800 w-full"
+            className="flex items-center justify-center bg-gray-800 aspect-w-3 aspect-h-2 w-full"
             onClick={() => setIsOpen(true)}
           >
-            <img src={url} alt="" className="max-h-screen" />
+            <img src={url} alt="" className="object-cover" />
           </button>
           <Modal isOpen={isOpen} setIsOpen={setIsOpen} full={true}>
             <div className="flex items-center justify-center bg-gray-800">
