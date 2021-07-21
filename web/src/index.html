@@ -9,6 +9,11 @@
 </head>
 
 <body>
+  <form name="report" netlify netlify-honeypot="bot-field" hidden>
+    <textarea name="reason"></textarea>
+    <input type="hidden" name="id" />
+    <input type="hidden" name="type" />
+  </form>
   <div id="redwood-app">
     <!-- Please keep the line below for prerender support. -->
     <%= prerenderPlaceholder %>
