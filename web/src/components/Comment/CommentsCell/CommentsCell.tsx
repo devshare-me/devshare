@@ -16,7 +16,10 @@ export const QUERY = gql`
         username
         image
       }
-      postId
+      post {
+        id
+        userId
+      }
       parentId
       createdAt
       updatedAt
@@ -35,10 +38,6 @@ export const Loading = ({ count }) => (
 export const Empty = () => {
   return <></>
 }
-
-export const Failure = ({ error }: CellFailureProps) => (
-  <div style={{ color: 'red' }}>Error: {error.message}</div>
-)
 
 export const Success = ({ comments }: CellSuccessProps<FindComments>) => {
   return <Comments comments={comments} />
