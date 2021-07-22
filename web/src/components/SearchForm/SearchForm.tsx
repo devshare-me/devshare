@@ -1,5 +1,3 @@
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
 import Modal from 'src/components/Modal'
 import { Form, Label, TextField } from '@redwoodjs/forms'
 import { useParams, navigate, routes, useLocation } from '@redwoodjs/router'

@@ -1,5 +1,5 @@
 import { useAuth } from '@redwoodjs/auth'
-import { useParams, Redirect, routes } from '@redwoodjs/router'
+import { useParams } from '@redwoodjs/router'
 import ContentNavigation from 'src/components/ContentNavigation'
 import PostDialog from 'src/components/PostDialog'
 import LoginButton from 'src/components/LoginButton'

@@ -1,6 +1,5 @@
 import type { FindSearchQuery } from 'types/graphql'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
-import { feedQuery, userQuery } from 'src/utils/feedQuery'
 import FeedWrapper from 'src/components/FeedWrapper'
 import FeedItem from 'src/components/FeedItem'
 import ProfileItem from 'src/components/ProfileItem'
@@ -11,10 +10,59 @@ export const QUERY = gql`
   query FindSearchQuery($query: String!) {
     search(query: $query) {
       posts {
-        ${feedQuery}
+        id
+        type
+        user {
+          name
+          image
+          username
+        }
+        shares {
+          id
+        }
+        bookmarkedBy {
+          userId
+        }
+        title
+        url
+        content
+        description
+        private
+        createdAt
+        updatedAt
+        sharedPost {
+          id
+          type
+          user {
+            name
+            image
+            username
+          }
+          shares {
+            id
+          }
+          bookmarkedBy {
+            userId
+          }
+          title
+          url
+          content
+          description
+          private
+          createdAt
+          updatedAt
+        }
       }
       users {
-        ${userQuery}
+        id
+        username
+        name
+        image
+        location
+        github
+        twitter
+        website
+        createdAt
       }
     }
   }
@@ -43,10 +91,7 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div style={{ color: 'red' }}>Error: {error.message}</div>
 )
 
-export const Success = ({
-  search,
-  query,
-}: CellSuccessProps<FindSearchQuery>) => {
+export const Success = ({ search }: CellSuccessProps<FindSearchQuery>) => {
   return (
     <SearchLayout
       users={

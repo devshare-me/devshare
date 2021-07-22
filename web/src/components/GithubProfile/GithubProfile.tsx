@@ -22,7 +22,7 @@ const UPDATE_USER_MUTATION = gql`
 const GithubProfile = () => {
   const { isAuthenticated, currentUser, client } = useAuth()
 
-  const [updateUser, { loading, error }] = useMutation(UPDATE_USER_MUTATION, {
+  const [updateUser] = useMutation(UPDATE_USER_MUTATION, {
     onCompleted: () => {
       location.reload()
     },
@@ -67,6 +67,7 @@ const GithubProfile = () => {
     if (isAuthenticated) {
       getGithubProfile()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated])
 
   return <></>

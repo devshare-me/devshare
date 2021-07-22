@@ -3,7 +3,7 @@ const TimeTag = ({ datetime }) => {
   const date = new Date(datetime).getTime()
   const diff = now - date
 
-  let timeSince
+  let timeSince: string
 
   if (diff < 60000) {
     timeSince = 'now'
