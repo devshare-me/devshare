@@ -37,7 +37,7 @@ export const Failure = ({ error }: CellFailureProps) => (
 )
 
 export const Success = ({ stats }: CellSuccessProps<StatsQuery>) => {
-  console.log(stats)
+  const num = 0
   return (
     <>
       <StatSection title="Users">
@@ -130,10 +130,19 @@ const StatSection = ({ title, children }) => (
   </>
 )
 
-const StatBox = ({ title, size = 1, percent, percentageLabel, value }) => {
-  console.log(value)
+const StatBox = ({
+  title,
+  size = 1,
+  percent = null,
+  percentageLabel = null,
+  value,
+}) => {
+  let thePercent = percent
   const number = roundNumber(value)
-  const thePercent = percentage(percent)
+
+  if (percent || percent === 0) {
+    thePercent = percentage(percent)
+  }
   return (
     <div
       className={`bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl p-6 md:col-span-${size}`}
@@ -143,7 +152,7 @@ const StatBox = ({ title, size = 1, percent, percentageLabel, value }) => {
       </h3>
       <div className="flex flex-wrap items-center">
         <span className="text-3xl font-bold font-mono">{number}</span>
-        {percent && (
+        {thePercent && (
           <span className="text-xs ml-2">{`(${thePercent} ${percentageLabel})`}</span>
         )}
       </div>

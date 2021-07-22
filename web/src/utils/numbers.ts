@@ -1,6 +1,4 @@
 export const roundNumber = (number) => {
-  console.log(number)
-
   if (number < 1) {
     return (number.toFixed(2) * 1).toString()
   } else if (number < 100) {
