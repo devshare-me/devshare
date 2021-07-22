@@ -1,5 +1,5 @@
 interface IllustrationProps {
-  image: HTMLElement & SVGElement
+  image: string
   message: string
 }
 

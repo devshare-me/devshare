@@ -1,5 +1,4 @@
 import type { FindRecentFeedQuery } from 'types/graphql'
-import { feedQuery } from 'src/utils/feedQuery'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import FeedWrapper from 'src/components/FeedWrapper'
 import FeedItem from 'src/components/FeedItem'
@@ -11,7 +10,48 @@ import ErrorImage from 'src/lib/error.svg'
 export const QUERY = gql`
   query FindRecentFeedQuery($filter: String) {
     feed: recentFeed(filter: $filter) {
-      ${feedQuery}
+      id
+      type
+      user {
+        name
+        image
+        username
+      }
+      shares {
+        id
+      }
+      bookmarkedBy {
+        userId
+      }
+      title
+      url
+      content
+      description
+      private
+      createdAt
+      updatedAt
+      sharedPost {
+        id
+        type
+        user {
+          name
+          image
+          username
+        }
+        shares {
+          id
+        }
+        bookmarkedBy {
+          userId
+        }
+        title
+        url
+        content
+        description
+        private
+        createdAt
+        updatedAt
+      }
     }
   }
 `

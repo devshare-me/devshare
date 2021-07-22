@@ -10,7 +10,7 @@ interface BookmarkProps {
 }
 
 const CREATE_BOOKMARK_MUTATION = gql`
-  mutation CreatePostMutation($postId: String!) {
+  mutation CreateBookmarkMutation($postId: String!) {
     bookmark: createBookmark(postId: $postId) {
       postId
     }

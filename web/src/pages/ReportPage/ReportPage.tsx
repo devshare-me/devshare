@@ -9,7 +9,7 @@ import {
 import { useAuth } from '@redwoodjs/auth'
 import { Helmet } from 'react-helmet'
 
-const encode = (data: Record<string, unknown>) => {
+const encode = (data: Record<string, number>) => {
   return Object.keys(data)
     .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
     .join('&')

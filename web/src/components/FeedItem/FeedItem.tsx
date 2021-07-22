@@ -4,6 +4,7 @@ import { Link, routes, useParams, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { QUERY as ProfileQuery } from 'src/components/UserFeedCell'
 import { QUERY as RecentQuery } from 'src/components/RecentFeedCell'
+import { QUERY as FollowingQuery } from 'src/components/FollowingFeedCell'
 import NewPost from 'src/components/Post/NewPost'
 import TimeTag from 'src/components/TimeTag'
 import BookmarkButton from 'src/components/BookmarkButton'
@@ -74,7 +75,11 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
 
   const refetchQuery = {
     query:
-      view === 'recent' ? RecentQuery : pathname === '/' ? '' : ProfileQuery,
+      view === 'recent'
+        ? RecentQuery
+        : pathname === '/'
+        ? FollowingQuery
+        : ProfileQuery,
     variables: { username, filter },
   }
 

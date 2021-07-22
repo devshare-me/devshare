@@ -1,4 +1,3 @@
-import { feedQuery } from 'src/utils/feedQuery'
 import type { CellFailureProps } from '@redwoodjs/web'
 import { Helmet } from 'react-helmet'
 import { LoaderItem } from 'src/components/PostLoader'
@@ -10,7 +9,48 @@ import FeedItem from 'src/components/FeedItem'
 export const QUERY = gql`
   query FindPostById($id: String!) {
     post(id: $id) {
-      ${feedQuery}
+      id
+      type
+      user {
+        name
+        image
+        username
+      }
+      shares {
+        id
+      }
+      bookmarkedBy {
+        userId
+      }
+      title
+      url
+      content
+      description
+      private
+      createdAt
+      updatedAt
+      sharedPost {
+        id
+        type
+        user {
+          name
+          image
+          username
+        }
+        shares {
+          id
+        }
+        bookmarkedBy {
+          userId
+        }
+        title
+        url
+        content
+        description
+        private
+        createdAt
+        updatedAt
+      }
     }
   }
 `

@@ -5,7 +5,9 @@ const SearchPage = ({ q }) => {
     <>
       {q && (
         <>
-          <h1 className="font-bold text-2xl mb-8">Search results for {`'${q}'`}</h1>
+          <h1 className="font-bold text-2xl mb-8">
+            Search results for {`'${q}'`}
+          </h1>
           <SearchCell query={q} />
         </>
       )}
