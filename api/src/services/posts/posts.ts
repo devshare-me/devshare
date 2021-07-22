@@ -9,13 +9,40 @@ export const beforeResolver = (rules: BeforeResolverSpecType) => {
   rules.add(requireAuth)
 }
 
+const defaultValues = {
+  include: {
+    _count: {
+      select: {
+        shares: true,
+        comments: true,
+        bookmarkedBy: true,
+      },
+    },
+  },
+  orderBy: {
+    createdAt: 'desc',
+  },
+  take: 50,
+}
+
 export const posts = () => {
-  return db.post.findMany()
+  return db.post.findMany({
+    ...defaultValues,
+  })
 }
 
 export const post = ({ id }: Prisma.PostWhereUniqueInput) => {
   return db.post.findUnique({
     where: { id },
+    include: {
+      _count: {
+        select: {
+          shares: true,
+          comments: true,
+          bookmarkedBy: true,
+        },
+      },
+    },
   })
 }
 

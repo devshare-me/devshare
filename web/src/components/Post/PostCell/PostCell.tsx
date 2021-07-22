@@ -1,7 +1,6 @@
-import { feedQuery } from 'src/utils/feedQuery'
 import type { CellFailureProps } from '@redwoodjs/web'
 import { Helmet } from 'react-helmet'
-import PostLoader from 'src/components/PostLoader'
+import { LoaderItem } from 'src/components/PostLoader'
 import Illustration from 'src/components/Illustration'
 import EmptyImage from 'src/lib/empty-02.svg'
 import ErrorImage from 'src/lib/error.svg'
@@ -9,13 +8,64 @@ import FeedItem from 'src/components/FeedItem'
 
 export const QUERY = gql`
   query FindPostById($id: String!) {
-    post: post(id: $id) {
-      ${feedQuery}
+    post(id: $id) {
+      id
+      type
+      user {
+        name
+        image
+        username
+      }
+      shares {
+        id
+      }
+      bookmarkedBy {
+        userId
+      }
+      title
+      url
+      content
+      description
+      private
+      createdAt
+      updatedAt
+      _count {
+        comments
+        shares
+        bookmarkedBy
+      }
+      sharedPost {
+        id
+        type
+        user {
+          name
+          image
+          username
+        }
+        shares {
+          id
+        }
+        bookmarkedBy {
+          userId
+        }
+        title
+        url
+        content
+        description
+        private
+        createdAt
+        updatedAt
+        _count {
+          comments
+          shares
+          bookmarkedBy
+        }
+      }
     }
   }
 `
 
-export const Loading = () => <PostLoader />
+export const Loading = () => <LoaderItem />
 
 export const Empty = () => (
   <Illustration image={EmptyImage} message="No bookmarks yet" />

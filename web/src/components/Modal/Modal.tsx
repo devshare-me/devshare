@@ -9,13 +9,14 @@ const Modal = ({
   title = '',
   color = 'gray',
   full = false,
-  close = true,
   children,
 }) => {
-  const { isDarkMode, setIsDarkMode } = React.useContext(DarkModeContext)
+  const { isDarkMode } = React.useContext(DarkModeContext)
+  const closeButtonRef = React.useRef(null)
 
   const CloseButton = ({ absolute = false }) => (
     <button
+      ref={closeButtonRef}
       type="button"
       className={`${
         absolute ? 'fixed top-2 right-2 ' : ''
@@ -35,6 +36,7 @@ const Modal = ({
           isDarkMode ? 'dark ' : ''
         }fixed inset-0 z-10 overflow-y-auto`}
         onClose={() => setIsOpen(false)}
+        initialFocus={closeButtonRef}
       >
         <div className={`${!full ? 'px-4 ' : ''}min-h-screen text-center`}>
           {full && (
@@ -94,10 +96,10 @@ const Modal = ({
                   <Dialog.Title as="h3" className="text-xl font-bold leading-6">
                     {title}
                   </Dialog.Title>
-                  {!full && close && <CloseButton absolute={true} />}
+                  {!full && <CloseButton absolute={false} />}
                 </div>
               )}
-              {full && close && <CloseButton absolute={true} />}
+              {full && <CloseButton absolute={true} />}
               <div className={`${title ? 'mt-2' : ''}`}>{children}</div>
             </div>
           </Transition.Child>

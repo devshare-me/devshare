@@ -7,5 +7,13 @@
   },
   "[prisma]": {
     "editor.formatOnSave": true
-  }
+  },
+  "cSpell.words": [
+    "Reshare",
+    "Reshares",
+    "devs",
+    "headlessui",
+    "semibold",
+    "supabase"
+  ]
 }

@@ -9,22 +9,31 @@ export const beforeResolver = (rules: BeforeResolverSpecType) => {
   rules.add(requireAuth)
 }
 
-const defaultValues = {
-  include: {
-    post: true,
-  },
-  orderBy: {
-    createdAt: 'desc',
-  },
-  take: 50,
-}
-
 export const bookmarks = () => {
   return db.bookmark.findMany({
     where: {
       userId: context.currentUser.id,
     },
-    ...defaultValues,
+    include: {
+      post: {
+        include: {
+          shares: true,
+          comments: true,
+          bookmarkedBy: true,
+          _count: {
+            select: {
+              shares: true,
+              comments: true,
+              bookmarkedBy: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: 50,
   })
 }
 

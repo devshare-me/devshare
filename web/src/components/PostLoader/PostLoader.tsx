@@ -1,17 +1,19 @@
+import FeedWrapper from 'src/components/FeedWrapper'
+
 const PostLoader = () => {
   return (
-    <div className="grid grid-cols-1 gap-4 mt-4">
+    <FeedWrapper>
       <LoaderItem />
       <LoaderItem />
       <LoaderItem />
       <LoaderItem />
       <LoaderItem />
       <LoaderItem />
-    </div>
+    </FeedWrapper>
   )
 }
 
-const LoaderItem = () => {
+export const LoaderItem = () => {
   return (
     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl p-6 w-full">
       <div className="animate-pulse space-y-2">

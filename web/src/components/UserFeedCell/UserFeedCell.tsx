@@ -1,6 +1,6 @@
 import type { FindUserFeedQuery } from 'types/graphql'
-import { feedQuery } from 'src/utils/feedQuery'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
+import FeedWrapper from 'src/components/FeedWrapper'
 import FeedItem from 'src/components/FeedItem'
 import PostLoader from 'src/components/PostLoader'
 import Illustration from 'src/components/Illustration'
@@ -8,9 +8,60 @@ import EmptyImage from 'src/lib/empty-01.svg'
 import ErrorImage from 'src/lib/error.svg'
 
 export const QUERY = gql`
-  query USERFEED($username: String!, $filter: String) {
+  query USER_FEED($username: String!, $filter: String) {
     feed: userFeed(username: $username, filter: $filter) {
-      ${feedQuery}
+      id
+      type
+      user {
+        name
+        image
+        username
+      }
+      shares {
+        id
+      }
+      bookmarkedBy {
+        userId
+      }
+      title
+      url
+      content
+      description
+      private
+      createdAt
+      updatedAt
+      _count {
+        comments
+        shares
+        bookmarkedBy
+      }
+      sharedPost {
+        id
+        type
+        user {
+          name
+          image
+          username
+        }
+        shares {
+          id
+        }
+        bookmarkedBy {
+          userId
+        }
+        title
+        url
+        content
+        description
+        private
+        createdAt
+        updatedAt
+        _count {
+          comments
+          shares
+          bookmarkedBy
+        }
+      }
     }
   }
 `
@@ -33,10 +84,10 @@ export const Failure = ({ error }: CellFailureProps) => {
 
 export const Success = ({ feed }: CellSuccessProps<FindUserFeedQuery>) => {
   return (
-    <div className="grid grid-cols-1 gap-4 mt-4">
+    <FeedWrapper>
       {feed.map((item) => (
         <FeedItem key={item.id} item={item} />
       ))}
-    </div>
+    </FeedWrapper>
   )
 }

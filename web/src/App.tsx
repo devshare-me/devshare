@@ -12,6 +12,7 @@ import Routes from 'src/Routes'
 import './index.css'
 
 process.env.SENTRY_DSN &&
+  process.env.NODE_ENV === 'production' &&
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],

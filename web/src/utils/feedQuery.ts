@@ -19,6 +19,11 @@ export const postQuery = `
   private
   createdAt
   updatedAt
+  _count {
+    shares
+    comments
+    bookmarkedBy
+  }
 `
 
 export const feedQuery = `

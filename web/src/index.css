@@ -38,7 +38,7 @@ hr {
 }
 
 .rounded-btn.active {
-  @apply bg-yellow-200 dark:bg-yellow-500 dark:bg-opacity-50;
+  @apply bg-yellow-200 dark:bg-yellow-500 dark:text-gray-900;
 }
 
 .rounded-btn svg {
@@ -86,6 +86,10 @@ input[name="search"] {
 
 .rw-form-wrapper form {
   @apply space-y-4;
+}
+
+.post-dialog .rw-form-wrapper form > :not([hidden]) ~ :not([hidden]) {
+  @apply my-0;
 }
 
 .rw-label {

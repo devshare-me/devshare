@@ -1,6 +1,6 @@
 import type { FindSearchQuery } from 'types/graphql'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
-import { feedQuery, userQuery } from 'src/utils/feedQuery'
+import FeedWrapper from 'src/components/FeedWrapper'
 import FeedItem from 'src/components/FeedItem'
 import ProfileItem from 'src/components/ProfileItem'
 import ProfileLoader from 'src/components/ProfileLoader'
@@ -10,10 +10,69 @@ export const QUERY = gql`
   query FindSearchQuery($query: String!) {
     search(query: $query) {
       posts {
-        ${feedQuery}
+        id
+        type
+        user {
+          name
+          image
+          username
+        }
+        shares {
+          id
+        }
+        bookmarkedBy {
+          userId
+        }
+        title
+        url
+        content
+        description
+        private
+        createdAt
+        updatedAt
+        _count {
+          comments
+          shares
+          bookmarkedBy
+        }
+        sharedPost {
+          id
+          type
+          user {
+            name
+            image
+            username
+          }
+          shares {
+            id
+          }
+          bookmarkedBy {
+            userId
+          }
+          title
+          url
+          content
+          description
+          private
+          createdAt
+          updatedAt
+          _count {
+            comments
+            shares
+            bookmarkedBy
+          }
+        }
       }
       users {
-        ${userQuery}
+        id
+        username
+        name
+        image
+        location
+        github
+        twitter
+        website
+        createdAt
       }
     }
   }
@@ -42,10 +101,7 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div style={{ color: 'red' }}>Error: {error.message}</div>
 )
 
-export const Success = ({
-  search,
-  query,
-}: CellSuccessProps<FindSearchQuery>) => {
+export const Success = ({ search }: CellSuccessProps<FindSearchQuery>) => {
   return (
     <SearchLayout
       users={
@@ -74,14 +130,14 @@ export const Success = ({
 
 const SearchLayout = ({ posts, users }) => {
   return (
-    <div className="flex flex-col lg:flex-row lg:items-start">
+    <div className="flex flex-col max-w-2xl mx-auto lg:flex-row lg:items-start lg:max-w-full">
       <div className="w-full mb-8 lg:max-w-xs lg:mr-8 lg:mb-0">
         <h2 className="font-bold text-xl mb-2">Users</h2>
-        <div className="grid grid-cols-1 gap-4 mt-4">{users}</div>
+        <FeedWrapper>{users}</FeedWrapper>
       </div>
       <div className="flex-1">
         <h2 className="font-bold text-xl mb-2">Posts</h2>
-        <div className="grid grid-cols-1 gap-4 mt-4">{posts}</div>
+        <FeedWrapper>{posts}</FeedWrapper>
       </div>
     </div>
   )

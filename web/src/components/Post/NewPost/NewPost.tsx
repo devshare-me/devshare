@@ -4,6 +4,7 @@ import { useParams, useLocation } from '@redwoodjs/router'
 import PostForm from 'src/components/Post/PostForm'
 import { QUERY as ProfileQuery } from 'src/components/UserFeedCell'
 import { QUERY as RecentQuery } from 'src/components/RecentFeedCell'
+import { QUERY as FollowingQuery } from 'src/components/FollowingFeedCell'
 
 const CREATE_POST_MUTATION = gql`
   mutation CreatePostMutation($input: CreatePostInput!) {
@@ -14,13 +15,22 @@ const CREATE_POST_MUTATION = gql`
   }
 `
 
-const NewPost = ({ type, setType, setSharePost, sharedPostId }) => {
+const NewPost = ({
+  type,
+  setType = null,
+  setSharePost = null,
+  sharedPostId = null,
+}) => {
   const { username, filter, view } = useParams()
   const { pathname } = useLocation()
 
   const refetchQuery = {
     query:
-      view === 'recent' ? RecentQuery : pathname === '/' ? '' : ProfileQuery,
+      view === 'recent'
+        ? RecentQuery
+        : pathname === '/'
+        ? FollowingQuery
+        : ProfileQuery,
     variables: { username, filter },
   }
 

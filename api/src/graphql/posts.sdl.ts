@@ -1,4 +1,9 @@
 export const schema = gql`
+  type PostRelationCount {
+    shares: Int!
+    comments: Int!
+    bookmarkedBy: Int!
+  }
   type Post {
     id: String!
     user: User!
@@ -16,6 +21,7 @@ export const schema = gql`
     bookmarkedBy: [Bookmark]!
     createdAt: DateTime!
     updatedAt: DateTime!
+    _count: PostRelationCount
   }
 
   enum PostType {

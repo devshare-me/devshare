@@ -10,10 +10,53 @@ export const beforeResolver = (rules: BeforeResolverSpecType) => {
 }
 
 const defaultValues = {
+  include: {
+    _count: {
+      select: {
+        shares: true,
+        comments: true,
+        bookmarkedBy: true,
+      },
+    },
+  },
   orderBy: {
     createdAt: 'desc',
   },
   take: 50,
+}
+
+export const followingFeed = async ({ filter }) => {
+  const user = await db.user.findUnique({
+    where: {
+      id: context.currentUser.id,
+    },
+    include: {
+      following: true,
+    },
+  })
+
+  const followingIds = []
+
+  for (let i = 0; i < user.following.length; i++) {
+    const following = user.following[i]
+    followingIds.push({ userId: { equals: following.id } })
+  }
+
+  const searchQuery = {
+    private: {
+      equals: false,
+    },
+    OR: followingIds,
+  }
+
+  if (filter) searchQuery['type'] = filter
+
+  const posts = await db.post.findMany({
+    where: searchQuery,
+    ...defaultValues,
+  })
+
+  return posts
 }
 
 export const recentFeed = async ({ filter }) => {
@@ -30,7 +73,7 @@ export const recentFeed = async ({ filter }) => {
         },
         {
           description: {
-            equals: null,
+            equals: null || '',
           },
         },
       ],

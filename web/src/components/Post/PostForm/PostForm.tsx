@@ -62,7 +62,7 @@ const PostForm = (props) => {
 
   const onSubmit = (data) => {
     data.type = type
-    data.private = isPrivate
+    data.private = isPrivate ? true : false
 
     setFormData(data)
 

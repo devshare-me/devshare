@@ -7,6 +7,7 @@ import {
   SkipNavContent,
 } from '@redwoodjs/router'
 import { Toaster } from '@redwoodjs/web/toast'
+import GithubProfile from 'src/components/GithubProfile'
 import Modal from 'src/components/Modal'
 import LoginButton from 'src/components/LoginButton'
 import SearchForm from 'src/components/SearchForm'
@@ -27,7 +28,7 @@ export const DarkModeContext = React.createContext({
 })
 
 export const DefaultTypeContext = React.createContext({
-  defaultPostType: true,
+  defaultPostType: 'update',
   setDefaultPostType: () => {},
 })
 
@@ -70,6 +71,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
     <DarkModeContext.Provider value={darkModeValue}>
       <DefaultTypeContext.Provider value={darkPostTypeValue}>
+        <GithubProfile />
         <div className="flex flex-col min-h-screen">
           <Helmet
             titleTemplate="%s | DevShare"
@@ -77,7 +79,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
           />
           <SkipNavLink
             contentId="main"
-            style={{ zIndex: '100' }}
+            style={{ zIndex: 100 }}
             className="bg-gray-200 border border-gray-200 dark:bg-gray-800 dark:border-gray-600"
           />
           <Toaster
