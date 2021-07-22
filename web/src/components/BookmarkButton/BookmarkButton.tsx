@@ -30,16 +30,13 @@ const BookmarkButton = ({ postId, count, bookmarked }: BookmarkProps) => {
   const [bookmarkCount, setBookmarkCount] = React.useState(count)
   const [userBookmark, setUserBookmark] = React.useState(bookmarked)
 
-  const [createBookmark, { loading, error }] = useMutation(
-    CREATE_BOOKMARK_MUTATION,
-    {
-      onCompleted: () => {
-        setBookmarkCount(bookmarkCount + 1)
-        setUserBookmark(true)
-        toast.success(`Bookmark added`)
-      },
-    }
-  )
+  const [createBookmark, { loading }] = useMutation(CREATE_BOOKMARK_MUTATION, {
+    onCompleted: () => {
+      setBookmarkCount(bookmarkCount + 1)
+      setUserBookmark(true)
+      toast.success(`Bookmark added`)
+    },
+  })
 
   const [removeBookmark] = useMutation(DELETE_BOOKMARK_MUTATION, {
     onCompleted: () => {

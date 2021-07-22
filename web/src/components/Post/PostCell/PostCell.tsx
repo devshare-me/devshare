@@ -9,7 +9,7 @@ import FeedItem from 'src/components/FeedItem'
 
 export const QUERY = gql`
   query FindPostById($id: String!) {
-    post: post(id: $id) {
+    post(id: $id) {
       ${feedQuery}
     }
   }

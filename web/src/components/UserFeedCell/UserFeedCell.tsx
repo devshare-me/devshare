@@ -9,7 +9,7 @@ import EmptyImage from 'src/lib/empty-01.svg'
 import ErrorImage from 'src/lib/error.svg'
 
 export const QUERY = gql`
-  query USERFEED($username: String!, $filter: String) {
+  query USER_FEED($username: String!, $filter: String) {
     feed: userFeed(username: $username, filter: $filter) {
       ${feedQuery}
     }

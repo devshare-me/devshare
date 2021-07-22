@@ -32,6 +32,7 @@
     "react-player": "^2.9.0"
   },
   "devDependencies": {
+    "@types/react-helmet": "^6.1.2",
     "autoprefixer": "9.8.6",
     "postcss-loader": "4.0.2",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"

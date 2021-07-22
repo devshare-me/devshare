@@ -1,5 +1,5 @@
 import type { FindFollowQuery } from 'types/graphql'
-import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
+import type { CellSuccessProps } from '@redwoodjs/web'
 import FollowButton from 'src/components/FollowButton'
 
 export const QUERY = gql`

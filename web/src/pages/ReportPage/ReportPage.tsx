@@ -8,9 +8,8 @@ import {
 } from '@redwoodjs/forms'
 import { useAuth } from '@redwoodjs/auth'
 import { Helmet } from 'react-helmet'
-import { RiCreativeCommonsZeroLine } from 'react-icons/ri'
 
-const encode = (data) => {
+const encode = (data: Record<string, unknown>) => {
   return Object.keys(data)
     .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
     .join('&')
