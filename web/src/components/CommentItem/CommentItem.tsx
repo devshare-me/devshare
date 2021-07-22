@@ -16,13 +16,14 @@ const DELETE_COMMENT_MUTATION = gql`
   }
 `
 
-const CommentItem = ({ comment, last = false }) => {
+const CommentItem = ({ comment, count, setCount, last = false }) => {
   const { currentUser, isAuthenticated } = useAuth()
   const [optionsOpen, setOptionsOpen] = React.useState(false)
   const [deleteVisible, setDeleteVisible] = React.useState(false)
 
   const [deleteComment] = useMutation(DELETE_COMMENT_MUTATION, {
     onCompleted: () => {
+      setCount(count - 1)
       toast.success('Comment deleted')
     },
     refetchQueries: [{ query: QUERY, variables: { postId: comment.post.id } }],

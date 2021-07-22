@@ -51,6 +51,11 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
   const [deleteVisible, setDeleteVisible] = React.useState(false)
   const [commentsVisible, setCommentsVisible] = React.useState(showComments)
 
+  // Counts
+  const [commentCount, setCommentCount] = React.useState(
+    itemCheck._count.comments
+  )
+
   let filterAttr = filters.find(
     (x) => x.singular === type.charAt(0).toUpperCase() + type.slice(1)
   )
@@ -184,16 +189,12 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
                     } p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200 dark:hover:bg-gray-600`}
                     onClick={() => setCommentsVisible(!commentsVisible)}
                     disabled={
-                      !isAuthenticated && itemCheck?._count?.comments === 0
-                        ? true
-                        : false
+                      !isAuthenticated && commentCount === 0 ? true : false
                     }
                   >
                     <FiMessageCircle />
-                    {itemCheck?._count?.comments > 0 && (
-                      <span className="ml-1 text-xs">
-                        {itemCheck._count.comments}
-                      </span>
+                    {commentCount > 0 && (
+                      <span className="ml-1 text-xs">{commentCount}</span>
                     )}
                     <span className="sr-only">{'Comment(s)'}</span>
                   </button>
@@ -234,7 +235,8 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
         {commentsVisible && (
           <CommentDialog
             postId={itemCheck.id}
-            count={itemCheck._count.comments}
+            count={commentCount}
+            setCount={setCommentCount}
           />
         )}
       </div>

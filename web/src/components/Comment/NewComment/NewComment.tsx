@@ -12,12 +12,13 @@ const CREATE_COMMENT_MUTATION = gql`
   }
 `
 
-const NewComment = ({ postId }) => {
+const NewComment = ({ postId, count, setCount }) => {
   const { currentUser } = useAuth()
   const [createComment, { loading, error }] = useMutation(
     CREATE_COMMENT_MUTATION,
     {
       onCompleted: () => {
+        setCount(count + 1)
         toast.success('Comment created')
       },
       refetchQueries: [{ query: CommentsQuery, variables: { postId } }],

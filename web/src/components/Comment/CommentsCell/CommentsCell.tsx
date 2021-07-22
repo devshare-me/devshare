@@ -37,8 +37,12 @@ export const Empty = () => {
   return <></>
 }
 
-export const Success = ({ comments }: CellSuccessProps<FindComments>) => {
-  return <Comments comments={comments} />
+export const Success = ({
+  comments,
+  count,
+  setCount,
+}: CellSuccessProps<FindComments>) => {
+  return <Comments comments={comments} count={count} setCount={setCount} />
 }
 
 const LoaderItem = ({ last }) => {
