@@ -42,6 +42,16 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   const darkModeValue = { isDarkMode, setIsDarkMode }
   const darkPostTypeValue = { defaultPostType, setDefaultPostType }
 
+  const socialNav = [
+    {
+      title: 'GitHub',
+      to: 'https://github.com/devshare-me/devshare',
+      icon: VscGithubInverted,
+    },
+  ]
+
+  const footerNav = [{ title: 'Stats', to: routes.stats() }]
+
   React.useEffect(() => {
     if (isAuthenticated) {
       setIsDarkMode(currentUser.darkMode)
@@ -164,19 +174,33 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
           <main className="flex-1 pt-20 pb-8 px-4 sm:px-8">{children}</main>
           <footer className="px-4 py-2 text-gray-500 sm:px-8">
             <nav className="flex items-center justify-center mb-2 text-lg">
-              <a
-                href="https://github.com/devshare-me/devshare"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <VscGithubInverted />
-                <span className="sr-only">GitHub</span>
-              </a>
+              {socialNav.map((social, i) => (
+                <a
+                  key={i}
+                  href={social.to}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mx-1"
+                >
+                  <social.icon />
+                  <span className="sr-only">{social.title}</span>
+                </a>
+              ))}
             </nav>
-            <p className="max-w-5xl mx-auto w-full text-xs text-center">
-              &copy; {new Date().getFullYear()}{' '}
-              <Link to={routes.home()}>DevShare</Link>. All rights reserved.
-            </p>
+            <div className="flex items-center justify-center flex-wrap text-xs">
+              <p>
+                &copy; {new Date().getFullYear()}{' '}
+                <Link to={routes.home()}>DevShare</Link>. All rights reserved.
+              </p>
+              <span className="mx-1">{' | '}</span>
+              <nav className={`grid grid-cols-${footerNav.length} gap-2`}>
+                {footerNav.map((item, i) => (
+                  <Link key={i} to={item.to}>
+                    {item.title}
+                  </Link>
+                ))}
+              </nav>
+            </div>
           </footer>
         </div>
       </DefaultTypeContext.Provider>
