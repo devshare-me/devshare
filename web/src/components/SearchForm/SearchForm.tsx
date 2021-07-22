@@ -53,7 +53,7 @@ const SearchForm = () => {
           <TextField
             name="search"
             value={searchQuery}
-            className="bg-gray-100 w-full border-0 rounded-full text-base py-2 px-4 border-2 border-gray-300 focus:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
+            className="bg-gray-100 w-full rounded-full text-base py-2 px-4 border-2 border-gray-300 focus:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
             errorClassName="rw-input text-lg font-bold rw-input-error"
             placeholder="Search for users and posts..."
             onChange={(e) => setSearchQuery(e.target.value)}

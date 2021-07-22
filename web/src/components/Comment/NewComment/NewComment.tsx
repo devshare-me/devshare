@@ -1,6 +1,5 @@
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { navigate, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import CommentForm from 'src/components/Comment/CommentForm'
 import { QUERY as CommentsQuery } from 'src/components/Comment/CommentsCell'

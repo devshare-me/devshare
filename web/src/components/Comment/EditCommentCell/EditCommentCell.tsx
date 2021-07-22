@@ -9,7 +9,7 @@ import CommentForm from 'src/components/Comment/CommentForm'
 
 export const QUERY = gql`
   query EditCommentById($id: String!) {
-    comment: comment(id: $id) {
+    comment(id: $id) {
       id
       comment
       userId
@@ -41,25 +41,26 @@ export const Failure = ({ error }: CellFailureProps) => (
 )
 
 export const Success = ({ comment }: CellSuccessProps<EditCommentById>) => {
-  const [updateComment, { loading, error }] = useMutation(UPDATE_COMMENT_MUTATION, {
-    onCompleted: () => {
-      toast.success('Comment updated')
-      navigate(routes.comments())
-    },
-  })
+  const [updateComment, { loading, error }] = useMutation(
+    UPDATE_COMMENT_MUTATION,
+    {
+      onCompleted: () => {
+        toast.success('Comment updated')
+        navigate(routes.comments())
+      },
+    }
+  )
 
   const onSave = (input, id) => {
     updateComment({ variables: { id, input } })
   }
 
   return (
-    <div className="rw-segment">
-      <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">Edit Comment {comment.id}</h2>
-      </header>
-      <div className="rw-segment-main">
-        <CommentForm comment={comment} onSave={onSave} error={error} loading={loading} />
-      </div>
-    </div>
+    <CommentForm
+      comment={comment}
+      onSave={onSave}
+      error={error}
+      loading={loading}
+    />
   )
 }

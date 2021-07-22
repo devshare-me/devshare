@@ -1,7 +1,5 @@
 import type { FindComments } from 'types/graphql'
-import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
-
-import { Link, routes } from '@redwoodjs/router'
+import type { CellSuccessProps } from '@redwoodjs/web'
 
 import Comments from 'src/components/Comment/Comments'
 

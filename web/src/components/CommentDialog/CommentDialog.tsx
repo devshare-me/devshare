@@ -7,7 +7,11 @@ const CommentDialog = ({ postId, count }) => {
   return (
     <>
       {count > 0 && <CommentsCell postId={postId} count={count} />}
-      {isAuthenticated && <NewComment postId={postId} />}
+      {isAuthenticated && (
+        <div className={`${count === 0 ? '-mt-6' : ''}`}>
+          <NewComment postId={postId} />
+        </div>
+      )}
     </>
   )
 }
