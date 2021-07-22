@@ -75,7 +75,7 @@ export const Success = ({
 
 const SearchLayout = ({ posts, users }) => {
   return (
-    <div className="flex flex-col lg:flex-row lg:items-start">
+    <div className="flex flex-col max-w-2xl mx-auto lg:flex-row lg:items-start lg:max-w-full">
       <div className="w-full mb-8 lg:max-w-xs lg:mr-8 lg:mb-0">
         <h2 className="font-bold text-xl mb-2">Users</h2>
         <FeedWrapper>{users}</FeedWrapper>

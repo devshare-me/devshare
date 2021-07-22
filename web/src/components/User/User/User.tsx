@@ -18,7 +18,7 @@ const User = ({ user }) => {
           {user.name ? `${user.name} (@${user.username})` : `@${user.username}`}
         </title>
       </Helmet>
-      <div className="flex flex-col lg:flex-row lg:items-start">
+      <div className="flex flex-col max-w-2xl mx-auto lg:flex-row lg:items-start lg:max-w-full">
         <div className="w-full mb-8 lg:sticky lg:top-20 lg:max-w-xs lg:mr-8 lg:mb-0">
           <ProfileItem user={user} />
         </div>

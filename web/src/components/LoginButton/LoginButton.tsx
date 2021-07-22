@@ -1,8 +1,10 @@
+import { useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { VscGithubInverted } from 'react-icons/vsc'
 
 const LoginButton = () => {
   const { logIn } = useAuth()
+  const { pathname } = useLocation()
 
   return (
     <button
@@ -11,6 +13,9 @@ const LoginButton = () => {
         await logIn({
           provider: 'github',
           scopes: 'read:user',
+          redirectTo: process.env.URL
+            ? process.env.URL + pathname
+            : 'http://localhost:8910' + pathname,
         })
       }}
     >
