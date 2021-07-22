@@ -78,7 +78,7 @@ const UserForm = (props) => {
           />
         </div>
 
-        <div className="group-wrapper">
+        {/* <div className="group-wrapper">
           <Label
             name="github"
             className="rw-label"
@@ -98,7 +98,7 @@ const UserForm = (props) => {
               validation={{ required: false }}
             />
           </div>
-        </div>
+        </div> */}
 
         <div className="group-wrapper">
           <Label
