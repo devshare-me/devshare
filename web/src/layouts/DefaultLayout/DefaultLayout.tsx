@@ -28,7 +28,7 @@ export const DarkModeContext = React.createContext({
 })
 
 export const DefaultTypeContext = React.createContext({
-  defaultPostType: true,
+  defaultPostType: 'update',
   setDefaultPostType: () => {},
 })
 
@@ -69,7 +69,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
           />
           <SkipNavLink
             contentId="main"
-            style={{ zIndex: '100' }}
+            style={{ zIndex: 100 }}
             className="bg-gray-200 border border-gray-200 dark:bg-gray-800 dark:border-gray-600"
           />
           <Toaster

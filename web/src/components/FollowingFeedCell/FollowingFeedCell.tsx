@@ -1,6 +1,5 @@
 import type { FindFollowingFeedQuery } from 'types/graphql'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
-import { feedQuery } from 'src/utils/feedQuery'
 import FeedWrapper from 'src/components/FeedWrapper'
 import FeedItem from 'src/components/FeedItem'
 import PostLoader from 'src/components/PostLoader'
@@ -11,7 +10,48 @@ import ErrorImage from 'src/lib/error.svg'
 export const QUERY = gql`
   query FindFollowingFeedQuery($filter: String) {
     feed: followingFeed(filter: $filter) {
-      ${feedQuery}
+      id
+      type
+      user {
+        name
+        image
+        username
+      }
+      shares {
+        id
+      }
+      bookmarkedBy {
+        userId
+      }
+      title
+      url
+      content
+      description
+      private
+      createdAt
+      updatedAt
+      sharedPost {
+        id
+        type
+        user {
+          name
+          image
+          username
+        }
+        shares {
+          id
+        }
+        bookmarkedBy {
+          userId
+        }
+        title
+        url
+        content
+        description
+        private
+        createdAt
+        updatedAt
+      }
     }
   }
 `

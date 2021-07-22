@@ -14,9 +14,8 @@ import { filters } from 'src/utils/filters'
 
 const UserForm = (props) => {
   const { currentUser } = useAuth()
-  const { isDarkMode, setIsDarkMode } = React.useContext(DarkModeContext)
-  const { defaultPostType, setDefaultPostType } =
-    React.useContext(DefaultTypeContext)
+  const { setIsDarkMode } = React.useContext(DarkModeContext)
+  const { setDefaultPostType } = React.useContext(DefaultTypeContext)
   const [darkToggle, setDarkToggle] = React.useState(props.user?.darkMode)
 
   const onSubmit = (data) => {
@@ -32,7 +31,7 @@ const UserForm = (props) => {
 
   React.useEffect(() => {
     setIsDarkMode(darkToggle)
-  }, [darkToggle])
+  }, [darkToggle, setIsDarkMode])
 
   return (
     <div className="rw-form-wrapper">

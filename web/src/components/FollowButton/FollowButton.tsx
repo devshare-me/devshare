@@ -30,17 +30,14 @@ const FollowButton = ({ follows, userId, followId }) => {
     awaitRefetchQueries: true,
   }
 
-  const [createFollow, { loading, error }] = useMutation(
-    CREATE_FOLLOW_MUTATION,
-    {
-      onCompleted: () => {
-        toast.success('Following')
-      },
-      ...refetchQuery,
-    }
-  )
+  const [createFollow, { loading }] = useMutation(CREATE_FOLLOW_MUTATION, {
+    onCompleted: () => {
+      toast.success('Following')
+    },
+    ...refetchQuery,
+  })
 
-  const [removeFollow, { loadingRemove, errorRemove }] = useMutation(
+  const [removeFollow, { loading: loadingRemove }] = useMutation(
     DELETE_FOLLOW_MUTATION,
     {
       onCompleted: () => {
