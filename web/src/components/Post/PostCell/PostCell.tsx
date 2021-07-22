@@ -29,6 +29,11 @@ export const QUERY = gql`
       private
       createdAt
       updatedAt
+      _count {
+        comments
+        shares
+        bookmarkedBy
+      }
       sharedPost {
         id
         type
@@ -50,6 +55,11 @@ export const QUERY = gql`
         private
         createdAt
         updatedAt
+        _count {
+          comments
+          shares
+          bookmarkedBy
+        }
       }
     }
   }

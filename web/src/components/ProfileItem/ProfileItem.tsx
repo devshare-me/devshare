@@ -5,7 +5,7 @@ import { RiGithubFill, RiTwitterFill } from 'react-icons/ri'
 import { BiMapPin, BiGlobe } from 'react-icons/bi'
 
 const ProfileItem = ({ user, link = false }) => {
-  const { currentUser } = useAuth()
+  const { isAuthenticated, currentUser } = useAuth()
   const name = user.name ? user.name : '@' + user.username
   const imgClasses =
     'w-32 h-32 border-2 border-gray-200 dark:border-gray-600 rounded-full overflow-hidden'
@@ -80,7 +80,7 @@ const ProfileItem = ({ user, link = false }) => {
           )}
         </p>
       )}
-      {currentUser?.username !== user.username && (
+      {isAuthenticated && currentUser?.username !== user.username && (
         <FollowCell userId={currentUser.id} followId={user.id} />
       )}
     </div>

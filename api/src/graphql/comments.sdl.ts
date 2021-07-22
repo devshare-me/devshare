@@ -14,7 +14,8 @@ export const schema = gql`
   }
 
   type Query {
-    comments: [Comment!]!
+    comments(postId: String!, parentId: String): [Comment!]!
+    comment(id: String!): Comment
   }
 
   input CreateCommentInput {
@@ -29,5 +30,11 @@ export const schema = gql`
     userId: String
     postId: String
     parentId: String
+  }
+
+  type Mutation {
+    createComment(input: CreateCommentInput!): Comment!
+    updateComment(id: String!, input: UpdateCommentInput!): Comment!
+    deleteComment(id: String!): Comment!
   }
 `

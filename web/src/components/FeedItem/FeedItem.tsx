@@ -6,8 +6,10 @@ import { QUERY as ProfileQuery } from 'src/components/UserFeedCell'
 import { QUERY as RecentQuery } from 'src/components/RecentFeedCell'
 import { QUERY as FollowingQuery } from 'src/components/FollowingFeedCell'
 import NewPost from 'src/components/Post/NewPost'
+import UserPostDetails from 'src/components/UserPostDetails'
 import TimeTag from 'src/components/TimeTag'
 import BookmarkButton from 'src/components/BookmarkButton'
+import CommentDialog from 'src/components/CommentDialog'
 import VideoPost from 'src/components/PostElements/VideoPost'
 import ImagePost from 'src/components/PostElements/ImagePost'
 import LinkPostCell from 'src/components/PostElements/LinkPostCell'
@@ -47,6 +49,12 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
   const [menuVisible, setMenuVisible] = React.useState(false)
   const [repostVisible, setRepostVisible] = React.useState(false)
   const [deleteVisible, setDeleteVisible] = React.useState(false)
+  const [commentsVisible, setCommentsVisible] = React.useState(showComments)
+
+  // Counts
+  const [commentCount, setCommentCount] = React.useState(
+    itemCheck._count.comments
+  )
 
   let filterAttr = filters.find(
     (x) => x.singular === type.charAt(0).toUpperCase() + type.slice(1)
@@ -118,34 +126,11 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
           </div>
         )}
         <div className="flex items-center justify-between mb-2 text-xs">
-          <div className="flex items-center">
-            <Link
-              to={routes.profile({ username: itemCheck.user.username })}
-              className="flex items-center mr-2"
-            >
-              {itemCheck.user?.image && (
-                <div className="w-10 h-10 mr-2 overflow-hidden rounded-full">
-                  <img
-                    src={itemCheck.user.image}
-                    alt={itemCheck.user?.name || itemCheck.user.username}
-                    className="content-cover"
-                  />
-                </div>
-              )}
-              <span className="font-semibold text-base">
-                {itemCheck.user?.name || '@' + itemCheck.user.username}
-              </span>
-            </Link>
-            <span className="text-gray-600 dark:text-gray-400 text-xs">
-              <TimeTag datetime={itemCheck.createdAt} />
-            </span>
-            {itemCheck.updatedAt &&
-              itemCheck.createdAt !== itemCheck.updatedAt && (
-                <span className="text-gray-600 dark:text-gray-400 text-xs ml-2">
-                  Edited
-                </span>
-              )}
-          </div>
+          <UserPostDetails
+            user={itemCheck.user}
+            createdAt={itemCheck.createdAt}
+            updatedAt={itemCheck.updatedAt}
+          />
           <div className="flex items-center text-sm">
             {itemCheck.private === true && (
               <FiLock className="text-gray-400 mr-2" />
@@ -182,7 +167,11 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
             <FeedItem item={item.sharedPost} viewPost={true} />
           </div>
         )}
-        <nav className="flex items-stretch bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-200 border-t border-gray-200 dark:border-gray-600 mt-6 -mx-6 -mb-6">
+        <nav
+          className={`${
+            !commentsVisible ? '-mb-6 ' : ''
+          }flex items-stretch bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-200 border-t border-gray-200 dark:border-gray-600 mt-6 -mx-6`}
+        >
           {viewPost ? (
             <Link
               to={routes.post({ id: itemCheck.id })}
@@ -194,9 +183,19 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
             <>
               {!itemCheck.private && (
                 <>
-                  <button className="p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200 dark:hover:bg-gray-600">
+                  <button
+                    className={`${
+                      commentsVisible ? 'bg-white dark:bg-gray-800' : ''
+                    } p-4 flex-1 flex items-center justify-center transition-colors duration-300 hover:bg-gray-200 dark:hover:bg-gray-600`}
+                    onClick={() => setCommentsVisible(!commentsVisible)}
+                    disabled={
+                      !isAuthenticated && commentCount === 0 ? true : false
+                    }
+                  >
                     <FiMessageCircle />
-                    <span className="ml-1 text-xs">23</span>
+                    {commentCount > 0 && (
+                      <span className="ml-1 text-xs">{commentCount}</span>
+                    )}
                     <span className="sr-only">{'Comment(s)'}</span>
                   </button>
                   {itemCheck.type !== 'share' && (
@@ -208,9 +207,9 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
                       disabled={!isAuthenticated}
                     >
                       <FiCornerUpRight />
-                      {itemCheck?.shares.length > 0 && (
+                      {itemCheck?._count?.shares > 0 && (
                         <span className="ml-1 text-xs">
-                          {itemCheck.shares.length}
+                          {itemCheck._count.shares}
                         </span>
                       )}
                       <span className="sr-only">{'Share(s)'}</span>
@@ -218,7 +217,7 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
                   )}
                   <BookmarkButton
                     postId={itemCheck.id}
-                    count={itemCheck.bookmarkedBy.length}
+                    count={itemCheck?._count?.bookmarkedBy}
                     bookmarked={currentUserBookmark}
                   />
                 </>
@@ -233,6 +232,13 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
             </>
           )}
         </nav>
+        {commentsVisible && (
+          <CommentDialog
+            postId={itemCheck.id}
+            count={commentCount}
+            setCount={setCommentCount}
+          />
+        )}
       </div>
 
       <Modal
