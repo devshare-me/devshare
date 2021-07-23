@@ -14,6 +14,7 @@ import VideoPost from 'src/components/PostElements/VideoPost'
 import ImagePost from 'src/components/PostElements/ImagePost'
 import LinkPostCell from 'src/components/PostElements/LinkPostCell'
 import Modal from 'src/components/Modal'
+import CodeEditor from 'src/components/CodeEditor'
 import { filters } from 'src/utils/filters'
 import {
   FiLock,
@@ -146,7 +147,14 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
           <h3 className="font-bold text-lg">{itemCheck.title}</h3>
         )}
         {itemCheck.description && <p>{itemCheck.description}</p>}
-        {itemCheck.content && <p>{itemCheck.content}</p>}
+        {itemCheck.type === 'snippet' && itemCheck.content && (
+          <div className="-mx-6 -mb-6 mt-6">
+            <CodeEditor readOnly={true} content={itemCheck.content} />
+          </div>
+        )}
+        {itemCheck.type !== 'snippet' && itemCheck.content && (
+          <p>{itemCheck.content}</p>
+        )}
         {itemCheck.type === 'video' && (
           <div className="-mx-6 mt-6 -mb-6">
             <VideoPost url={itemCheck.url} />

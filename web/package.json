@@ -24,14 +24,17 @@
     "@supabase/supabase-js": "^1.18.0",
     "@tailwindcss/aspect-ratio": "^0.2.1",
     "@tailwindcss/forms": "^0.3.3",
+    "codemirror": "^5.62.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
+    "react-codemirror2": "^7.2.1",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.2.0",
     "react-player": "^2.9.0"
   },
   "devDependencies": {
+    "@types/codemirror": "^5.60.2",
     "@types/react-helmet": "^6.1.2",
     "autoprefixer": "9.8.6",
     "postcss-loader": "4.0.2",

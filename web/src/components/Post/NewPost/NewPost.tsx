@@ -41,6 +41,7 @@ const NewPost = ({
       } else {
         setType('')
       }
+      localStorage.removeItem('DEVSHARE_SNIPPET')
       toast.success(
         `${
           data.post.type.charAt(0).toUpperCase() + data.post.type.slice(1)

@@ -8,6 +8,7 @@ import {
   HiddenField,
   Submit,
 } from '@redwoodjs/forms'
+import CodeEditor from 'src/components/CodeEditor'
 import { useForm } from 'react-hook-form'
 import { filters } from 'src/utils/filters'
 import ReactPlayer from 'react-player'
@@ -52,7 +53,7 @@ const PostForm = (props) => {
       titleRef.current.focus()
     } else if (['link', 'image', 'video'].includes(type)) {
       urlRef.current.focus()
-    } else if (['update', 'snippet'].includes(type)) {
+    } else if (['update'].includes(type)) {
       contentRef.current.focus()
     } else if (type === 'share') {
       descriptionRef.current.focus()
@@ -181,21 +182,24 @@ const PostForm = (props) => {
             <Label name="content" className="sr-only" errorClassName="sr-only">
               Content
             </Label>
-            <TextAreaField
-              name="content"
-              ref={contentRef}
-              defaultValue={props.post?.content}
-              className="rw-input"
-              errorClassName="rw-input rw-input-error"
-              placeholder={
-                type === 'update'
-                  ? 'What are you up to?'
-                  : type === 'article'
-                  ? 'Write your article...'
-                  : 'Write your code...'
-              }
-              validation={{ required: true }}
-            />
+
+            {type === 'snippet' ? (
+              <CodeEditor />
+            ) : (
+              <TextAreaField
+                name="content"
+                ref={contentRef}
+                defaultValue={props.post?.content}
+                className="rw-input"
+                errorClassName="rw-input rw-input-error"
+                placeholder={
+                  type === 'update'
+                    ? 'What are you up to?'
+                    : 'Write your article...'
+                }
+                validation={{ required: true }}
+              />
+            )}
             <FieldError name="content" className="rw-field-error" />
             {type === 'snippet' && <hr className="px-6" />}
           </div>
