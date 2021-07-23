@@ -115,3 +115,39 @@ div.flex.rounded-md > span + .rw-input {
 .rw-field-error {
   @apply sr-only;
 }
+
+.markdown {
+  @apply text-lg;
+}
+
+.markdown > * {
+  @apply mb-4;
+}
+
+.markdown > *:nth-last-child(1) {
+  @apply mb-0;
+}
+
+.markdown h1 {
+  @apply text-3xl font-bold font-mono;
+}
+
+.markdown h2 {
+  @apply text-2xl font-bold mt-8 font-mono;
+}
+
+.markdown h3 {
+  @apply text-xl font-bold mt-8 font-mono;
+}
+
+.markdown h4 {
+  @apply text-lg font-bold mt-8 font-mono;
+}
+
+.markdown a {
+  @apply underline hover:no-underline;
+}
+
+.markdown ul {
+  @apply list-disc pl-5;
+}
