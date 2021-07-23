@@ -1,10 +1,15 @@
 import { HiddenField } from '@redwoodjs/forms'
+import { DarkModeContext } from 'src/layouts/DefaultLayout'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/dracula.css'
+import 'codemirror/theme/juejin.css'
 import 'codemirror/mode/javascript/javascript'
 
 const CodeEditor = ({ readOnly = false, name = 'content', content = '' }) => {
+  const { isDarkMode } = React.useContext(DarkModeContext)
+  const theme = isDarkMode ? 'dracula' : 'juejin'
+
   const prefix = 'DEVSHARE_SNIPPET'
   const savedValue = localStorage.getItem(prefix)
 
@@ -31,7 +36,7 @@ const CodeEditor = ({ readOnly = false, name = 'content', content = '' }) => {
         value={content ? content : value}
         options={{
           mode: language,
-          theme: 'dracula',
+          theme,
           lineNumbers: true,
           indentUnit: 4,
           indentWithTabs: true,
