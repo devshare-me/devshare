@@ -19,6 +19,7 @@ const Routes = () => {
             <Route path="/bookmarks" page={BookmarksPage} name="bookmarks" />
           </Private>
           <Route path="/report/{type}/{id}" page={ReportPage} name="report" />
+          <Route path="/privacy" page={PrivacyPage} name="privacy" />
           <Route path="/" page={HomePage} name="home" />
         </Set>
         <Route notfound page={NotFoundPage} />

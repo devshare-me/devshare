@@ -50,7 +50,10 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     },
   ]
 
-  const footerNav = [{ title: 'Stats', to: routes.stats() }]
+  const footerNav = [
+    { title: 'Stats', to: routes.stats() },
+    { title: 'Privacy', to: routes.privacy() },
+  ]
 
   React.useEffect(() => {
     if (isAuthenticated) {
@@ -192,10 +195,10 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                 &copy; {new Date().getFullYear()}{' '}
                 <Link to={routes.home()}>DevShare</Link>. All rights reserved.
               </p>
-              <span className="mx-1">{' | '}</span>
-              <nav className={`grid grid-cols-${footerNav.length} gap-2`}>
+              <span className="ml-1">{' | '}</span>
+              <nav className={`flex flex-wrap items-center`}>
                 {footerNav.map((item, i) => (
-                  <Link key={i} to={item.to}>
+                  <Link key={i} to={item.to} className="mx-1">
                     {item.title}
                   </Link>
                 ))}
