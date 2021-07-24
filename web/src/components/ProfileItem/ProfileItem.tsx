@@ -11,7 +11,7 @@ const ProfileItem = ({ user, link = false }) => {
     'w-32 h-32 border-2 border-gray-200 dark:border-gray-600 rounded-full overflow-hidden'
 
   return (
-    <div className="flex flex-col items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl p-4">
+    <div className="flex flex-col items-center max-w-sm mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl p-4">
       {user.image && link ? (
         <Link
           to={routes.profile({ username: user.username })}
