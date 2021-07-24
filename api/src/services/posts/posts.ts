@@ -50,11 +50,57 @@ interface CreatePostArgs {
   input: Prisma.PostCreateInput
 }
 
-export const createPost = ({ input }) => {
+export const createPost = async ({ input }) => {
   input.user = { connect: { id: context.currentUser.id } }
 
-  if (input.sharedPostId) {
-    input.sharedPost = { connect: { id: input.sharedPostId } }
+  const sharedPostId = input.sharedPostId
+
+  if (sharedPostId) {
+    input.sharedPost = { connect: { id: sharedPostId } }
+
+    // Setup notification
+    const sharedPost = await db.post.findUnique({
+      where: { id: sharedPostId },
+    })
+
+    if (context?.currentUser?.id !== sharedPost.userId) {
+      const currentNotification = await db.notification.findMany({
+        where: {
+          postId: sharedPostId,
+          type: 'share',
+        },
+      })
+
+      if (currentNotification.length > 0) {
+        // Update notification
+        const element = currentNotification[0]
+
+        await db.notification.update({
+          where: {
+            id: element.id,
+          },
+          data: {
+            count: element.count + 1,
+            read: false,
+          },
+        })
+      } else {
+        // New notification
+        await db.notification.create({
+          data: {
+            user: {
+              connect: { id: sharedPost.userId },
+            },
+            type: 'share',
+            count: 1,
+            post: {
+              connect: { id: sharedPostId },
+            },
+          },
+        })
+      }
+    }
+
     delete input.sharedPostId
   }
 

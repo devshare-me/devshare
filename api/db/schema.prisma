@@ -10,52 +10,45 @@ generator client {
 }
 
 model User {
-  id              String     @id @default(cuid())
-  email           String     @unique
-  username        String     @unique
-  name            String?
-  image           String?
-  location        String?
-  github          String?
-  twitter         String?
-  website         String?
-  posts           Post[]
-  comments        Comment[]
-  followers       User[]     @relation("Follows", references: [id])
-  following       User[]     @relation("Follows", references: [id])
-  bookmarks       Bookmark[]
-  darkMode        Boolean    @default(true)
-  defaultPostType PostType   @default(update)
-  createdAt       DateTime   @default(now())
+  id                 String         @id @default(cuid())
+  email              String         @unique
+  username           String         @unique
+  name               String?
+  image              String?
+  location           String?
+  github             String?
+  twitter            String?
+  website            String?
+  posts              Post[]
+  comments           Comment[]
+  followers          User[]         @relation("Follows", references: [id])
+  following          User[]         @relation("Follows", references: [id])
+  bookmarks          Bookmark[]
+  notifications      Notification[] @relation("NotificationUser")
+  followNotification Notification[] @relation("NotificationFollow")
+  darkMode           Boolean        @default(true)
+  defaultPostType    PostType       @default(update)
+  createdAt          DateTime       @default(now())
 }
 
 model Post {
-  id           String     @id @default(cuid())
-  user         User       @relation(fields: [userId], references: [id])
-  userId       String
-  type         PostType
-  title        String?
-  url          String?
-  content      String?
-  description  String?
-  sharedPost   Post?      @relation("PostToPost", fields: [sharedPostId], references: [id])
-  sharedPostId String?
-  shares       Post[]     @relation("PostToPost")
-  private      Boolean    @default(false)
-  comments     Comment[]
-  bookmarkedBy Bookmark[]
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-}
-
-model Bookmark {
-  post      Post     @relation(fields: [postId], references: [id])
-  postId    String
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  createdAt DateTime @default(now())
-
-  @@id([postId, userId])
+  id            String         @id @default(cuid())
+  user          User           @relation(fields: [userId], references: [id])
+  userId        String
+  type          PostType
+  title         String?
+  url           String?
+  content       String?
+  description   String?
+  sharedPost    Post?          @relation("PostToPost", fields: [sharedPostId], references: [id])
+  sharedPostId  String?
+  shares        Post[]         @relation("PostToPost")
+  private       Boolean        @default(false)
+  comments      Comment[]
+  bookmarkedBy  Bookmark[]
+  notifications Notification[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 enum PostType {
@@ -66,6 +59,16 @@ enum PostType {
   image
   video
   share
+}
+
+model Bookmark {
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+
+  @@id([postId, userId])
 }
 
 model Comment {
@@ -80,4 +83,25 @@ model Comment {
   replies   Comment[] @relation("Replies")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+}
+
+model Notification {
+  id         String           @id @default(cuid())
+  user       User             @relation("NotificationUser", fields: [userId], references: [id])
+  userId     String
+  type       NotificationType
+  count      Int
+  read       Boolean          @default(false)
+  post       Post?            @relation(fields: [postId], references: [id])
+  postId     String?
+  follower   User?            @relation("NotificationFollow", fields: [followerId], references: [id])
+  followerId String?
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+}
+
+enum NotificationType {
+  follow
+  comment
+  share
 }

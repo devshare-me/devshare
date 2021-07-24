@@ -29,10 +29,61 @@ interface CreateCommentArgs {
   input: Prisma.CommentCreateInput
 }
 
-export const createComment = ({ input }: CreateCommentArgs) => {
-  return db.comment.create({
+export const createComment = async ({ input }: CreateCommentArgs) => {
+  const postId = input.postId
+
+  const comment = await db.comment.create({
     data: input,
   })
+
+  // Setup notification
+  const post = await db.post.findUnique({
+    where: {
+      id: postId,
+    },
+  })
+
+  // Return comment if user commented on their own post
+  if (context?.currentUser?.id === post.userId) return comment
+
+  // Check for current notification
+  const currentNotification = await db.notification.findMany({
+    where: {
+      postId,
+      type: 'comment',
+    },
+  })
+
+  if (currentNotification.length > 0) {
+    // Update notification
+    const element = currentNotification[0]
+
+    await db.notification.update({
+      where: {
+        id: element.id,
+      },
+      data: {
+        count: element.count + 1,
+        read: false,
+      },
+    })
+  } else {
+    // New notification
+    await db.notification.create({
+      data: {
+        user: {
+          connect: { id: post.userId },
+        },
+        type: 'comment',
+        count: 1,
+        post: {
+          connect: { id: postId },
+        },
+      },
+    })
+  }
+
+  return comment
 }
 
 interface UpdateCommentArgs extends Prisma.CommentWhereUniqueInput {

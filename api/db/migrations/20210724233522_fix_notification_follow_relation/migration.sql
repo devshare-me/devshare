@@ -1,0 +1,2 @@
+-- AddForeignKey
+ALTER TABLE "Notification" ADD FOREIGN KEY ("followerId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
