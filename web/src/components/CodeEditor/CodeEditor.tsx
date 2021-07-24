@@ -1,5 +1,5 @@
 import { HiddenField } from '@redwoodjs/forms'
-import { DarkModeContext } from 'src/layouts/DefaultLayout'
+import { DarkModeContext } from 'src/components/Providers'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/dracula.css'
