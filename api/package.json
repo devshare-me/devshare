@@ -8,9 +8,13 @@
     "version:patch": "yarn version --no-git-tag-version --patch"
   },
   "dependencies": {
+    "@mailchimp/mailchimp_marketing": "^3.0.55",
     "@redwoodjs/api": "^0.35.2",
     "cuid": "^2.1.8",
     "node-fetch": "^2.6.1",
     "unfurl.js": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/mailchimp__mailchimp_marketing": "^3.0.1"
   }
 }

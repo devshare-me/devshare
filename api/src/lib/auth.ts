@@ -6,6 +6,13 @@ import {
 } from '@redwoodjs/api'
 import { db } from 'src/lib/db'
 import cuid from 'cuid'
+import mailchimp from '@mailchimp/mailchimp_marketing'
+
+process.env.MAILCHIMP_API_KEY &&
+  mailchimp.setConfig({
+    apiKey: process.env.MAILCHIMP_API_KEY,
+    server: process.env.MAILCHIMP_SERVER_PREFIX,
+  })
 
 export const getCurrentUser = async (
   decoded,
@@ -15,6 +22,7 @@ export const getCurrentUser = async (
   const email = decoded.email
   const name = decoded?.user_metadata?.full_name
   const image = decoded?.user_metadata?.avatar_url
+
   const extraData = {}
   const includes = {
     include: {
@@ -65,6 +73,20 @@ export const getCurrentUser = async (
       },
       ...includes,
     })
+
+    if (
+      process.env.MAILCHIMP_API_KEY &&
+      process.env.MAILCHIMP_AUDIENCE_ID &&
+      process.env.NODE_ENV === 'production'
+    ) {
+      await mailchimp.lists.addListMember(process.env.MAILCHIMP_AUDIENCE_ID, {
+        email_address: email,
+        status: 'subscribed',
+        merge_fields: {
+          FULL_NAME: name ? name : '',
+        },
+      })
+    }
   } else {
     if (image !== user.image) {
       extraData['image'] = image
@@ -86,6 +108,7 @@ export const getCurrentUser = async (
       })
     }
   }
+
   return { ...user, roles: parseJWT({ decoded }).roles }
 }
 
