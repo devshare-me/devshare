@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { FiX } from 'react-icons/fi'
-import { DarkModeContext } from 'src/layouts/DefaultLayout'
+import { DarkModeContext } from 'src/components/Providers'
 
 const Modal = ({
   isOpen = false,
@@ -88,7 +88,7 @@ const Modal = ({
               className={`${
                 full
                   ? 'inline-flex items-center justify-center w-screen h-screen'
-                  : 'inline-block w-full max-w-md p-6 my-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl'
+                  : 'inline-block w-full max-w-md p-6 my-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl mb-24'
               } overflow-hidden text-left align-middle transition-all transform`}
             >
               {title && (

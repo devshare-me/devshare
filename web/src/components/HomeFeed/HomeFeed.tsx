@@ -11,6 +11,13 @@ const HomeFeed = () => {
   const { isAuthenticated, currentUser } = useAuth()
   const { view, filter } = useParams()
 
+  const currentView =
+    !isAuthenticated ||
+    currentUser?.following?.length === 0 ||
+    view === 'recent'
+      ? 'recent'
+      : view
+
   return (
     <>
       {!isAuthenticated ? (
@@ -29,12 +36,14 @@ const HomeFeed = () => {
       )}
       <h1 className="sr-only">Feed</h1>
       <div className="flex flex-col mb-4">
-        <ContentNavigation navItems={views} query="view" />
+        <ContentNavigation
+          navItems={views}
+          query="view"
+          current={currentView}
+        />
         <ContentNavigation navItems={filters} query="filter" />
       </div>
-      {!isAuthenticated ||
-      currentUser.following.length === 0 ||
-      view === 'recent' ? (
+      {currentView === 'recent' ? (
         <RecentFeedCell filter={filter} />
       ) : (
         <FollowingFeedCell filter={filter} />

@@ -9,31 +9,36 @@ export const beforeResolver = (rules: BeforeResolverSpecType) => {
   rules.add(requireAuth)
 }
 
-export const bookmarks = () => {
-  return db.bookmark.findMany({
+export const bookmarks = async () => {
+  return db.post.findMany({
     where: {
-      userId: context.currentUser.id,
+      bookmarkedBy: {
+        some: {
+          userId: {
+            in: [context.currentUser.id],
+          },
+        },
+      },
     },
     include: {
-      post: {
-        include: {
+      bookmarkedBy: {
+        where: {
+          userId: context.currentUser.id,
+        },
+      },
+      sharedPost: true,
+      _count: {
+        select: {
           shares: true,
           comments: true,
           bookmarkedBy: true,
-          _count: {
-            select: {
-              shares: true,
-              comments: true,
-              bookmarkedBy: true,
-            },
-          },
         },
       },
     },
     orderBy: {
       createdAt: 'desc',
     },
-    take: 50,
+    take: 5,
   })
 }
 

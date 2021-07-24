@@ -54,7 +54,10 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
 
   // Counts
   const [commentCount, setCommentCount] = React.useState(
-    itemCheck._count.comments
+    itemCheck._count?.comments
+  )
+  const [bookmarkCount, setBookmarkCount] = React.useState(
+    itemCheck._count?.bookmarkedBy
   )
 
   let filterAttr = filters.find(
@@ -225,7 +228,8 @@ const FeedItem = ({ item, viewPost = false, showComments = false }) => {
                   )}
                   <BookmarkButton
                     postId={itemCheck.id}
-                    count={itemCheck?._count?.bookmarkedBy}
+                    count={bookmarkCount}
+                    setCount={setBookmarkCount}
                     bookmarked={currentUserBookmark}
                   />
                 </>

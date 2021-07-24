@@ -8,7 +8,7 @@ import {
 } from '@redwoodjs/forms'
 import { navigate, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { DarkModeContext, DefaultTypeContext } from 'src/layouts/DefaultLayout'
+import { DarkModeContext, DefaultTypeContext } from 'src/components/Providers'
 import Toggle from 'src/components/Toggle'
 import { filters } from 'src/utils/filters'
 

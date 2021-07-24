@@ -1,6 +1,6 @@
 import { filters } from 'src/utils/filters'
 import NewPost from 'src/components/Post/NewPost'
-import { DefaultTypeContext } from 'src/layouts/DefaultLayout'
+import { DefaultTypeContext } from 'src/components/Providers'
 
 const PostDialog = () => {
   const { defaultPostType } = React.useContext(DefaultTypeContext)
