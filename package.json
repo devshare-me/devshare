@@ -12,7 +12,7 @@
     "version:major": "yarn workspaces run version:major && yarn version --no-git-tag-version --major",
     "version:minor": "yarn workspaces run version:minor && yarn version --no-git-tag-version --minor",
     "version:patch": "yarn workspaces run version:patch && yarn version --no-git-tag-version --patch",
-    "postversion": "git add . && git commit -m $npm_package_version && git tag $npm_package_version -am $npm_package_version"
+    "postversion": "git add . && git commit -m v$npm_package_version && git tag v$npm_package_version -am v$npm_package_version"
   },
   "devDependencies": {
     "@redwoodjs/core": "^0.35.2",
