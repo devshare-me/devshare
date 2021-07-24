@@ -1,5 +1,6 @@
 {
   "private": true,
+  "version": "0.0.0",
   "workspaces": {
     "packages": [
       "api",
@@ -8,9 +9,10 @@
     ]
   },
   "scripts": {
-    "release:major": "yarn workspaces run release:major",
-    "release:minor": "yarn workspaces run release:minor",
-    "release:patch": "yarn workspaces run release:patch"
+    "version:major": "yarn workspaces run version:major && yarn version --no-git-tag-version --major",
+    "version:minor": "yarn workspaces run version:minor && yarn version --no-git-tag-version --minor",
+    "version:patch": "yarn workspaces run version:patch && yarn version --no-git-tag-version --patch",
+    "postversion": "git add . && git commit -m $npm_package_version && git tag $npm_package_version -am $npm_package_version"
   },
   "devDependencies": {
     "@redwoodjs/core": "^0.35.2",
