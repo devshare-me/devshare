@@ -16,6 +16,7 @@ import { FiUser, FiBookmark, FiSettings, FiLogOut } from 'react-icons/fi'
 import { VscGithubInverted } from 'react-icons/vsc'
 import LogoFull from 'src/lib/logo.svg'
 import LogoSmall from 'src/lib/logo-small.svg'
+import packageJson from '../../../package.json'
 import '@reach/skip-nav/styles.css'
 
 type DefaultLayoutProps = {
@@ -167,6 +168,14 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                 </Link>
               ))}
             </nav>
+            <span className="mr-1">{' | '}</span>
+            <p>
+              <a
+                href={`https://github.com/devshare-me/devshare/releases/tag/v${packageJson.version}`}
+                target="_blank"
+                rel="noreferrer"
+              >{`v${packageJson.version}`}</a>
+            </p>
           </div>
         </footer>
       </div>
