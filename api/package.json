@@ -2,6 +2,11 @@
   "name": "api",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "release:major": "yarn version --major",
+    "release:minor": "yarn version --minor",
+    "release:patch": "yarn version --patch"
+  },
   "dependencies": {
     "@redwoodjs/api": "^0.35.2",
     "cuid": "^2.1.8",

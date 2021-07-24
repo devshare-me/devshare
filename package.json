@@ -7,6 +7,11 @@
       "packages/*"
     ]
   },
+  "scripts": {
+    "release:major": "yarn workspaces run release:major",
+    "release:minor": "yarn workspaces run release:minor",
+    "release:patch": "yarn workspaces run release:patch"
+  },
   "devDependencies": {
     "@redwoodjs/core": "^0.35.2",
     "cuid": "^2.1.8",
