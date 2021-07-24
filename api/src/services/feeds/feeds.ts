@@ -18,6 +18,17 @@ const defaultValues = {
         bookmarkedBy: true,
       },
     },
+    sharedPost: {
+      include: {
+        _count: {
+          select: {
+            shares: true,
+            comments: true,
+            bookmarkedBy: true,
+          },
+        },
+      },
+    },
   },
   orderBy: {
     createdAt: 'desc',

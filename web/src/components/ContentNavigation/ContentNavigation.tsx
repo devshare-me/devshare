@@ -1,10 +1,11 @@
 import { useLocation, Link } from '@redwoodjs/router'
 
-const ContentNavigation = ({ navItems, query }) => {
+const ContentNavigation = ({ navItems, query, current = null }) => {
   const { pathname, search } = useLocation()
 
   const params = new URLSearchParams(search)
   const term = params.get(query)
+  const currentTerm = current ? current : term
 
   const firstItem = navItems[0]
 
@@ -30,7 +31,7 @@ const ContentNavigation = ({ navItems, query }) => {
         <Link
           to={setUrlParams()}
           className={`${
-            term === null
+            currentTerm === null
               ? 'bg-gray-300 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800'
               : 'bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700'
           } rounded-full flex items-center mr-2 my-1 px-3 py-1 font-semibold hover:text-gray-900 dark:hover:text-gray-100 dark:focus:ring-offset-0 focus:ring-gray-500 text-sm`}
@@ -43,7 +44,7 @@ const ContentNavigation = ({ navItems, query }) => {
             key={i}
             to={setUrlParams(item.singular ? item.singular.toLowerCase() : '')}
             className={`${
-              term === (item.singular ? item.singular.toLowerCase() : '')
+              currentTerm === (item.singular ? item.singular.toLowerCase() : '')
                 ? `bg-${item.color}-200 dark:bg-${item.color}-800 text-${item.color}-800 dark:text-${item.color}-200`
                 : 'bg-gray-200 dark:bg-gray-800'
             } rounded-full flex items-center mr-2 my-1 px-3 py-1 font-semibold hover:bg-${

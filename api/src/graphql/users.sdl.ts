@@ -1,4 +1,11 @@
 export const schema = gql`
+  type UserRelationCount {
+    bookmarks: Int!
+    comments: Int!
+    followers: Int!
+    following: Int!
+    posts: Int!
+  }
   type User {
     id: String!
     email: String!
@@ -17,6 +24,7 @@ export const schema = gql`
     darkMode: Boolean!
     defaultPostType: PostType
     createdAt: DateTime!
+    _count: PostRelationCount
   }
 
   type Query {

@@ -8,7 +8,7 @@ export const schema = gql`
   }
 
   type Query {
-    bookmarks: [Bookmark!]!
+    bookmarks: [Post!]!
   }
 
   type Mutation {

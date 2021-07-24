@@ -1,11 +1,12 @@
 import { Private, Set, Router, Route } from '@redwoodjs/router'
+import Providers from 'src/components/Providers'
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Wrapper from 'src/components/Wrapper'
 
 const Routes = () => {
   return (
     <Router>
-      <Set wrap={DefaultLayout}>
+      <Set wrap={[Providers, DefaultLayout]}>
         <Set wrap={Wrapper} full={true}>
           <Route path="/u/{username}" page={UserUserPage} name="profile" />
           <Route path="/stats" page={StatsPage} name="stats" />

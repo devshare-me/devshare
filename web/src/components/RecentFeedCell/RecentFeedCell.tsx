@@ -17,12 +17,6 @@ export const QUERY = gql`
         image
         username
       }
-      shares {
-        id
-      }
-      bookmarkedBy {
-        userId
-      }
       title
       url
       content
@@ -42,12 +36,6 @@ export const QUERY = gql`
           name
           image
           username
-        }
-        shares {
-          id
-        }
-        bookmarkedBy {
-          userId
         }
         title
         url
