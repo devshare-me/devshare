@@ -26,8 +26,10 @@ export const checkFollow = async ({ userId, followId }) => {
   return follows
 }
 
-export const createFollow = (input) => {
-  return db.user.update({
+export const createFollow = async (input) => {
+  if (context?.currentUser?.id !== input.userId) return
+
+  const follow = await db.user.update({
     where: { id: input.userId },
     data: {
       following: {
@@ -35,10 +37,55 @@ export const createFollow = (input) => {
       },
     },
   })
+
+  const currentNotification = await db.notification.findMany({
+    where: {
+      followerId: input.userId,
+      userId: input.followId,
+      type: 'follow',
+    },
+  })
+
+  if (currentNotification.length === 0) {
+    await db.notification.create({
+      data: {
+        user: {
+          connect: { id: input.followId },
+        },
+        type: 'follow',
+        count: 1,
+        follower: {
+          connect: { id: input.userId },
+        },
+      },
+    })
+  }
+
+  return follow
 }
 
-export const removeFollow = (input) => {
-  return db.user.update({
+export const removeFollow = async (input) => {
+  if (context?.currentUser?.id !== input.userId) return
+
+  const currentNotification = await db.notification.findMany({
+    where: {
+      followerId: input.userId,
+      userId: input.followId,
+      type: 'follow',
+    },
+  })
+
+  if (currentNotification.length > 0) {
+    await db.notification.deleteMany({
+      where: {
+        followerId: input.userId,
+        userId: input.followId,
+        type: 'follow',
+      },
+    })
+  }
+
+  const follow = await db.user.update({
     where: { id: input.userId },
     data: {
       following: {
@@ -46,4 +93,6 @@ export const removeFollow = (input) => {
       },
     },
   })
+
+  return follow
 }
