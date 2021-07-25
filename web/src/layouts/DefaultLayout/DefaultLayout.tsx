@@ -8,11 +8,11 @@ import {
 } from '@redwoodjs/router'
 import { Toaster } from '@redwoodjs/web/toast'
 import GithubProfile from 'src/components/GithubProfile'
-import Modal from 'src/components/Modal'
 import LoginButton from 'src/components/LoginButton'
 import SearchForm from 'src/components/SearchForm'
 import { Helmet } from 'react-helmet'
-import { FiUser, FiBookmark, FiSettings, FiLogOut } from 'react-icons/fi'
+import { FiUser, FiBookmark, FiSettings } from 'react-icons/fi'
+import NotificationButton from 'src/components/NotificationButton'
 import { VscGithubInverted } from 'react-icons/vsc'
 import LogoFull from 'src/lib/logo.svg'
 import LogoSmall from 'src/lib/logo-small.svg'
@@ -91,6 +91,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                     <FiBookmark />
                     <span className="sr-only">Your Bookmarks</span>
                   </NavLink>
+                  <NotificationButton />
                   <NavLink
                     to={routes.settings()}
                     className="rounded-btn ml-3"
@@ -99,35 +100,6 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                     <FiSettings />
                     <span className="sr-only">Settings</span>
                   </NavLink>
-                  <button
-                    onClick={() => setIsOpen(true)}
-                    className="rounded-btn ml-3"
-                  >
-                    <FiLogOut />
-                    <span className="sr-only">Log out</span>
-                  </button>
-                  <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Log out">
-                    <p className="text-sm text-gray-500">
-                      Are you sure you want to log out?
-                    </p>
-
-                    <div className="mt-4 flex items-center">
-                      <button
-                        type="button"
-                        className="inline-flex justify-center mr-2 px-4 py-2 text-sm font-semibold text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="button"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-yellow-900 bg-yellow-100 border border-transparent rounded-md hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
-                        onClick={logOut}
-                      >
-                        Log out
-                      </button>
-                    </div>
-                  </Modal>
                 </>
               )}
             </nav>
