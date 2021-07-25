@@ -41,4 +41,8 @@ export const schema = gql`
     postId: String
     followerId: String
   }
+
+  type Mutation {
+    readNotification(id: String!, userId: String!): Notification!
+  }
 `

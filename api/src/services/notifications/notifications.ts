@@ -12,14 +12,36 @@ export const beforeResolver = (rules: BeforeResolverSpecType) => {
 export const notifications = () => {
   if (!context.currentUser.id) return
 
+  const today = new Date()
+  const priorDate = new Date().setDate(today.getDate() - 30)
+
   return db.notification.findMany({
     where: {
       userId: context.currentUser.id,
+      createdAt: {
+        gte: new Date(priorDate),
+      },
     },
     orderBy: {
       updatedAt: 'desc',
     },
     take: 50,
+  })
+}
+
+export const readNotification = async ({ id, userId }) => {
+  if (context.currentUser.id !== userId) return
+
+  const notification = await db.notification.findUnique({
+    where: { id },
+  })
+
+  return db.notification.update({
+    data: {
+      read: true,
+      updatedAt: notification.updatedAt,
+    },
+    where: { id },
   })
 }
 
