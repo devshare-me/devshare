@@ -2,6 +2,7 @@ import {
   Form,
   FieldError,
   Label,
+  TextField,
   TextAreaField,
   HiddenField,
   Submit,
@@ -17,10 +18,9 @@ const encode = (data: Record<string, number>) => {
 
 const ReportPage = ({ type, id }) => {
   const commentRef = React.useRef(null)
-  const [reason, setReason] = React.useState('')
   const [success, setSuccess] = React.useState(false)
   const [error, setError] = React.useState('')
-  const { currentUser } = useAuth()
+  const { currentUser, isAuthenticated } = useAuth()
 
   React.useEffect(() => {
     commentRef.current.focus()
@@ -29,7 +29,9 @@ const ReportPage = ({ type, id }) => {
   const onSubmit = (data) => {
     data.id = id
     data.type = type
-    data.reporterEmail = currentUser?.email ? currentUser.email : ''
+    data.reporterEmail = currentUser?.email
+      ? currentUser.email
+      : data.reporterEmail
 
     console.log(data)
 
@@ -73,8 +75,6 @@ const ReportPage = ({ type, id }) => {
                 <TextAreaField
                   name="reason"
                   ref={commentRef}
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
                   className="rw-input max-h-96"
                   errorClassName="rw-input max-h-96 rw-input-error"
                   validation={{ required: false }}
@@ -83,6 +83,25 @@ const ReportPage = ({ type, id }) => {
                 />
                 <FieldError name="reason" className="rw-field-error" />
               </div>
+              {!isAuthenticated && (
+                <div>
+                  <Label
+                    name="reporterEmail"
+                    className="rw-label"
+                    errorClassName="rw-label rw-label-error"
+                  >
+                    {`Your email (optional)`}
+                  </Label>
+                  <TextField
+                    name="reporterEmail"
+                    className="rw-input"
+                    errorClassName="rw-input rw-input-error"
+                    validation={{ required: false }}
+                    placeholder={`Follow up with me at this email...`}
+                  />
+                  <FieldError name="reporterEmail" className="rw-field-error" />
+                </div>
+              )}
               <HiddenField name="form-name" value="report" />
               <Submit
                 className={`inline-flex justify-center px-4 py-2 text-sm font-semibold text-yellow-900 dark:text-yellow-100 bg-yellow-200 dark:bg-yellow-600 dark:hover:bg-yellow-700 border border-transparent rounded-md transition-colors duration-300 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 dark:focus:ring-yellow-400`}
