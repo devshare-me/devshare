@@ -13,7 +13,7 @@ import SearchForm from 'src/components/SearchForm'
 import { Helmet } from 'react-helmet'
 import { FiUser, FiBookmark, FiSettings } from 'react-icons/fi'
 import NotificationButton from 'src/components/NotificationButton'
-import { VscGithubInverted } from 'react-icons/vsc'
+import { VscGithubInverted, VscTwitter } from 'react-icons/vsc'
 import LogoFull from 'src/lib/logo.svg'
 import LogoSmall from 'src/lib/logo-small.svg'
 import packageJson from '../../../package.json'
@@ -33,6 +33,11 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       title: 'GitHub',
       to: 'https://github.com/devshare-me/devshare',
       icon: VscGithubInverted,
+    },
+    {
+      title: 'Twitter',
+      to: 'https://twitter.com/devshare_me',
+      icon: VscTwitter,
     },
   ]
 
@@ -120,7 +125,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                 href={social.to}
                 target="_blank"
                 rel="noreferrer"
-                className="mx-1"
+                className="mx-2"
               >
                 <social.icon />
                 <span className="sr-only">{social.title}</span>
