@@ -8,6 +8,7 @@ import { Integrations } from '@sentry/tracing'
 
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
+import packageJson from '../../../package.json'
 
 import './index.css'
 
@@ -17,6 +18,7 @@ process.env.SENTRY_DSN &&
     dsn: process.env.SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
     tracesSampleRate: 0.5,
+    release: 'devshare@' + packageJson.version,
   })
 
 const supabaseClient = createClient(
