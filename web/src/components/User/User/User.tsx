@@ -42,10 +42,10 @@ const User = ({ user }) => {
                   Are you sure you want to log out?
                 </p>
 
-                <div className="mt-4 flex items-center">
+                <div className="mt-4 flex items-center space-x-2">
                   <button
                     type="button"
-                    className="inline-flex justify-center mr-2 px-4 py-2 text-sm font-semibold text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-600 border border-transparent rounded-md transition-colors duration-300 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                     onClick={() => setIsOpen(false)}
                   >
                     Cancel
