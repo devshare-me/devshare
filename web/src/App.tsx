@@ -8,7 +8,7 @@ import { Integrations } from '@sentry/tracing'
 
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
-import packageJson from '../../../package.json'
+import packageJson from '../package.json'
 
 import './index.css'
 

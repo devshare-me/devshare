@@ -24,9 +24,7 @@ type DefaultLayoutProps = {
 }
 
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {
-  const { isAuthenticated, logOut, currentUser } = useAuth()
-
-  const [isOpen, setIsOpen] = React.useState(false)
+  const { isAuthenticated, currentUser } = useAuth()
 
   const socialNav = [
     {
