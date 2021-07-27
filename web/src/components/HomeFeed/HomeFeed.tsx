@@ -35,7 +35,7 @@ const HomeFeed = () => {
         <PostDialog />
       )}
       <h1 className="sr-only">Feed</h1>
-      <div className="flex flex-col mb-4">
+      <div className="flex space-x-2 mb-6">
         <ContentNavigation
           navItems={views}
           query="view"

@@ -65,7 +65,9 @@ const User = ({ user }) => {
         <div className="flex-1">
           {currentUser?.username === user.username && <PostDialog />}
           <h2 className="sr-only">Feed</h2>
-          <ContentNavigation navItems={filters} query="filter" />
+          <div className="flex space-x-2 mb-6">
+            <ContentNavigation navItems={filters} query="filter" />
+          </div>
           <UserFeedCell username={user.username} filter={filter} />
         </div>
       </div>

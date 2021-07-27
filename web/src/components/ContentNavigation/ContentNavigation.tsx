@@ -1,15 +1,35 @@
-import { useLocation, Link } from '@redwoodjs/router'
+import { useLocation, navigate } from '@redwoodjs/router'
+import { Fragment } from 'react'
+import { Listbox, Transition } from '@headlessui/react'
+import { FiChevronDown } from 'react-icons/fi'
 
-const ContentNavigation = ({ navItems, query, current = null }) => {
+const ContentNavigation = ({ navItems, query, current = null, label = '' }) => {
   const { pathname, search } = useLocation()
 
   const params = new URLSearchParams(search)
   const term = params.get(query)
   const currentTerm = current ? current : term
 
-  const firstItem = navItems[0]
+  const filterAttr = currentTerm
+    ? navItems.find(
+        (x) =>
+          x.singular ===
+          currentTerm.charAt(0).toUpperCase() + currentTerm.slice(1)
+      )
+    : navItems[0]
 
-  function setUrlParams(value?) {
+  const [selectedItem, setSelectedItem] = React.useState(filterAttr)
+
+  React.useEffect(() => {
+    navigate(
+      setUrlParams(
+        selectedItem.singular ? selectedItem.singular.toLowerCase() : ''
+      )
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedItem])
+
+  const setUrlParams = (value?: string) => {
     if (!value) {
       params.delete(query)
     } else {
@@ -25,40 +45,84 @@ const ContentNavigation = ({ navItems, query, current = null }) => {
     return path
   }
 
+  const itemColor = (color: string) => {
+    if (color) {
+      return color
+    } else {
+      return 'gray'
+    }
+  }
+
   return (
     <>
-      <nav className="flex items-center flex-wrap mb-1 -mt-1">
-        <Link
-          to={setUrlParams()}
-          className={`${
-            currentTerm === null
-              ? 'bg-gray-300 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800'
-              : 'bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700'
-          } rounded-full flex items-center mr-2 my-1 px-3 py-1 font-semibold hover:text-gray-900 dark:hover:text-gray-100 dark:focus:ring-offset-0 focus:ring-gray-500 text-sm`}
-        >
-          <firstItem.icon className="mr-1" />
-          <span>{firstItem.name}</span>
-        </Link>
-        {navItems.slice(1).map((item, i: number) => (
-          <Link
-            key={i}
-            to={setUrlParams(item.singular ? item.singular.toLowerCase() : '')}
-            className={`${
-              currentTerm === (item.singular ? item.singular.toLowerCase() : '')
-                ? `bg-${item.color}-200 dark:bg-${item.color}-800 text-${item.color}-800 dark:text-${item.color}-200`
-                : 'bg-gray-200 dark:bg-gray-800'
-            } rounded-full flex items-center mr-2 my-1 px-3 py-1 font-semibold hover:bg-${
-              item.color
-            }-200 dark:hover:bg-${item.color}-800 text-sm hover:text-${
-              item.color
-            }-800 dark:hover:text-${item.color}-200 focus:ring-${
-              item.color
-            }-500 dark:focus:ring-offset-0`}
-          >
-            {item.icon && <item.icon className="mr-1" />}
-            <span>{item.name}</span>
-          </Link>
-        ))}
+      <nav className="flex items-center flex-wrap">
+        <Listbox value={selectedItem} onChange={setSelectedItem}>
+          <div className="relative">
+            {label && (
+              <Listbox.Label className="text-xs font-semibold ml-2 text-opacity-75">
+                {label}
+              </Listbox.Label>
+            )}
+            <Listbox.Button
+              className={`${
+                itemColor(selectedItem.color)
+                  ? `bg-${itemColor(
+                      selectedItem.color
+                    )}-200 dark:bg-${itemColor(
+                      selectedItem.color
+                    )}-800 text-${itemColor(
+                      selectedItem.color
+                    )}-800 dark:text-${itemColor(
+                      selectedItem.color
+                    )}-200 border-${itemColor(
+                      selectedItem.color
+                    )}-200 dark:border-${itemColor(selectedItem.color)}-600`
+                  : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600'
+              } relative rounded-full border flex items-center pl-3 pr-6 py-1 font-semibold focus:outline-none hover:bg-${itemColor(
+                selectedItem.color
+              )}-200 dark:hover:bg-${itemColor(
+                selectedItem.color
+              )}-800 text-sm hover:text-${itemColor(
+                selectedItem.color
+              )}-800 dark:hover:text-${itemColor(
+                selectedItem.color
+              )}-200 focus:ring-${itemColor(
+                selectedItem.color
+              )}-500 dark:focus:ring-offset-0`}
+            >
+              <span className="block truncate">{selectedItem.name}</span>
+              <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                <FiChevronDown className="w-3 h-3" aria-hidden="true" />
+              </span>
+            </Listbox.Button>
+            <Transition
+              as={Fragment}
+              leave="transition ease-in duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Listbox.Options className="absolute font-semibold text-sm z-30 w-48 py-1 mt-2 overflow-hidden max-h-60 bg-gray-200 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-600">
+                {navItems.map((item, i) => (
+                  <Listbox.Option key={i} value={item} as={Fragment}>
+                    {({ active, selected }) => (
+                      <div
+                        className={`${
+                          active || selected
+                            ? `bg-${itemColor(
+                                item.color
+                              )}-100 dark:bg-${itemColor(item.color)}-800 `
+                            : ''
+                        }px-3 py-1 cursor-pointer`}
+                      >
+                        {item.name}
+                      </div>
+                    )}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </Transition>
+          </div>
+        </Listbox>
       </nav>
     </>
   )
